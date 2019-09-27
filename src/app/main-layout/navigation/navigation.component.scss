@@ -1,0 +1,12 @@
+@media (min-width: 1200px) {
+  .navbar,
+  .page-footer,
+  main {
+    padding-left: 270px;
+  }
+}
+
+.dropdown-menu a:hover {
+  background: #4285F4;
+  color: white;
+}
