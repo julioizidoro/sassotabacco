@@ -11,10 +11,11 @@ import { SharedModule } from '../shared/shared.module';
 
 import { TableComponent } from './tables/table.component';
 import { ModalsComponent } from './modals/modals.component';
-import { StatsCardComponent } from './dashboards/common/stats-card/stats-card.component';
-import { StatsCard2Component } from './dashboards/common/stats-card2/stats-card2.component';
+import { CardDashboardComponent } from './dashboards/common/card-dashboard/card-dashboard.component';
 import { DashboardComponent } from './dashboards/dashboard/dashboard.component';
 import {LoginComponent} from './login/login.component';
+import {LinhaTempoModule} from './dashboards/linha-tempo/linha-tempo.module';
+import {LinhaTempoComponent} from "./dashboards/linha-tempo/linha-tempo.component";
 
 
 @NgModule({
@@ -34,16 +35,15 @@ import {LoginComponent} from './login/login.component';
   declarations: [
     TableComponent,
     ModalsComponent,
-    StatsCardComponent,
-    StatsCard2Component,
+    CardDashboardComponent,
+    LinhaTempoComponent,
     DashboardComponent,
     LoginComponent,
   ],
   exports: [
     TableComponent,
     ModalsComponent,
-    StatsCardComponent,
-    StatsCard2Component,
+    CardDashboardComponent,
     DashboardComponent,
     LoginComponent,
   ],

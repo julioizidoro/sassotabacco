@@ -46,8 +46,12 @@ body {
 
 .navbar {
   color: white;
-  background: #4285F4;
+  background: #161616;
   z-index: 1000;
+  padding-right: 15%;
+  padding-left: 15%;
+  font-family: OCR A Std, monospace;
+  font-weight: bold;
 }
 
 .nav-link {

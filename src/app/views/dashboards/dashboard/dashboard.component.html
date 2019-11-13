@@ -1,13 +1,26 @@
 <!-- DASHBOARD -->
-<mdb-card class="mb-4 wow fadeIn">
-    <mdb-card-body class="d-sm-flex justify-content-between">
-        <h4 class="mb-sm-0 pt-3">
-            <span>Início</span>
-        </h4>
+<div class="row" style="padding-left: 15%;padding-right: 15%;">
+  <mdb-card class="col-3 mb-4 wow fadeIn mt-1">
+    <mdb-card-body class="row d-sm-flex justify-content-between" style="flex: none;">
+      <div class="col-12 border-bottom">
+        <label class="col-6">Contas</label>
+        <label class="col-6" style="text-align: right;">R$ 77.800,00</label>
+      </div>
+      <div class="col-12 p-3 border-bottom" *ngFor="let item of listaContas">
+        <label class="col-3">
+          <img src="{{item.imagem}}"
+               style="width: 50px;border-radius: 50%;">
+        </label>
+        <label class="col-9 font-weight-bolder">{{item.nome}}</label>
+        <label class="col-12" style="text-align: right;">{{item.valor}}</label>
+      </div>
     </mdb-card-body>
-</mdb-card>
+  </mdb-card>
+  <div class="col-9">
+    <app-card-dashboard></app-card-dashboard>
+  </div>
+  <div class="col-9">
+    <app-timeline class="col-12"></app-timeline>
+  </div>
+</div>
 
-<!-- Exemplos cards para dashboard -->
-<app-stats-card></app-stats-card>
-
-<app-stats-card2></app-stats-card2>
