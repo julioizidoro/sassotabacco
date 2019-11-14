@@ -14,8 +14,9 @@ import { ModalsComponent } from './modals/modals.component';
 import { CardDashboardComponent } from './dashboards/common/card-dashboard/card-dashboard.component';
 import { DashboardComponent } from './dashboards/dashboard/dashboard.component';
 import {LoginComponent} from './login/login.component';
-import {LinhaTempoModule} from './dashboards/linha-tempo/linha-tempo.module';
-import {LinhaTempoComponent} from "./dashboards/linha-tempo/linha-tempo.component";
+import {LinhaTempoComponent} from './dashboards/linha-tempo/linha-tempo.component';
+import {GraficoVendasComponent} from './dashboards/grafico-vendas/grafico-vendas.component';
+import {ChartModule} from 'primeng/chart';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {LinhaTempoComponent} from "./dashboards/linha-tempo/linha-tempo.componen
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
+    ChartModule,
     AgmCoreModule.forRoot({
       // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en#key
       apiKey: ''
@@ -37,6 +39,7 @@ import {LinhaTempoComponent} from "./dashboards/linha-tempo/linha-tempo.componen
     ModalsComponent,
     CardDashboardComponent,
     LinhaTempoComponent,
+    GraficoVendasComponent,
     DashboardComponent,
     LoginComponent,
   ],

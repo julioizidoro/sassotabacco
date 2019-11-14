@@ -1,26 +1,36 @@
 <!-- DASHBOARD -->
-<div class="row" style="padding-left: 15%;padding-right: 15%;">
-  <mdb-card class="col-3 mb-4 wow fadeIn mt-1">
+<div class="row mb-5" style="padding-left: 15%;padding-right: 15%;">
+  <mdb-card class="col-lg-4 col-md-6 col-sm-12 mb-4 wow fadeIn mt-1 h-100 hidden-none">
     <mdb-card-body class="row d-sm-flex justify-content-between" style="flex: none;">
       <div class="col-12 border-bottom">
-        <label class="col-6">Contas</label>
-        <label class="col-6" style="text-align: right;">R$ 77.800,00</label>
+        <label class="col-lg-6 col-md-12">Contas</label>
+        <label class="col-lg-6 col-md-12" style="text-align: right;">R$ 77.800,00</label>
       </div>
-      <div class="col-12 p-3 border-bottom" *ngFor="let item of listaContas">
-        <label class="col-3">
+      <div class="col-12 p-2 border-bottom" *ngFor="let item of listaContas">
+        <label class="col-lg-5 col-md-12">
           <img src="{{item.imagem}}"
                style="width: 50px;border-radius: 50%;">
         </label>
-        <label class="col-9 font-weight-bolder">{{item.nome}}</label>
+        <label class="col-lg-7 col-md-12 font-weight-bolder">{{item.nome}}</label>
         <label class="col-12" style="text-align: right;">{{item.valor}}</label>
       </div>
     </mdb-card-body>
   </mdb-card>
-  <div class="col-9">
-    <app-card-dashboard></app-card-dashboard>
+  <div class="col-lg-8 col-md-6 col-sm-12 ">
+    <div class="col-12">
+      <app-card-dashboard></app-card-dashboard>
+    </div>
+    <div class="col-12 pd-3 mb-3">
+      <div class="bg-white" style="border-radius: 5px; border: 1px solid #c5c5c5;">
+        <app-timeline class="col-12"></app-timeline>
+      </div>
+    </div>
+    <div class="col-12 pd-3">
+      <div class="bg-white" style="border-radius: 5px; border: 1px solid #c5c5c5;">
+        <app-graficovendas class="col-12"></app-graficovendas>
+      </div>
+    </div>
   </div>
-  <div class="col-9">
-    <app-timeline class="col-12"></app-timeline>
-  </div>
+
 </div>
 
