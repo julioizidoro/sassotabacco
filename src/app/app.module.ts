@@ -13,6 +13,10 @@ import { ErrorModule } from './views/errors/error.module';
 
 // main layout
 import { NavigationModule } from './main-layout/navigation/navigation.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { HttpClientModule } from '@angular/common/http';
+import { ClienteModule } from './cliente/cliente.module';
+import { ProdutoModule } from './produto/produto.module';
 
 @NgModule({
   declarations: [
@@ -27,12 +31,15 @@ import { NavigationModule } from './main-layout/navigation/navigation.module';
     NavigationModule,
     AppRoutes,
     RouterModule,
+    HttpClientModule,
     FormsModule,
     SharedModule,
     ViewsModule,
+    ClienteModule,
+    ProdutoModule,
     ErrorModule,
-    FormsModule,
     ReactiveFormsModule,
+    UsuarioModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

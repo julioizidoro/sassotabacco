@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { AuthService } from './usuario/login/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { Location } from '@angular/common';
 
 export class AppComponent implements OnInit {
   values: string[] = ['Tag 1', 'Tag 2', 'Tag 4'];
+  logado = false;
 
   specialPage: boolean;
 
@@ -27,10 +29,11 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private location: Location
+    private location: Location,
+    private authService: AuthService,
   ) {
 
-    this.router.events.subscribe((route:any) => {
+    this.router.events.subscribe((route: any) => {
       this.currentUrl = route.url;
 
       this.specialPage = this.specialPages.indexOf(this.currentUrl) !== -1;
@@ -39,6 +42,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.logado === false) {
+      this.router.navigate(['/login']);
+    }
+    this.authService.mostrarMenuEmitter.subscribe(
+      mostrar => this.logado = mostrar
+    );
   }
 
   goBack(): void {
