@@ -1,3 +1,4 @@
+import { ConsfornecedorComponent } from './fornecedor/consfornecedor/consfornecedor.component';
 import { ModalsComponent } from './views/modals/modals.component';
 import { TableComponent } from './views/tables/table.component';
 import { RouterModule, Route } from '@angular/router';
@@ -17,6 +18,7 @@ const routes: Route[] = [
   { path: 'modals', component: ModalsComponent},
   { path: 'login', component: LoginComponent},
   { path: 'conscliente', component: ConsclienteComponent},
+  { path: 'consfornecedor', component: ConsfornecedorComponent},
   { path: 'cadcliente', component: CadclienteComponent},
   { path: 'consproduto', component: ConsprodutoComponent},
   { path: 'cadproduto', component: CadprodutoComponent},

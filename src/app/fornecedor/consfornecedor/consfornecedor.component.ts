@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-consfornecedor',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConsfornecedorComponent implements OnInit {
 
-  constructor() { }
+  isFirstOpen = true;
+  oneAtATime: true;
+  formulario: FormGroup;
+
+
+  constructor(
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
+    this.formulario = this.formBuilder.group({
+      nome: [null],
+      email: [null],
+      cnpj: [null],
+    });
   }
 
 }

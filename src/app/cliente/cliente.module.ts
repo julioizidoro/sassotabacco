@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { CadclienteComponent } from './cadcliente/cadcliente.component';
 import { ConsclienteComponent } from './conscliente/conscliente.component';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -20,13 +21,14 @@ import { AccordionModule, BsDatepickerModule } from 'ngx-bootstrap';
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
     TextMaskModule,
+    ReactiveFormsModule,
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule,
     AccordionModule.forRoot(),
     BsDatepickerModule.forRoot(),
     BrowserModule,
+    SharedModule,
   ],
   exports: [
     ConsclienteComponent,

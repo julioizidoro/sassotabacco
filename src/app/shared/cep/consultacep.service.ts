@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Cep } from './cep';
-
+import { Cep } from './model/cep';
 
 @Injectable()
-export class CepService {
+export class ConsultacepService {
 
   constructor(private httpCliente: HttpClient) { }
 

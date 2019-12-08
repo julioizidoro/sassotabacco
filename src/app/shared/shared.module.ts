@@ -1,3 +1,4 @@
+import { ConsultacepService } from './cep/consultacep.service';
 import { ModalComponent } from './components/modal/modal.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -28,6 +29,7 @@ import { PanelComponent } from './components/panel/panel.component';
     ModalComponent,
   ],
   providers: [
+    ConsultacepService,
   ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })

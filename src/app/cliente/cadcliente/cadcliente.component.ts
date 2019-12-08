@@ -1,10 +1,10 @@
+import { ConsultacepService } from './../../shared/cep/consultacep.service';
 import { ClienteService } from './../cliente.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Instituicao } from '../model/instituicao';
-import { CepService } from 'src/app/util/cep/cepservice.service';
-import { Cep } from 'src/app/util/cep/cep';
+import { Cep } from 'src/app/shared/cep/model/cep';
 
 @Component({
   selector: 'app-cadcliente',
@@ -32,7 +32,7 @@ export class CadclienteComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private cepService: CepService,
+    private consultacepService: ConsultacepService,
     private clienteService: ClienteService,
   ) { }
 
@@ -107,7 +107,7 @@ export class CadclienteComponent implements OnInit {
     let cepInformado;
     cepInformado = this.formulario.get('instituicaoendereco.cep').value;
     cepInformado = cepInformado.replace(/\D/g, '');
-    this.cepService.consultar(cepInformado).subscribe(
+    this.consultacepService.consultar(cepInformado).subscribe(
       resposta => {
         this.cep = resposta;
         this.formulario.patchValue({

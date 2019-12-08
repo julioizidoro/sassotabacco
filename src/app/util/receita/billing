@@ -1,5 +1,0 @@
-export calss Billing {
-
-    free: boolean;
-    database: boolean;
-}
