@@ -2,9 +2,13 @@ import { ConsultacepService } from './../../shared/cep/consultacep.service';
 import { ClienteService } from './../cliente.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Instituicao } from '../model/instituicao';
 import { Cep } from 'src/app/shared/cep/model/cep';
+import { Instituicaocontato } from '../model/instituicaocontato';
+import { Instituicaoendereco } from '../model/instituicaoendereco';
+import { Usuario } from 'src/app/usuario/model/usuario';
+import { AuthService } from 'src/app/usuario/login/auth.service';
 
 @Component({
   selector: 'app-cadcliente',
@@ -13,111 +17,176 @@ import { Cep } from 'src/app/shared/cep/model/cep';
 })
 export class CadclienteComponent implements OnInit {
 
+  formulario: FormGroup;
+  cep: Cep;
   instituicao: Instituicao;
-   formulario: FormGroup;
-   pessoaJuridica = false;
-   pessoaFisica = true;
-   isFirstOpen = true;
-   oneAtATime: true;
-   cep: Cep;
-   public maskCPF = [/[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
+  pessoaJuridica = false;
+  pessoaFisica = false;
+  segundo = false;
+  isFirstOpen = true;
+  oneAtATime: true;
+  public maskCPF = [/[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
   // tslint:disable-next-line:max-line-length
   public maskCNPJ = [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
   public maskFONE = ['(', /[0-9]/, /[0-9]/, ')', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
   // tslint:disable-next-line:max-line-length
   public maskCELULAR = ['(', /[0-9]/, /[0-9]/, ')', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
   public maskCEP = [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/];
-  public maskDATE = [/[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, '/', /[0-9]/,  /[0-9]/, /[0-9]/, /[0-9]/];
+  usuario: Usuario;
+
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
     private consultacepService: ConsultacepService,
+    private formBuilder: FormBuilder,
     private clienteService: ClienteService,
+    private router: Router,
+    private activeRrouter: ActivatedRoute,
+    private authService: AuthService,
   ) { }
 
+
+
   ngOnInit() {
-    this.instituicao = new Instituicao();
-    this.formulario = this.formBuilder.group({
-
-      idinstituicao: [null],
-      nome: [null],
-      tipojuridico: [null],
-      situacao: [null],
-      cpfcnpj: [null],
-      possuiie: [null],
-      ie: [null],
-      im: [null],
-      optantesimples: [null],
-      email: [null],
-      fonefixo: [null],
-      fonecelular: [null],
-      datanascimento: [null],
-      observacao: [null],
-      tipo: [null],
-      instituicaocontato: this.formBuilder.group({
-        idinstituicaocontato: [null],
-        nome: [null],
-        email: [null],
-        fone: [null],
-        cargo: [null],
-      }),
-      instituicaoendereco: this.formBuilder.group({
-        idinstituicaoendereco: [null],
-        logradouro: [null],
-        numero: [null],
-        complemento: [null],
-        bairro: [null],
-        cidade: [null],
-        estado: [null],
-        cep: [null],
-      }),
-    });
-  }
-
-  setTipoJuridico() {
-    if (this.formulario.get('tipojuridico').value === 'PF') {
-      this.pessoaJuridica = false;
-      this.pessoaFisica = true;
-    } else {
-      this.pessoaJuridica = true;
-      this.pessoaFisica = false;
+    this.usuario = this.authService.usuario;
+    this.setFormularioNulo();
+    this.instituicao = this.clienteService.getInstituicao();
+    if (this.instituicao != null) {
+      if (this.instituicao.tipojuridico === 'PF') {
+        this.pessoaFisica = true;
+        this.pessoaJuridica = false;
+      } else {
+        this.pessoaJuridica = true;
+        this.pessoaFisica = false;
+      }
+      if (this.instituicao.instituicaocontato == null) {
+        this.instituicao.instituicaocontato = new Instituicaocontato();
+      }
+      if (this.instituicao.instituicaoendereco == null) {
+        this.instituicao.instituicaoendereco = new Instituicaoendereco();
+      }
+      this.formulario = this.formBuilder.group({
+        idinstituicao: this.instituicao.idinstituicao,
+        nome: this.instituicao.nome,
+        cpfcnpj: this.instituicao.cpfcnpj,
+        email: this.instituicao.email,
+        fonecelular: this.instituicao.fonecelular,
+        fonefixo: this.instituicao.fonefixo,
+        datanascimento: this.instituicao.datanascimento,
+        datacadastro: this.instituicao.datacadastro,
+        tipo: this.instituicao.tipo,
+        tipojuridico: this.instituicao.tipojuridico,
+        instituicaocontato: this.formBuilder.group({
+          idinstituicaocontato: this.instituicao.instituicaocontato.idinstituicaocontato,
+          nome: this.instituicao.instituicaocontato.nome,
+          fonecelular: this.instituicao.instituicaocontato.fone,
+          email: this.instituicao.instituicaocontato.email,
+          cargo: this.instituicao.instituicaocontato.cargo,
+        }),
+        instituicaoendereco: this.formBuilder.group({
+          isinstituicaoendereco: this.instituicao.instituicaoendereco.idinstituicaoendereco,
+          cep: this.instituicao.instituicaoendereco.cep,
+          endereco: this.instituicao.instituicaoendereco.logradouro,
+          numero: this.instituicao.instituicaoendereco.numero,
+          bairro: this.instituicao.instituicaoendereco.bairro,
+          complemento: this.instituicao.instituicaoendereco.complemento,
+          cidade: this.instituicao.instituicaoendereco.cidade,
+          estado: this.instituicao.instituicaoendereco.estado,
+        }),
+      });
     }
   }
 
-  salvar() {
-    this.formulario.patchValue( {
-      datacadastro: new Date(),
-      tipo: 'c'
-      });
-    this.instituicao = this.formulario.value;
-    this.clienteService.salvar( this.instituicao).subscribe(
-      resposta => {
-        this.instituicao = resposta as any;
-        this.router.navigate(['/consCliente']);
-      }
-    );
-  }
 
-  cancelar() {
-    this.router.navigate([ '/conscliente']);
-  }
+consultarCEP(tipo: string) {
+  let cepInformado = this.formulario.get('instituicaoendereco.cep').value;
 
-  consultarCEP() {
-    let cepInformado;
-    cepInformado = this.formulario.get('instituicaoendereco.cep').value;
-    cepInformado = cepInformado.replace(/\D/g, '');
-    this.consultacepService.consultar(cepInformado).subscribe(
-      resposta => {
-        this.cep = resposta;
+  cepInformado = cepInformado.replace(/\D/g, '');
+  this.consultacepService.consultar(cepInformado).subscribe(
+    resposta => {
+      this.cep = resposta;
         this.formulario.patchValue({
-            instituicaoendereco: {
-                logradouro: this.cep.logradouro,
-                bairro: this.cep.bairro,
-                cidade: this.cep.localidade,
-                estado: this.cep.uf
-            }
+          clienteenderecocomercial: {
+            endereco: this.cep.logradouro,
+            bairro: this.cep.bairro,
+            cidade: this.cep.localidade,
+            estado: this.cep.uf
+          }
         });
-      });
+    },
+    err => {
+      console.log(JSON.stringify(err));
+    }
+  );
+}
+
+
+setTipoJuridico() {
+  if (this.formulario.get('tipojuridico').value === 'PF') {
+    this.pessoaJuridica = false;
+    this.pessoaFisica = true;
+  } else {
+    this.pessoaJuridica = true;
+    this.pessoaFisica = false;
   }
+}
+
+
+
+salvar() {
+  this.instituicao = this.formulario.value;
+  this.formulario.patchValue({
+    datacadastro: new Date(),
+    tipo: 'c',
+    segundo: this.segundo
+  });
+  this.instituicao = this.formulario.value;
+  this.clienteService.salvar(this.instituicao).subscribe(
+    resposta => {
+      this.instituicao = resposta as any;
+      this.router.navigate(['/consCliente']);
+    },
+    err => {
+      console.log(err.error.erros.join(' '));
+    }
+  );
+
+  console.log(this.instituicao);
+}
+
+cancelar() {
+  this.formulario.reset();
+  this.router.navigate(['/conscliente']);
+}
+
+setFormularioNulo() {
+  this.formulario = this.formBuilder.group({
+    idinstituicao: [null],
+    nome: [null],
+    cpfcnpj: [null],
+    email: [null],
+    fonecelular: [null],
+    fonefixo: [null],
+    datanascimento: [null],
+    datacadastro: [null],
+    tipo: [null],
+    tipojuridico: [null],
+    instituicaocontato: this.formBuilder.group({
+      idinstituicaocontato: [null],
+      nome: [null],
+      fonecelular: [null],
+      email: [null], 
+      cargo: [null],
+    }),
+    instituicaoendereco: this.formBuilder.group({
+      isinstituicaoendereco: [null],
+      cep: [null],
+      endereco: [null],
+      numero: [null],
+      bairro: [null],
+      complemento: [null],
+      cidade: [null],
+      estado: [null],
+    }),
+  });
+}
 }

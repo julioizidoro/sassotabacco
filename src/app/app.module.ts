@@ -21,7 +21,7 @@ import { FornecedorModule } from './fornecedor/fornecedor.module';
 import {AccordionModule} from 'primeng/accordion';
 import { registerLocaleData } from '@angular/common';
 
-registerLocaleData(br, 'pt-BR');
+//registerLocaleData(br, 'pt-BR');
 
 @NgModule({
   declarations: [
