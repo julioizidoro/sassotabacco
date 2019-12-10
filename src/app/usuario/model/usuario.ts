@@ -1,9 +1,14 @@
+import { Acesso } from 'src/app/acesso/model/acesso';
+
 export class Usuario {
   idusuario: number;
-  nome: string;
-  user: string;
-  password: string;
-  email: string;
-  fonecelular: string;
-  situacao: boolean;
+    nome: string;
+    datanascimento: Date;
+    login: string;
+    senha: string;
+    email: string;
+    fonecelular: string;
+    situacao: boolean;
+    urlfoto: string;
+    acesso: Acesso;
 }

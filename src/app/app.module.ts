@@ -21,6 +21,10 @@ import { FornecedorModule } from './fornecedor/fornecedor.module';
 import {AccordionModule} from 'primeng/accordion';
 import { registerLocaleData } from '@angular/common';
 import { ContaModule } from './conta/conta.module';
+import { FluxocaixaModule } from './finacneiro/fluxocaixa/fluxocaixa.module';
+import { ContasModule } from './finacneiro/contas/contas.module';
+import { AcessoModule } from './acesso/acesso.module';
+import { FormapagamentoModule } from './formapagamento/formapagamento.module';
 
 //registerLocaleData(br, 'pt-BR');
 
@@ -49,7 +53,10 @@ import { ContaModule } from './conta/conta.module';
     FornecedorModule,
     AccordionModule,
     ContaModule,
-
+    FluxocaixaModule,
+    ContasModule,
+    AcessoModule,
+    FormapagamentoModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' }

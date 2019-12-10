@@ -20,15 +20,18 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
   ) { }
-
   ngOnInit() {
     this.formulario = this.formBuilder.group({
       idusuario: [null],
       nome: [null],
+      nascimento: [null],
+      login: [null],
+      senha: [null],
+      sexo: [null],
+      email: [null],
       fonecelular: [null],
-      user: [null],
-      password: [null],
-      email: [null]
+      situacao: [null],
+      acesso: [null],
     });
 
   }

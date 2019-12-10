@@ -24,7 +24,7 @@ export class AuthService {
 
   fazerLogin(usuario: Usuario) {
     console.log();
-    if (usuario.user === 'sasso' &&  usuario.password  === '123456' ) {
+    if (usuario.login === 'sasso' &&  usuario.senha  === '123456' ) {
         this.usuairoAutenticado = true;
         usuario.nome = 'Sasso Tabacco';
         this.usuario = usuario;
