@@ -61,7 +61,7 @@ export class CadprodutoComponent implements OnInit {
   }
 
   cancelar() {
-    this.router.navigate([ '/consProduto']);
+    this.router.navigate([ '/consproduto']);
   }
 }
 

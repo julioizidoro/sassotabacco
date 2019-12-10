@@ -1,1 +1,54 @@
-<p>conscconta works!</p>
+<br/><br/>
+<div class="page-header">
+    <div class="container-fluid">
+        <h3>
+            Consulta de Contas
+        </h3>
+        <hr/>
+    </div>
+    <form [formGroup]="formulario">
+        <div class="container-fluid" style="width:100%;">
+            <div class="w-100">
+                <br/>
+                  <button type="button" style="float:right;" class="btn btn-primary font-weight-light"
+                          routerLink="/cadconta">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                      <a class="ml-2">Adicionar</a>
+                  </button>
+              </div>
+            <br><br>
+          
+            <div class="table-responsive-lg">
+                <table class="table table-striped">
+                    <thead>
+                    <tr class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
+                        <th class="col-lg-6 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Nome</th>
+                        <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Agencia</th>
+                        <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Conta</th>
+                        <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let conta of contas"
+                        class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                        <td class="col-lg-6 col-xs mb-1 text-muted text-small w-sm-100">{{conta.nome}}</td>
+                        <td class="col-lg-2 col-xs mb-1 text-muted text-small w-sm-100">{{conta.agencia}}</td>
+                        <td class="col-lg-2 col-xs mb-1 text-muted text-small w-sm-100 hidden-xs">{{conta.conta}}</td>
+                        <td class="col-lg-2 col-xs mb-1 text-muted text-small w-sm-100">
+                            <button (click)="editar( i )" class="btn btn-success hidden-xs hidden-sm"
+                                    style="margin-top: -9px;float: right">
+                                <i class="fa  fa-pencil"></i>
+                            </button>
+                            <button (click)="verSaldo( i )" class="btn btn-success hidden-xs hidden-sm"
+                                    style="margin-top: -9px;float: right">
+                                <i class="fa  fa-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+

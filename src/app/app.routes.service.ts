@@ -10,6 +10,9 @@ import { ConsclienteComponent } from './cliente/conscliente/conscliente.componen
 import { CadclienteComponent } from './cliente/cadcliente/cadcliente.component';
 import { ConsprodutoComponent } from './produto/consproduto/consproduto.component';
 import { CadprodutoComponent } from './produto/cadproduto/cadproduto.component';
+import { CadfornecedorComponent } from './fornecedor/cadfornecedor/cadfornecedor.component';
+import { CadcontaComponent } from './conta/cadconta/cadconta.component';
+import { ConsccontaComponent } from './conta/conscconta/conscconta.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -19,9 +22,12 @@ const routes: Route[] = [
   { path: 'login', component: LoginComponent},
   { path: 'conscliente', component: ConsclienteComponent},
   { path: 'consfornecedor', component: ConsfornecedorComponent},
+  { path: 'cadfornecedor', component: CadfornecedorComponent},
   { path: 'cadcliente', component: CadclienteComponent},
   { path: 'consproduto', component: ConsprodutoComponent},
   { path: 'cadproduto', component: CadprodutoComponent},
+  { path: 'consconta', component: ConsccontaComponent},
+  { path: 'cadconta', component: CadcontaComponent},
   { path: '**', component: NotFoundComponent },
 
 ];

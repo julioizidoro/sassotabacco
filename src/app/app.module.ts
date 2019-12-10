@@ -20,6 +20,7 @@ import { ProdutoModule } from './produto/produto.module';
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import {AccordionModule} from 'primeng/accordion';
 import { registerLocaleData } from '@angular/common';
+import { ContaModule } from './conta/conta.module';
 
 //registerLocaleData(br, 'pt-BR');
 
@@ -47,6 +48,7 @@ import { registerLocaleData } from '@angular/common';
     UsuarioModule,
     FornecedorModule,
     AccordionModule,
+    ContaModule,
 
   ],
   providers: [
