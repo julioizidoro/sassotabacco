@@ -1,3 +1,5 @@
+import { Estoque } from 'src/app/estoque/model/estoque';
+
 export class Produto {
 
     idproduto: number;
@@ -11,4 +13,6 @@ export class Produto {
     pesoliquido: number;
     pesobruto: number;
     materiaprima: boolean;
+    estoque: Estoque;
+
 }

@@ -25,6 +25,7 @@ import { FluxocaixaModule } from './finacneiro/fluxocaixa/fluxocaixa.module';
 import { ContasModule } from './finacneiro/contas/contas.module';
 import { AcessoModule } from './acesso/acesso.module';
 import { FormapagamentoModule } from './formapagamento/formapagamento.module';
+import { ApiReceitaModule } from './api-receita/api-receita.module';
 
 //registerLocaleData(br, 'pt-BR');
 
@@ -57,6 +58,7 @@ import { FormapagamentoModule } from './formapagamento/formapagamento.module';
     ContasModule,
     AcessoModule,
     FormapagamentoModule,
+    ApiReceitaModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' }

@@ -9,6 +9,8 @@ import { Instituicaocontato } from '../model/instituicaocontato';
 import { Instituicaoendereco } from '../model/instituicaoendereco';
 import { Usuario } from 'src/app/usuario/model/usuario';
 import { AuthService } from 'src/app/usuario/login/auth.service';
+import { ApiReceitaService } from 'src/app/api-receita/api-receita.service';
+import { Cnpj } from 'src/app/api-receita/model/cnpj';
 
 @Component({
   selector: 'app-cadcliente',
@@ -33,6 +35,7 @@ export class CadclienteComponent implements OnInit {
   public maskCELULAR = ['(', /[0-9]/, /[0-9]/, ')', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
   public maskCEP = [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/];
   usuario: Usuario;
+  cnpj: Cnpj;
 
 
   constructor(
@@ -42,6 +45,7 @@ export class CadclienteComponent implements OnInit {
     private router: Router,
     private activeRrouter: ActivatedRoute,
     private authService: AuthService,
+    private apireceitaService: ApiReceitaService,
   ) { }
 
 
@@ -97,7 +101,7 @@ export class CadclienteComponent implements OnInit {
   }
 
 
-consultarCEP(tipo: string) {
+consultarCEP() {
   let cepInformado = this.formulario.get('instituicaoendereco.cep').value;
 
   cepInformado = cepInformado.replace(/\D/g, '');
@@ -105,7 +109,7 @@ consultarCEP(tipo: string) {
     resposta => {
       this.cep = resposta;
         this.formulario.patchValue({
-          clienteenderecocomercial: {
+          instituicaoendereco: {
             endereco: this.cep.logradouro,
             bairro: this.cep.bairro,
             cidade: this.cep.localidade,
@@ -149,8 +153,6 @@ salvar() {
       console.log(err.error.erros.join(' '));
     }
   );
-
-  console.log(this.instituicao);
 }
 
 cancelar() {
@@ -189,4 +191,26 @@ setFormularioNulo() {
     }),
   });
 }
+
+
+  consultarAPIReceita() {
+    if (this.instituicao.idinstituicao === null) {
+      if (this.pessoaJuridica) {
+        let numero = this.formulario.get('cpfcnpj').value
+        numero = numero.replace('.', '');
+        numero = numero.replace('.', '');
+        numero = numero.replace('/', '');
+        numero = numero.replace('-', '');
+        this.apireceitaService.get(numero).subscribe(
+          resposta => {
+            this.cnpj = resposta as any;
+            console.log(this.cnpj);
+          },
+          err => {
+            console.log(err.error.erros.join(' '));
+          }
+        );
+      }
+    }
+  }
 }

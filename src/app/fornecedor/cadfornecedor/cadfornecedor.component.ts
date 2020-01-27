@@ -9,6 +9,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/usuario/login/auth.service';
 import { Instituicaocontato } from 'src/app/cliente/model/instituicaocontato';
 import { Instituicaoendereco } from 'src/app/cliente/model/instituicaoendereco';
+import { Cnpj } from 'src/app/api-receita/model/cnpj';
+import { ApiReceitaService } from 'src/app/api-receita/api-receita.service';
 
 @Component({
   selector: 'app-cadfornecedor',
@@ -33,6 +35,7 @@ export class CadfornecedorComponent implements OnInit {
   public maskCELULAR = ['(', /[0-9]/, /[0-9]/, ')', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
   public maskCEP = [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/];
   usuario: Usuario;
+  cnpj: Cnpj;
 
 
   constructor(
@@ -42,6 +45,7 @@ export class CadfornecedorComponent implements OnInit {
     private router: Router,
     private activeRrouter: ActivatedRoute,
     private authService: AuthService,
+    private apireceitaService: ApiReceitaService,
   ) { }
 
 
@@ -97,7 +101,7 @@ export class CadfornecedorComponent implements OnInit {
   }
 
 
-consultarCEP(tipo: string) {
+consultarCEP() {
   let cepInformado = this.formulario.get('instituicaoendereco.cep').value;
 
   cepInformado = cepInformado.replace(/\D/g, '');
@@ -189,4 +193,26 @@ setFormularioNulo() {
     }),
   });
 }
+
+consultarAPIReceita() {
+  if (this.instituicao.idinstituicao === null) {
+    if (this.pessoaJuridica) {
+      let numero = this.formulario.get('cpfcnpj').value
+      numero = numero.replace('.', '');
+      numero = numero.replace('.', '');
+      numero = numero.replace('/', '');
+      numero = numero.replace('-', '');
+      this.apireceitaService.get(numero).subscribe(
+        resposta => {
+          this.cnpj = resposta as any;
+          console.log(this.cnpj);
+        },
+        err => {
+          console.log(err.error.erros.join(' '));
+        }
+      );
+    }
+  }
 }
+}
+

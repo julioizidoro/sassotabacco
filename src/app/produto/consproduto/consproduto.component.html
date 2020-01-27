@@ -56,20 +56,20 @@
                 <table class="table table-striped">
                     <thead>
                     <tr class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
-                        <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Mat.prima</th>
-                        <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Código</th>
-                        <th class="col-lg-6 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Descrição</th>
+                        <th class="col-lg-5 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Descrição</th>
                         <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Unidade</th>
+                        <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Valor</th>
+                        <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Estoque</th>
                         <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Ações</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let produto of produtos"
                         class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
-                        <td class="col-lg-1 col-xs mb-1 text-muted text-small w-sm-100">{{produo.materiaprima}}</td>
-                        <td class="col-lg-2 col-xs mb-1 text-muted text-small w-sm-100">{{produto.codigo}}</td>
-                        <td class="col-lg-6 col-xs mb-1 text-muted text-small w-sm-100 hidden-xs">{{produto.descricao}}</td>
+                        <td class="col-lg-5 col-xs mb-1 text-muted text-small w-sm-100 hidden-xs">{{produto.descricao}}</td>
                         <td class="col-lg-2 col-xs mb-1 text-muted text-small w-sm-100 hidden-xs">{{produto.unidade}}</td>
+                        <td class="col-lg-2 col-xs mb-1 text-muted text-small w-sm-100 hidden-xs">{{produto.estoque.valorvenda}}</td>
+                        <td class="col-lg-2 col-xs mb-1 text-muted text-small w-sm-100 hidden-xs">{{produto.estoque.quantidadeestoque}}</td>
                         <td class="col-lg-1 col-xs mb-1 text-muted text-small w-sm-100">
                             <button (click)="editar( i )" class="btn btn-success hidden-xs hidden-sm"
                                     style="margin-top: -9px;float: right">
@@ -79,18 +79,6 @@
                                     style="float: right">
                                 <i class="fa  fa-pencil"></i>
                             </button>
-
-                            <div *ngIf="habilitarConsulta">
-
-                                <button (click)="selecionarCliente( i )" class="btn btn-success hidden-xs hidden-sm"
-                                        style="margin-top: -9px;float: right">
-                                    <i class="glyphicon glyphicon-ok"></i>
-                                </button>
-                                <button (click)="selecionarCliente( i )" class="btn btn-success hidden-lg hidden-md"
-                                        style="float: right">
-                                    <i class="glyphicon glyphicon-ok"></i>
-                                </button>
-                            </div>
                         </td>
                     </tr>
                     </tbody>

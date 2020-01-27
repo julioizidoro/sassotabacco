@@ -22,6 +22,14 @@ export class AuthService {
     private usuarioService: UsuarioService,
   ) { }
 
+  getUsuario() {
+    return this.usuario;
+  }
+
+  setUsuario(usuario: Usuario) {
+    this.usuario = usuario;
+  }
+
   fazerLogin(usuario: Usuario) {
     console.log();
     if (usuario.login === 'sasso' &&  usuario.senha  === '123456' ) {

@@ -45,7 +45,7 @@
                             <label for="cpf">CPF</label>
 
                             <input type="text" class="form-control" [textMask]="{mask: maskCPF}" id="cpf"
-                                formControlName="cpfcnpj" placeholder="000.000.000-00" />
+                                formControlName="cpfcnpj" placeholder="000.000.000-00"  />
                             
                         </div>
                         <div *ngIf="pessoaFisica" class="form-group col-md-4">
@@ -57,7 +57,7 @@
                         <div *ngIf="pessoaJuridica" class="form-group col-md-4">
                             <label for="cnpj">CNPJ</label>
                             <input type="text" class="form-control" [textMask]="{mask: maskCNPJ}" id="cnpj"
-                                placeholder="00.000.000/0000-00" formControlName="cpfcnpj">
+                                placeholder="00.000.000/0000-00" formControlName="cpfcnpj" (blur)="consultarAPIReceita()">
                           
                         </div>
                         <div *ngIf="pessoaJuridica" class="form-group col-md-4">
@@ -100,7 +100,7 @@
                         <div class="form-group col-lg-2 col-md-3 col-sm-12 col-xs-12">
                             <label for="exampleInputCep">CEP</label>
                             <input type="text" class="form-control" id="exampleInputCep" [textMask]="{mask: maskCEP}"
-                                placeholder="00000-000" formControlName="cep" (blur)="consultarCEP('r')">
+                                placeholder="00000-000" formControlName="cep" (blur)="consultarCEP()">
                         </div>
                         <div class="form-group col-lg-5 col-md-6 col-sm-12 col-xs-12">
                             <label for="exampleInputLogradouro">Logradouro</label>
