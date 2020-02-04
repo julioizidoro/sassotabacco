@@ -11,8 +11,8 @@ import { Contas } from '../contas/model/contas';
 import {ModalDirective} from 'ngx-bootstrap';
 import { Usuario } from 'src/app/usuario/model/usuario';
 import { AuthService } from 'src/app/usuario/login/auth.service';
-import { Subcategoria } from 'src/app/categoria/model/subcategoria';
 import { Formapagamento } from 'src/app/formapagamento/model/formapagamento';
+import { Planoconta } from '../planocontas/model/planoconta';
 
 
 @Component({
@@ -50,8 +50,8 @@ export class FluxocaixaComponent implements OnInit {
     this.conta = new Contas;
     this.conta.instituicao = new Instituicao;
     this.conta.instituicao.nome = '';
-    this.conta.subcategoria = new Subcategoria();
-    this.conta.subcategoria.nome = '';
+    this.conta.planocontas = new Planoconta();
+    this.conta.planocontas.descricao = '';
     this.conta.formapagamento = new Formapagamento();
     this.conta.formapagamento.descricao = '';
     this.setFormulario(this.conta);
@@ -128,7 +128,7 @@ export class FluxocaixaComponent implements OnInit {
       valorpago : conta.valorpago,
       observacao: conta.observacao,
       instituicao: conta.instituicao,
-      subcategoria: conta.subcategoria,
+      subcategoria: conta.planocontas,
       formapagamento: conta.formapagamento,
     });
   }
@@ -174,7 +174,7 @@ export class FluxocaixaComponent implements OnInit {
       data: fluxolancamento.data,
       valorentrada: fluxolancamento.valorentrada,
       valrosaida: fluxolancamento.valorsaida,
-      subcategoria: fluxolancamento.sucategoria,
+      subcategoria: fluxolancamento.planoconta,
       formapagamento: fluxolancamento.formapgamento,
       fluxocaixa: fluxolancamento.fluxocaixa,
       usuario: fluxolancamento.usuario,

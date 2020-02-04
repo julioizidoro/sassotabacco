@@ -10,9 +10,9 @@ import { FormapagamentoService } from 'src/app/formapagamento/formapagamento.ser
 import { ModalDirective } from 'ngx-bootstrap';
 import { Usuario } from 'src/app/usuario/model/usuario';
 import { AuthService } from 'src/app/usuario/login/auth.service';
-import { Subcategoria } from 'src/app/categoria/model/subcategoria';
 import { FluxocaixaService } from 'src/app/finacneiro/fluxocaixa/fluxocaixa.service';
 import { Fluxocaixa } from 'src/app/finacneiro/fluxocaixa/model/fluxocaixa';
+import { Planoconta } from 'src/app/finacneiro/planocontas/model/planoconta';
 
 @Component({
   selector: 'app-cadreceber',
@@ -23,7 +23,7 @@ export class CadreceberComponent implements OnInit {
 
   formulario: FormGroup;
   conta: Contas;
-  planoContaSelecionado: Subcategoria;
+  planoContaSelecionado: Planoconta;
   instituicaoSelecionada: Instituicao;
   nomeCliente: string;
   formaPagamentoSelecionada: Formapagamento;
@@ -58,7 +58,7 @@ export class CadreceberComponent implements OnInit {
     this.listarFormaPagamento();
     this.listarPlanoContas();
     if (this.conta != null) {
-      this.planoContaSelecionado = this.conta.subcategoria;
+      this.planoContaSelecionado = this.conta.planocontas;
       this.formaPagamentoSelecionada = this.conta.formapagamento;
       this.instituicaoSelecionada = this.conta.instituicao;
       this.formulario = this.formBuilder.group({
@@ -74,7 +74,7 @@ export class CadreceberComponent implements OnInit {
         valorpago: this.conta.valorpago,
         observacao: this.conta.observacao,
         instituicao: this.conta.instituicao,
-        planocontas: this.conta.subcategoria,
+        planocontas: this.conta.planocontas,
         formapagamento: this.conta.formapagamento
       });
     } else {
@@ -136,7 +136,7 @@ export class CadreceberComponent implements OnInit {
   incluir() {
     this.conta = this.formulario.value;
     this.conta.instituicao = this.instituicaoSelecionada;
-    this.conta.subcategoria = this.planoContaSelecionado;
+    this.conta.planocontas = this.planoContaSelecionado;
     this.conta.formapagamento = this.formaPagamentoSelecionada;
     this.conta.valorpago = 0;
     this.conta.desconto = 0;
@@ -191,7 +191,7 @@ export class CadreceberComponent implements OnInit {
   baixar() {
     this.conta = this.formulario.value;
     this.conta.instituicao = this.instituicaoSelecionada;
-    this.conta.subcategoria = this.planoContaSelecionado;
+    this.conta.planocontas = this.planoContaSelecionado;
     this.conta.formapagamento = this.formaPagamentoSelecionada;
     this.contasService.baixarCR(this.conta).subscribe(
       resposta => {

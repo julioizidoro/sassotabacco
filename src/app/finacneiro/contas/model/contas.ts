@@ -1,7 +1,8 @@
 import { Instituicao } from 'src/app/cliente/model/instituicao';
 import { Contasarquivos } from './contasarquivos';
-import { Subcategoria } from 'src/app/categoria/model/subcategoria';
 import { Formapagamento } from 'src/app/formapagamento/model/formapagamento';
+import { Planoconta } from '../../planocontas/model/planoconta';
+import { Conta } from 'src/app/conta/model/conta';
 
 
 export class Contas {
@@ -9,17 +10,18 @@ export class Contas {
     documento: string;
     dataemissao: Date;
     datavencimento: Date;
-    numeroparcela: number;
+    numeroparcela: string;
     valorparcela: number;
     desconto: number;
     juros: number;
     datapagamento: Date;
     valorpago: number;
     observacao: string;
+    codigobarras: string;
     tipo: string;
-    subcategoria: Subcategoria;
+    planocontas: Planoconta;
     instituicao: Instituicao;
     formapagamento: Formapagamento;
-    codigobarras: string;
+    conta: Conta;
     contasarquivos: Contasarquivos[];
 }
