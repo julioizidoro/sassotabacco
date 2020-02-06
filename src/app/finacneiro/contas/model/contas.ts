@@ -19,9 +19,9 @@ export class Contas {
     observacao: string;
     codigobarras: string;
     tipo: string;
-    planocontas: Planoconta;
+    planoconta: Planoconta;
     instituicao: Instituicao;
     formapagamento: Formapagamento;
     conta: Conta;
-    contasarquivos: Contasarquivos[];
+    contasarquivosList: Contasarquivos[];
 }

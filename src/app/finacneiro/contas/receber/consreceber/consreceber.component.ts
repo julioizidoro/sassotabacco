@@ -171,7 +171,7 @@ export class ConsreceberComponent implements OnInit {
       }
     }
     const id = this.contaSelecinada.idcontas;
-    const numeroArquivos = this.contaSelecinada.contasarquivos.length + 1;
+    const numeroArquivos = this.contaSelecinada.contasarquivosList.length + 1;
     fileName = id.toString() + '_'  + numeroArquivos.toString() + '.' + nome;
      this.contasService.uploadReceber(this.file, fileName).subscribe(
         resposta => {
@@ -180,7 +180,7 @@ export class ConsreceberComponent implements OnInit {
           this.contasService.salvarArquivo(this.contaArquivo).subscribe(
            resposta1 => {
              this.contaArquivo = resposta1 as any;
-             this.contaSelecinada.contasarquivos.push(this.contaArquivo);
+             this.contaSelecinada.contasarquivosList.push(this.contaArquivo);
            },
            err1 => {
              console.log(err1.error.erros.join(' '));

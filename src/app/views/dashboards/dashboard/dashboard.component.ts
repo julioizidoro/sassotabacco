@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ContaService } from 'src/app/conta/conta.service';
+import { Conta } from 'src/app/conta/model/conta';
 
 @Component({
   selector: 'app-dashboard1',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  listaContas: any[] = [
+  /*listaContas: any[] = [
     {
       imagem: 'http://4.bp.blogspot.com/-9eVAhF8ECw0/TyIQgknJ7dI/AAAAAAAAY6Q/GDgr7D0A30I/w1200-h630-p-k-no-nu/logo_itau.png',
       nome: 'Itaú',
@@ -18,11 +20,27 @@ export class DashboardComponent implements OnInit {
       nome: 'Bradesco',
       valor: 'R$ 800,00'
     },
-  ];
+  ];*/
 
-  constructor() {}
+  listaContas: Conta[];
+
+  constructor(
+    private contaService: ContaService,
+    ) {}
 
   ngOnInit() {
+      this.consultarContas(); 
+  }
+
+  consultarContas() {
+    this.contaService.listar('@').subscribe(
+      resposta => {
+        this.listaContas = resposta as any;
+      },
+        err => {
+          console.log(JSON.stringify(err));
+        }
+    )
   }
 
 }

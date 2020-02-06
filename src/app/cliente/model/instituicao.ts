@@ -16,7 +16,6 @@ export class Instituicao {
     fonefixo: string;
     fonecelular: string;
     datanascimento: Date;
-    datacadastro: Date;
     observacao: string;
     tipo: string;
     instituicaocontato: Instituicaocontato;

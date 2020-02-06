@@ -1,5 +1,4 @@
 import { ConsfornecedorComponent } from './fornecedor/consfornecedor/consfornecedor.component';
-import { ModalsComponent } from './views/modals/modals.component';
 import { TableComponent } from './views/tables/table.component';
 import { RouterModule, Route } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
@@ -27,7 +26,6 @@ const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
   { path: 'inicio', component: DashboardComponent },
   { path: 'table', component: TableComponent },
-  { path: 'modals', component: ModalsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'conscliente', component: ConsclienteComponent },
   { path: 'consfornecedor', component: ConsfornecedorComponent },

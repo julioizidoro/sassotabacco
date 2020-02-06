@@ -8,11 +8,11 @@
       </div>
       <div class="col-12 p-2 border-bottom" *ngFor="let item of listaContas">
         <label class="col-lg-5 col-md-12">
-          <img src="{{item.imagem}}"
+          <img src="{{item.logo}}"
                style="width: 50px;border-radius: 50%;">
         </label>
-        <label class="col-lg-7 col-md-12 font-weight-bolder">{{item.nome}}</label>
-        <label class="col-12" style="text-align: right;">{{item.valor}}</label>
+        <label class="col-lg-7 col-md-12 font-weight-bolder" >{{item.descricao}}</label>
+        <label class="col-12" style="text-align: right;">{{item.saldoatual}}</label>
       </div>
     </mdb-card-body>
   </mdb-card>

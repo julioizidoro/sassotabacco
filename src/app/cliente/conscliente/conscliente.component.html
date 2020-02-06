@@ -72,11 +72,11 @@
                                 style="border: none;">{{i.fonecelular}}</td>
                             <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
 
-                                <button type="button" style="float:right;" class="btn btn-light font-weight-light mr-1 p-1" *ngIf="!usuario.acesso.cadclienteeditar" 
+                                <button type="button" style="float:right;" class="btn btn-light font-weight-light mr-1 p-1" 
                                     (click)="editar(i)" title="Editar">
                                     <i class="fa fa-pencil-alt" aria-hidden="true"></i>
                                 </button>
-                                <div *ngIf="habilitarConsulta">
+                                <div >
                                     <button type="button" style="float:right;"
                                         class="btn btn-light font-weight-light mr-1 p-1" (click)="selecionarCliente(i)"
                                         title="Selecionar Cliente">

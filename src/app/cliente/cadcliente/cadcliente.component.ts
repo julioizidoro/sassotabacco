@@ -52,7 +52,6 @@ export class CadclienteComponent implements OnInit {
 
   ngOnInit() {
     this.usuario = this.authService.usuario;
-    this.setFormularioNulo();
     this.instituicao = this.clienteService.getInstituicao();
     if (this.instituicao != null) {
       if (this.instituicao.tipojuridico === 'PF') {
@@ -76,7 +75,6 @@ export class CadclienteComponent implements OnInit {
         fonecelular: this.instituicao.fonecelular,
         fonefixo: this.instituicao.fonefixo,
         datanascimento: this.instituicao.datanascimento,
-        datacadastro: this.instituicao.datacadastro,
         tipo: this.instituicao.tipo,
         tipojuridico: this.instituicao.tipojuridico,
         instituicaocontato: this.formBuilder.group({
@@ -87,9 +85,9 @@ export class CadclienteComponent implements OnInit {
           cargo: this.instituicao.instituicaocontato.cargo,
         }),
         instituicaoendereco: this.formBuilder.group({
-          isinstituicaoendereco: this.instituicao.instituicaoendereco.idinstituicaoendereco,
+          idinstituicaoendereco: this.instituicao.instituicaoendereco.idinstituicaoendereco,
           cep: this.instituicao.instituicaoendereco.cep,
-          endereco: this.instituicao.instituicaoendereco.logradouro,
+          logradouro: this.instituicao.instituicaoendereco.logradouro,
           numero: this.instituicao.instituicaoendereco.numero,
           bairro: this.instituicao.instituicaoendereco.bairro,
           complemento: this.instituicao.instituicaoendereco.complemento,
@@ -97,6 +95,9 @@ export class CadclienteComponent implements OnInit {
           estado: this.instituicao.instituicaoendereco.estado,
         }),
       });
+    } else {
+      this.setFormularioNulo();
+      this.instituicao = new Instituicao();
     }
   }
 
@@ -110,7 +111,7 @@ consultarCEP() {
       this.cep = resposta;
         this.formulario.patchValue({
           instituicaoendereco: {
-            endereco: this.cep.logradouro,
+            logradouro: this.cep.logradouro,
             bairro: this.cep.bairro,
             cidade: this.cep.localidade,
             estado: this.cep.uf
@@ -139,15 +140,14 @@ setTipoJuridico() {
 salvar() {
   this.instituicao = this.formulario.value;
   this.formulario.patchValue({
-    datacadastro: new Date(),
     tipo: 'c',
-    segundo: this.segundo
   });
   this.instituicao = this.formulario.value;
+  this.instituicao.situacao = 'Ativo';
   this.clienteService.salvar(this.instituicao).subscribe(
     resposta => {
       this.instituicao = resposta as any;
-      this.router.navigate(['/consCliente']);
+      this.router.navigate(['/conscliente']);
     },
     err => {
       console.log(err.error.erros.join(' '));
@@ -180,9 +180,9 @@ setFormularioNulo() {
       cargo: [null],
     }),
     instituicaoendereco: this.formBuilder.group({
-      isinstituicaoendereco: [null],
+      idinstituicaoendereco: [null],
       cep: [null],
-      endereco: [null],
+      logradouro: [null],
       numero: [null],
       bairro: [null],
       complemento: [null],
@@ -194,7 +194,7 @@ setFormularioNulo() {
 
 
   consultarAPIReceita() {
-    if (this.instituicao.idinstituicao === null) {
+    if (this.instituicao.idinstituicao == null) {
       if (this.pessoaJuridica) {
         let numero = this.formulario.get('cpfcnpj').value
         numero = numero.replace('.', '');

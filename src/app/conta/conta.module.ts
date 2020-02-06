@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { AccordionModule, BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [CadcontaComponent, ConsccontaComponent],
@@ -18,6 +19,8 @@ import { BrowserModule } from '@angular/platform-browser';
     RouterModule,
     FormsModule,
     BrowserModule,
+    AccordionModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   exports: [
     CadcontaComponent, 

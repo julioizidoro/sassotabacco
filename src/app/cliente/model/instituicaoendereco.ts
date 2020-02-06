@@ -1,5 +1,6 @@
 export class Instituicaoendereco {
 
+
     idinstituicaoendereco: number;
     logradouro: string;
     numero: string;

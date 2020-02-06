@@ -13,6 +13,4 @@ export class Produto {
     pesoliquido: number;
     pesobruto: number;
     materiaprima: boolean;
-    estoque: Estoque;
-
 }

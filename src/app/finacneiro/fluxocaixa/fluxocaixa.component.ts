@@ -1,3 +1,5 @@
+import { ContasService } from './../contas/contas.service';
+import { Contasarquivos } from './../contas/model/contasarquivos';
 import { Instituicao } from 'src/app/cliente/model/instituicao';
 import { Fluxocontas } from './model/fluxoconta';
 import { Fluxolancamento } from './model/fluxolancamento';
@@ -8,11 +10,11 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Fluxocaixa } from './model/fluxocaixa';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Contas } from '../contas/model/contas';
+import { Planoconta } from '../planocontas/model/planoconta';
 import {ModalDirective} from 'ngx-bootstrap';
 import { Usuario } from 'src/app/usuario/model/usuario';
 import { AuthService } from 'src/app/usuario/login/auth.service';
 import { Formapagamento } from 'src/app/formapagamento/model/formapagamento';
-import { Planoconta } from '../planocontas/model/planoconta';
 
 
 @Component({
@@ -39,6 +41,9 @@ export class FluxocaixaComponent implements OnInit {
   @ViewChild('lancamentos', null) public showModalLancamentosOnClick: ModalDirective;
   @ViewChild('contasarquivos', null) public showModalContasArquivosOnClick: ModalDirective;
   usuario: Usuario;
+  file: File;
+  contaArquivo: Contasarquivos;
+  pesquisaData: Date;
 
   constructor(
     private router: Router,
@@ -46,12 +51,13 @@ export class FluxocaixaComponent implements OnInit {
     private fluxoCaixaService: FluxocaixaService,
     private activeRrouter: ActivatedRoute,
     private authService: AuthService,
+    private contasService: ContasService,
   ) {
     this.conta = new Contas;
     this.conta.instituicao = new Instituicao;
     this.conta.instituicao.nome = '';
-    this.conta.planocontas = new Planoconta();
-    this.conta.planocontas.descricao = '';
+    this.conta.planoconta = new Planoconta();
+    this.conta.planoconta.descricao = '';
     this.conta.formapagamento = new Formapagamento();
     this.conta.formapagamento.descricao = '';
     this.setFormulario(this.conta);
@@ -128,8 +134,8 @@ export class FluxocaixaComponent implements OnInit {
       valorpago : conta.valorpago,
       observacao: conta.observacao,
       instituicao: conta.instituicao,
-      subcategoria: conta.planocontas,
-      formapagamento: conta.formapagamento,
+      planocontas: conta.planoconta.descricao,
+      formapagamento: conta.formapagamento.descricao,
     });
   }
 
@@ -150,7 +156,7 @@ export class FluxocaixaComponent implements OnInit {
       valorpago : 0,
       observacao: [null],
       instituicao: [null],
-      subcategoria: [null],
+      planocontas: [null],
       formapagamento: new Formapagamento(),
     });
   }
@@ -174,8 +180,8 @@ export class FluxocaixaComponent implements OnInit {
       data: fluxolancamento.data,
       valorentrada: fluxolancamento.valorentrada,
       valrosaida: fluxolancamento.valorsaida,
-      subcategoria: fluxolancamento.planoconta,
-      formapagamento: fluxolancamento.formapgamento,
+      planoconta: fluxolancamento.planoconta.descricao,
+      formapagamento: fluxolancamento.formapgamento.descricao,
       fluxocaixa: fluxolancamento.fluxocaixa,
       usuario: fluxolancamento.usuario,
     });
@@ -199,7 +205,7 @@ export class FluxocaixaComponent implements OnInit {
         this.paga = true;
       }
       this.recebida = false;
-      this.titulo = 'Cota a pagar';
+      this.titulo = 'Contas a pagar';
     }
     this.showModalContasOnClick.show();
   }
@@ -245,6 +251,16 @@ export class FluxocaixaComponent implements OnInit {
     }
   }
 
+  contaTipo(conta: Contas) {
+    if (conta.tipo === 'r') {
+        return true;
+    } else {
+      return false;
+    }
+  }
+
+
+
   openModalContasArquivos(conta: Contas) {
     this.conta = conta;
     this.showModalContasArquivosOnClick.show();
@@ -264,4 +280,73 @@ export class FluxocaixaComponent implements OnInit {
   document.execCommand('copy');
   }
 
+
+  onUpload() {
+    this.contaArquivo = new Contasarquivos();
+    this.contaArquivo.contas = this.conta;
+    this.contaArquivo.nomeorigial = this.file.name;
+    let fileName = this.file.name;
+    let nome = '';
+    for (let i = fileName.length - 1; i > 0; i--) {
+      if (fileName[i] !== '.' ) {
+         nome = fileName[i] + nome;
+      } else {
+        i = -100;
+      }
+    }
+    const id = this.conta.idcontas;
+    let numeroArquivos = 0;
+    if (this.conta.contasarquivosList == null) {
+      this.conta.contasarquivosList = [];
+      numeroArquivos = 1;
+    } else {
+      numeroArquivos = this.conta.contasarquivosList.length + 1;
+    }
+    fileName = id.toString() + '_'  + numeroArquivos.toString() + '.' + nome;
+    if (this.conta.tipo === 'p') {
+     this.contasService.uploadPagar(this.file, fileName).subscribe(
+        resposta => {
+          const uri = resposta as any;
+          this.contaArquivo.uri = 'https://contaspagar.s3.us-east-2.amazonaws.com/' + fileName;
+          this.contasService.salvarArquivo(this.contaArquivo).subscribe(
+           resposta1 => {
+             this.contaArquivo = resposta1 as any;
+             this.conta.contasarquivosList.push(this.contaArquivo);
+           },
+           err1 => {
+             console.log(err1.error.erros.join(' '));
+            }
+           );
+        },
+        err => {
+         console.log(err.error.erros.join(' '));
+        }
+     );
+    } else {
+      this.contasService.uploadReceber(this.file, fileName).subscribe(
+        resposta => {
+          const uri = resposta as any;
+          this.contaArquivo.uri = 'https://contaspagar.s3.us-east-2.amazonaws.com/' + fileName;
+          this.contasService.salvarArquivo(this.contaArquivo).subscribe(
+           resposta1 => {
+             this.contaArquivo = resposta1 as any;
+             this.conta.contasarquivosList.push(this.contaArquivo);
+           },
+           err1 => {
+             console.log(err1.error.erros.join(' '));
+            }
+           );
+        },
+        err => {
+         console.log(err.error.erros.join(' '));
+        }
+     );
+    }
+  }
+
+  onChange(event) {
+    const selectedFiles = <FileList>event.srcElement.files;
+    this.file = selectedFiles[0];
+    document.getElementById('customFileLabelFluxo').innerHTML = selectedFiles[0].name;
+ }
 }

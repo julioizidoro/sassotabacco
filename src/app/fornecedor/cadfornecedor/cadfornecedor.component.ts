@@ -76,7 +76,6 @@ export class CadfornecedorComponent implements OnInit {
         fonecelular: this.instituicao.fonecelular,
         fonefixo: this.instituicao.fonefixo,
         datanascimento: this.instituicao.datanascimento,
-        datacadastro: this.instituicao.datacadastro,
         tipo: this.instituicao.tipo,
         tipojuridico: this.instituicao.tipojuridico,
         instituicaocontato: this.formBuilder.group({
@@ -87,9 +86,9 @@ export class CadfornecedorComponent implements OnInit {
           cargo: this.instituicao.instituicaocontato.cargo,
         }),
         instituicaoendereco: this.formBuilder.group({
-          isinstituicaoendereco: this.instituicao.instituicaoendereco.idinstituicaoendereco,
+          idinstituicaoendereco: this.instituicao.instituicaoendereco.idinstituicaoendereco,
           cep: this.instituicao.instituicaoendereco.cep,
-          endereco: this.instituicao.instituicaoendereco.logradouro,
+          logradouro: this.instituicao.instituicaoendereco.logradouro,
           numero: this.instituicao.instituicaoendereco.numero,
           bairro: this.instituicao.instituicaoendereco.bairro,
           complemento: this.instituicao.instituicaoendereco.complemento,
@@ -102,6 +101,7 @@ export class CadfornecedorComponent implements OnInit {
 
 
 consultarCEP() {
+  console.log('inicio');
   let cepInformado = this.formulario.get('instituicaoendereco.cep').value;
 
   cepInformado = cepInformado.replace(/\D/g, '');
@@ -109,8 +109,8 @@ consultarCEP() {
     resposta => {
       this.cep = resposta;
         this.formulario.patchValue({
-          clienteenderecocomercial: {
-            endereco: this.cep.logradouro,
+          instituicaoendereco: {
+            logradouro: this.cep.logradouro,
             bairro: this.cep.bairro,
             cidade: this.cep.localidade,
             estado: this.cep.uf
@@ -140,14 +140,14 @@ salvar() {
   this.instituicao = this.formulario.value;
   this.formulario.patchValue({
     datacadastro: new Date(),
-    tipo: 'c',
-    segundo: this.segundo
+    tipo: 'f',
   });
   this.instituicao = this.formulario.value;
+  this.instituicao.situacao = 'Ativo';
   this.clienteService.salvar(this.instituicao).subscribe(
     resposta => {
       this.instituicao = resposta as any;
-      this.router.navigate(['/consCliente']);
+      this.router.navigate(['/consfornecedor']);
     },
     err => {
       console.log(err.error.erros.join(' '));
@@ -159,7 +159,7 @@ salvar() {
 
 cancelar() {
   this.formulario.reset();
-  this.router.navigate(['/conscliente']);
+  this.router.navigate(['/consfornecedor']);
 }
 
 setFormularioNulo() {
@@ -171,7 +171,6 @@ setFormularioNulo() {
     fonecelular: [null],
     fonefixo: [null],
     datanascimento: [null],
-    datacadastro: [null],
     tipo: [null],
     tipojuridico: [null],
     instituicaocontato: this.formBuilder.group({
@@ -182,9 +181,9 @@ setFormularioNulo() {
       cargo: [null],
     }),
     instituicaoendereco: this.formBuilder.group({
-      isinstituicaoendereco: [null],
+      idinstituicaoendereco: [null],
       cep: [null],
-      endereco: [null],
+      logradouro: [null],
       numero: [null],
       bairro: [null],
       complemento: [null],

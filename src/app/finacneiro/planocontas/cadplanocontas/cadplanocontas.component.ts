@@ -22,7 +22,7 @@ export class CadsPlanoContasComponent implements OnInit {
 
   constructor(
     private planocontaservice: PlanoContasService,
-    private grupoContaService: CategoriaService,
+    //private grupoContaService: CategoriaService,
     private formBuilder: FormBuilder,
     private activeRrouter: ActivatedRoute,
     private router: Router,
@@ -49,12 +49,12 @@ export class CadsPlanoContasComponent implements OnInit {
       }
   }
 
-  listarGrupoConta() {
-    this.grupoContaService.listar().subscribe(
+ listarGrupoConta() {
+/*    this.grupoContaService.listar().subscribe(
       resposta => {
         this.listaGrupoContas = resposta as any;
       }
-    );
+    );*/
   }
 
   compararGrupo(obj1, obj2) {

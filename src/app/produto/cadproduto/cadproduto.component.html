@@ -8,7 +8,7 @@
     </div>
     <div style="width:100%;">
         <form [formGroup]="formulario">
-            <div class="row">
+            <div formGroupName="produto" class="row">
                 <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9">
                     <label for="descricao">Descrição</label>
                     <input type="text" class="form-control" id="descricao" placeholder="Descrição"
@@ -39,11 +39,6 @@
                 <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
                     <label for="cest">CEST</label>
                     <input type="text" class="form-control" id="cest" placeholder="CEST" formControlName="cest">
-                </div>
-
-                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                    <label for="ncm">NCM</label>
-                    <input type="text" class="form-control" id="ncm" placeholder="NCM" formControlName="ncm">
                 </div>
 
                 <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">

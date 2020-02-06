@@ -28,9 +28,10 @@ export class ConsclienteComponent implements OnInit {
       email: [null],
       cnpj: [null],
     });
+    this.consultar();
   }
 
-  consulta() {
+  consultar() {
     this.clienteService.listar('c').subscribe(
       resposta => {
         this.instituicao = resposta as any;
@@ -47,5 +48,17 @@ export class ConsclienteComponent implements OnInit {
      }
    );
  }
+
+
+ editar(instituicao: Instituicao) {
+    this.clienteService.setInstituicao(instituicao);
+    this.router.navigate(['/cadcliente']);
+ }
+
+ selecionarCliente(i: Instituicao) {
+
+ }
+
+
 
 }

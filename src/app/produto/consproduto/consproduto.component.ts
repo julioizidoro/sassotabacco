@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Produto } from '../model/produto';
 import { Router } from '@angular/router';
 import { ProdutoService } from '../produto.service';
+import { Estoque } from 'src/app/estoque/model/estoque';
+import { EstoqueService } from 'src/app/estoque/estoque.service';
 
 @Component({
   selector: 'app-consproduto',
@@ -11,7 +13,7 @@ import { ProdutoService } from '../produto.service';
 })
 export class ConsprodutoComponent implements OnInit {
 
-  produtos: Produto[];
+  listaEstoque: Estoque[];
   formulario: FormGroup;
   isFirstOpen = false;
   oneAtATime: true;
@@ -19,7 +21,7 @@ export class ConsprodutoComponent implements OnInit {
 constructor(
   private formBuilder: FormBuilder,
   private router: Router,
-  private podutoService: ProdutoService,
+  private estoqueService: EstoqueService,
 ) { }
 
 ngOnInit() {
@@ -28,12 +30,14 @@ ngOnInit() {
     descricao: [null],
     codigobarras: [null],
   });
+  this.consulta();
 }
 
 consulta() {
-  this.podutoService.listar().subscribe(
+  console.log('inicio');
+  this.estoqueService.listarProdutoDescricao('@').subscribe(
     resposta => {
-      this.produtos = resposta as any;
+      this.listaEstoque = resposta as any;
     }
   );
 }
@@ -41,29 +45,37 @@ consulta() {
 pesquisar() {
   let codigo : number = this.formulario.get('codigo').value;
   if (codigo!= null){
-    this.podutoService.pesquisarId(codigo).subscribe(
+    this.estoqueService.pesquisarIdProduto(codigo).subscribe(
       resposta => {
-        this.produtos = resposta as any;
+        this.listaEstoque = resposta as any;
       }
     );  
   } else {
     let descricao = this.formulario.get('descricao').value;
     if (codigo!= null){
-      this.podutoService.pesquisarDescricao(descricao).subscribe(
+      this.estoqueService.listarProdutoDescricao(descricao).subscribe(
         resposta => {
-          this.produtos = resposta as any;
+          this.estoqueService = resposta as any;
         }
       );  
     } else {
       let codigoBarras = this.formulario.get('codgiobarras').value;
       if (codigoBarras!= null){
-        this.podutoService.pesquisarCodigoBarras(codigoBarras).subscribe(
+        this.estoqueService.listarProdutoCodigoBarras(codigoBarras).subscribe(
           resposta => {
-            this.produtos = resposta as any;
+            this.listaEstoque = resposta as any;
           }
        );
       }  
     }
   }
 }
+
+
+editar( estoque: Estoque) {
+    this.estoqueService.setEstoque(estoque); 
+    this.router.navigate(['/cadproduto']);
+}
+
+
 }

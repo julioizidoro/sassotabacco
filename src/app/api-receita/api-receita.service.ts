@@ -10,7 +10,7 @@ export class ApiReceitaService {
   constructor(private httpClient: HttpClient) { }
 
   get(numero: string): Observable<any> {
-    let retorno = this.httpClient.get<any>('https://www.receitaws.com.br/v1/cnpj/' + numero);
+    let retorno = this.httpClient.get<any>('/api/cnpj/' + numero);
     console.log(retorno);
     return retorno;
   }

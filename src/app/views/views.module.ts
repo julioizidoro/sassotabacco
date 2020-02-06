@@ -10,7 +10,6 @@ import { CalendarModule,  } from 'angular-calendar';
 import { SharedModule } from '../shared/shared.module';
 
 import { TableComponent } from './tables/table.component';
-import { ModalsComponent } from './modals/modals.component';
 import { CardDashboardComponent } from './dashboards/common/card-dashboard/card-dashboard.component';
 import { DashboardComponent } from './dashboards/dashboard/dashboard.component';
 import {LoginComponent} from '../usuario/login/login.component';
@@ -37,7 +36,6 @@ import {ChartModule} from 'primeng/chart';
   ],
   declarations: [
     TableComponent,
-    ModalsComponent,
     CardDashboardComponent,
     LinhaTempoComponent,
     GraficoVendasComponent,
@@ -45,7 +43,6 @@ import {ChartModule} from 'primeng/chart';
   ],
   exports: [
     TableComponent,
-    ModalsComponent,
     CardDashboardComponent,
     DashboardComponent,
   ],

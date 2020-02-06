@@ -4,5 +4,7 @@ export class Conta {
     banco: string;;
     datasaldo: Date;
     saldoinicial: number;
+    logo: string;
     saldoatual: number;
+    
 }

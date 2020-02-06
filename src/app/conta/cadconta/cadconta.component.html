@@ -11,9 +11,9 @@
     <form [formGroup]="formulario">
         <div class="row">
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <label for="nome">Nome</label>
+                <label for="descricao">Nome</label>
                 <input type="text" class="form-control" id="nome" placeholder="Nome da conta"
-                       formControlName="nome">
+                       formControlName="descricao">
               </div>
               <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4" >
                 <label for="banco">No. do Banco</label>
@@ -21,14 +21,13 @@
                        formControlName="banco">
               </div>
               <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4" >
-                <label for="agencia">No. da Agência</label>
-                <input type="text" class="form-control" id="agencia" placeholder="No. da Agência"
-                       formControlName="agencia">
+                <label for="saldoinicial">Saldo Inicial</label>
+                <input type="number" class="form-control" id="saldoinicial" 
+                       formControlName="saldoinicial">
               </div>
               <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4" >
-                <label for="conta">No. da Conta</label>
-                <input type="text" class="form-control" id="conta" placeholder="No. da Conta"
-                       formControlName="conta">
+                <label for="datasaldo">Data Saldo</label>
+                <input type="date" class="form-control" id="datasaldo" formControlName="datasaldo">
               </div>
               <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4" >
                 <img src={{conta.logo}} width=40 height=40> 

@@ -4,10 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
 import { PlanoContasService } from '../planocontas.service';
 import { Router } from '@angular/router';
-import { GrupoContasService } from 'src/app/grupocontas/grupocontas.service';
-import { Grupoplanoconta } from 'src/app/grupocontas/model/grupoplanoconta';
 import { Usuario } from 'src/app/usuario/model/usuario';
 import { AuthService } from 'src/app/usuario/login/auth.service';
+import { Categoria } from 'src/app/categoria/model/categoria';
 
 @Component({
   selector: 'app-consplanocontas',
@@ -20,8 +19,8 @@ export class ConsPlanoContasComponent implements OnInit {
     isFirstOpen = false;
     oneAtATime = true;
     planoContas: Planoconta[];
-    listaGrupoplanoconta: Grupoplanoconta[];
-    grupoContasSelecionado: Grupoplanoconta;
+    listaGrupoplanoconta: Categoria[];
+    grupoContasSelecionado: Categoria;
     usuario: Usuario;
 
 
@@ -29,7 +28,7 @@ export class ConsPlanoContasComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private grupocontasservice: GrupoContasService,
+    //private grupocontasservice: GrupoContasService,
     private planocontaservice: PlanoContasService,
     private authService: AuthService,
   ) {}
@@ -56,11 +55,11 @@ export class ConsPlanoContasComponent implements OnInit {
   }
 
   listarGrupoConta() {
-    this.grupocontasservice.listar().subscribe(
+    /*this.grupocontasservice.listar().subscribe(
       resposta => {
         this.listarGrupoConta = resposta as any;
       }
-    );
+    );*/
   }
 
   compararGrupo(obj1, obj2) {
@@ -89,7 +88,7 @@ export class ConsPlanoContasComponent implements OnInit {
         );
       } else {
           if ( this.grupoContasSelecionado != null ) {
-            this.planocontaservice.pesquisarGrupo(this.grupoContasSelecionado.idgrupoplanoconta).subscribe(
+            this.planocontaservice.pesquisarGrupo(this.grupoContasSelecionado.idcategoria).subscribe(
               resposta => {
                this.planoContas = resposta as any;
               }

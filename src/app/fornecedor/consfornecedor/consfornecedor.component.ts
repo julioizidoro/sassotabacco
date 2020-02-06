@@ -56,11 +56,11 @@ export class ConsfornecedorComponent implements OnInit {
 
     consultar() {
         this.formulario.reset();
-      /*  this.clienteService.listar('c').subscribe(
+        this.clienteService.listar('f').subscribe(
             resposta => {
                 this.instituicao = resposta as any;
             }
-        );*/
+        );
     }
 
     pesquisar() {
@@ -74,8 +74,8 @@ export class ConsfornecedorComponent implements OnInit {
     }
 
     editar(instituicao: Instituicao) {
-        //this.clienteService.setCliente(instituicao);
-        this.router.navigate(['/cadCliente']);
+        this.clienteService.setInstituicao(instituicao);
+        this.router.navigate(['cadfornecedor']);
     }
 
     selecionarCliente(clienteSelecionado: Instituicao) {

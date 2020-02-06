@@ -57,7 +57,7 @@ export class CadpagarComponent implements OnInit {
     this.listarFormaPagamento();
     this.listarPlanoContas();
     if (this.conta != null) {
-      this.planoContaSelecionado = this.conta.planocontas;
+      this.planoContaSelecionado = this.conta.planoconta;
       this.formaPagamentoSelecionada = this.conta.formapagamento;
       this.instituicaoSelecionada = this.conta.instituicao;
       this.formulario = this.formBuilder.group({
@@ -73,7 +73,7 @@ export class CadpagarComponent implements OnInit {
         valorpago : this.conta.valorpago,
         observacao: this.conta.observacao,
         instituicao: this.conta.instituicao,
-        planocontas: this.conta.planocontas,
+        planocontas: this.conta.planoconta,
         formapagamento: this.conta.formapagamento
       });
     } else {
@@ -134,7 +134,7 @@ export class CadpagarComponent implements OnInit {
     incluir() {
       this.conta = this.formulario.value;
       this.conta.instituicao = this.instituicaoSelecionada;
-      this.conta.planocontas = this.planoContaSelecionado;
+      this.conta.planoconta = this.planoContaSelecionado;
       this.conta.formapagamento = this.formaPagamentoSelecionada;
       this.conta.valorpago = 0;
       this.conta.desconto = 0;
@@ -188,7 +188,7 @@ export class CadpagarComponent implements OnInit {
     baixar() {
       this.conta = this.formulario.value;
       this.conta.instituicao = this.instituicaoSelecionada;
-      this.conta.planocontas = this.planoContaSelecionado;
+      this.conta.planoconta = this.planoContaSelecionado;
       this.conta.formapagamento = this.formaPagamentoSelecionada;
       this.contasService.baixarCP( this.conta).subscribe(
         resposta => {
