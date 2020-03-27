@@ -11,16 +11,16 @@ import { CadprodutoComponent } from './produto/cadproduto/cadproduto.component';
 import { CadfornecedorComponent } from './fornecedor/cadfornecedor/cadfornecedor.component';
 import { CadcontaComponent } from './conta/cadconta/cadconta.component';
 import { ConsccontaComponent } from './conta/conscconta/conscconta.component';
-import { FluxocaixaComponent } from './finacneiro/fluxocaixa/fluxocaixa.component';
 import { ConsusuarioComponent } from './usuario/consusuario/consusuario.component';
 import { CadusuarioComponent } from './usuario/cadusuario/cadusuario.component';
-import { ConspagarComponent } from './finacneiro/contas/pagar/conspagar/conspagar.component';
-import { ConsreceberComponent } from './finacneiro/contas/receber/consreceber/consreceber.component';
-import { CadpagarComponent } from './finacneiro/contas/pagar/cadpagar/cadpagar.component';
-import { CadreceberComponent } from './finacneiro/contas/receber/cadreceber/cadreceber.component';
 import { ConsacessoComponent } from './acesso/consacesso/consacesso.component';
 import { CadacessoComponent } from './acesso/cadacesso/cadacesso.component';
 import { LoginComponent } from './usuario/login/login.component';
+import { FluxocaixaComponent } from './fluxocaixa/fluxocaixa.component';
+import { ConspagarComponent } from './contas/pagar/conspagar/conspagar.component';
+import { ConsreceberComponent } from './contas/receber/consreceber/consreceber.component';
+import { CadpagarComponent } from './contas/pagar/cadpagar/cadpagar.component';
+import { CadreceberComponent } from './contas/receber/cadreceber/cadreceber.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -46,7 +46,7 @@ const routes: Route[] = [
   { path: 'cadpagar', component: CadpagarComponent },
   { path: 'cadreceber', component: CadreceberComponent },
   { path: '**', component: NotFoundComponent },
- 
+
 
 ];
 
