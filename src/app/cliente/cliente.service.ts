@@ -10,6 +10,7 @@ import { Instituicao } from './model/instituicao';
 export class ClienteService {
 
   private instituicao: Instituicao;
+  private rota: string;
 
   constructor(
     private httpCliente: HttpClient
@@ -21,6 +22,14 @@ export class ClienteService {
 
   setInstituicao(instituicao: Instituicao) {
     this.instituicao = instituicao;
+  }
+
+  getRota() {
+    return this.rota;
+  }
+
+  setRota(rota: string) {
+    this.rota = rota;
   }
 
   salvar(instituicao: Instituicao): Observable<any> {

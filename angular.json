@@ -148,5 +148,8 @@
       }
     }
   },
-  "defaultProject": "ng-admin-free"
+  "defaultProject": "ng-admin-free",
+  "cli": {
+    "analytics": "7630ea8b-d27c-4c64-abc3-64aa3e05eda4"
+  }
 }

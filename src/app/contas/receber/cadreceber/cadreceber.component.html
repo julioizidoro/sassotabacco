@@ -1,0 +1,150 @@
+<br/><br/>
+<h2 style="margin-left:10%;">Contas a Receber</h2>
+<br/>
+
+<div style="margin-left:10%;width:80%;">
+
+    <form [formGroup]="formulario">
+          <div  class="row">
+            <div class="form-group col-xs-11 col-sm-11 col-md-11 col-lg-11" >
+              <label for="nomeCliente">Cliente</label>
+              <input type="text" class="form-control" id="nomecliente" placeholder="Nome do Cliente"
+              [value]="nomeCliente" readonly>
+            </div>
+                
+            <div class="form-group col-xs-1 col-sm-1 col-md-1 col-lg-1" >
+                  <br/>
+                  <button type="button" class="btn btn-info"  (click)="consultaCliente()" style="margin-top: 10%" >
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
+                </div>
+              
+              <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                  <label for="numerodocumento">No. Documento</label>
+                  <input type="text" class="form-control" id="numerodocumento" placeholder="No. Documento"
+                  formControlName="documento"   >
+                </div>
+              <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                  <label for="dataentrada">Data Emissão</label>
+                  <input type="date" class="form-control" id="dataemissao" placeholder="data de Emissão"
+                  formControlName="dataemissao"  >
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                  <label for="datavencimento">Data Vencimento</label>
+                  <input type="date" class="form-control" id="datavencimento" placeholder="data de Vencimento"
+                  formControlName="datavencimento"  >
+                </div>
+
+                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                    <label for="numeroparcela">No. Parcelas</label>
+                    <input type="text" style="text-align:right" class="form-control" id="numeroparcela" placeholder="No. Parcelas"
+                    formControlName="numeroparcela"  >
+                </div>
+
+                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                  <label >Forma de Pagamento</label>
+                  <select class="form-control" formControlName="formapagamento"  [compareWith]="compararFormaPagamento" (change)="setFormaPagamento()" >
+                    <option *ngFor="let forma of listaFormaPagamento" [ngValue]="forma"> {{ forma.descricao }}</option >
+                 </select  >
+                </div>
+
+                  <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                      <label for="valorparcela">Valor da Parcela</label>
+                      <input type="number" style="text-align:right" class="form-control" id="valorparcela" placeholder="Valor da Parcela"
+                      formControlName="valorparcela"  >
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" >
+                      <label >Conta</label>
+                      <select class="form-control" formControlName="conta"  [compareWith]="compararContaBanco" (change)="setContaBanco()" >
+                        <option *ngFor="let banco of listaBancos" [ngValue]="banco"> {{ banco.descricao }}</option >
+                     </select  >
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" >
+                      <label >Grupo de Contas</label>
+                      <select class="form-control" [value]="grupoContaSelecionado"  [compareWith]="compararGrupoConta" (change)="setGrupoConta()" >
+                        <option *ngFor="let grupoConta of listaGrupoContas" [ngValue]="grupoConta"> {{ grupoConta.descricao }}</option >
+                     </select  >
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" >
+                      <label>Plano de Contas</label>
+                      <select class="form-control" formControlName="planoconta"  [compareWith]="compararPlanoConta" (change)="setPlanoConta()" >
+                        <option *ngFor="let planoConta of listaPlanoContas" [ngValue]="planoConta"> {{ planoConta.descricao }}</option >
+                     </select  >
+                    </div>
+
+                  
+                    
+                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                        <label for="valorsaida">Observação</label>
+                        <input type="text"  class="form-control" id="observacao" placeholder="Observação"
+                        formControlName="observacao"  >
+                    </div>
+            </div>
+
+
+            <div *ngIf="receber" class="row" >
+              <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                      <label for="datapagamento">Data recebimento</label>
+                      <input type="date"  class="form-control" id="datapagamento" 
+                      formControlName="datapagamento"  >
+              </div>    
+              <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                      <label for="desconto">Desconto</label>
+                      <input type="number"  style="text-align:right" class="form-control" id="desconto" 
+                      formControlName="desconto" (blur)="calcularValorPago()"  >
+              </div>                            
+              <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                      <label for="juros">Juros</label>
+                      <input type="number" style="text-align:right" class="form-control" id="juros" 
+                      formControlName="juros"  (blur)="calcularValorPago()" >
+              </div>                            
+              <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                      <label for="valorpago">Valor Recebido</label>
+                      <input type="number" style="text-align:right" class="form-control" id="valorpago" 
+                      formControlName="valorpago"  >
+              </div>                            
+      </div>
+
+           
+      <br/>
+      <hr/>
+
+    <div style="margin-left:40%;">
+        <button type="button" class="btn btn-primary"  (click)="salvar(false)" >
+            <i class="fa fa-floppy-o" aria-hidden="true" ></i>
+            Salvar</button>
+            <button type="submit" class="btn btn-danger" style="margin-left:1%;" (click)="cancelar()"  >
+                <i class="fa fa-times" aria-hidden="true"></i>
+                Cancelar</button>
+
+      </div>
+    </form>
+</div>
+
+<div mdbModal #fluxoCaixa="mdb-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="myBasicModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: true}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading lead">Aviso</p>
+            </div>
+            <div class="text-center p-5">
+                <p>Fluxo de caixa do dia {{conta.datavencimento | date: 'dd/MM/yyyy'}} não possui saldo para pagamento
+                    desta conta</p>
+
+                <button type="submit" class="btn btn-warning col-4" style="margin-left:1%;" (click)="fluxoCaixa.hide()">
+                    Corrigir
+                </button>
+
+                <button type="submit" class="btn btn-success col-4" style="margin-left:1%;" (click)="salvar(true)">
+                    Continuar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
