@@ -5,9 +5,9 @@
                 <mdb-card-body style="color: #161616;">
                     <p style="font-size: 16px;">A receber hoje</p>
                     <h3 class="mt-3 mb-0">
-                        <label>R$ 3.000,50</label><br/>
+                        <label>R$ {{vencendoHojeCR | currency: ' '}}</label><br/>
                     </h3>
-                    <p>Restante do mês: R$ 777,00</p>
+                    <p>Restante do mês: R$ {{restoMesCP | currency: ' '}}</p>
                 </mdb-card-body>
                 <button class="btn btn-success m-3">NOVO RECEBIMENTO</button>
             </mdb-card>
@@ -17,9 +17,9 @@
             <mdb-card-body style="color: #161616;">
               <p style="font-size: 16px;">A pagar hoje</p>
               <h3 class="mt-3 mb-0">
-                <label>R$ 3.000,50</label><br/>
+                <label>R$ {{vencendoHojeCP | currency: ' '}}</label><br/>
               </h3>
-              <p>Restante do mês: R$ 0,00</p>
+              <p>Restante do mês: R$ {{restoMesCR | currency: ' '}}</p>
             </mdb-card-body>
             <button class="btn m-3" style="background: #FFD700;color: #ffffff;">NOVO PAGAMENTO</button>
           </mdb-card>
@@ -29,7 +29,7 @@
             <mdb-card-body style="color: #161616;">
               <p style="font-size: 16px;">Recebimentos em atraso</p>
               <h4 class="mt-3 mb-0">
-                <label>R$ 3.000,50</label><br/>
+                <label>R$ {{vencidasCR | currency: ' '}}</label><br/>
               </h4>
               <p>Você possui recebimento em atraso.</p>
             </mdb-card-body>
@@ -40,7 +40,7 @@
             <mdb-card-body style="color: #161616;">
               <p style="font-size: 16px;">Pagamentos em atraso</p>
               <h4 class="mt-3 mb-0">
-                <label>R$ 0,00</label><br/>
+                <label>R$ {{vencidasCP | currency: ' '}}</label><br/>
               </h4>
               <p>Você não possui pagamentos em atraso.</p>
             </mdb-card-body>

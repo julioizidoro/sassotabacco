@@ -14,6 +14,11 @@ import { Fluxocaixa } from 'src/app/fluxocaixa/model/fluxocaixa';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Usuario } from 'src/app/usuario/model/usuario';
 import { AuthService } from 'src/app/usuario/login/auth.service';
+import { Conta } from 'src/app/conta/model/conta';
+import { Grupoplanoconta } from 'src/app/grupocontas/model/grupoplanoconta';
+import { ClienteService } from 'src/app/cliente/cliente.service';
+import { GrupoContasService } from 'src/app/grupocontas/grupocontas.service';
+import { ContaService } from 'src/app/conta/conta.service';
 
 @Component({
   selector: 'app-cad0pagar',
@@ -23,6 +28,7 @@ import { AuthService } from 'src/app/usuario/login/auth.service';
 export class CadpagarComponent implements OnInit {
 
   formulario: FormGroup;
+  fromularioGrupoConta: FormGroup;
   conta: Contas;
   planoContaSelecionado: Planoconta;
   instituicaoSelecionada: Instituicao;
@@ -30,6 +36,10 @@ export class CadpagarComponent implements OnInit {
   formaPagamentoSelecionada: Formapagamento;
   listaPlanoContas: Planoconta[];
   listaFormaPagamento: Formapagamento[];
+  listaBancos: Conta[];
+  bancoSelecionado: Conta;
+  listaGrupoContas: Grupoplanoconta[];
+  grupoContaSelecionado : Grupoplanoconta;
   inscricao: Subscription;
   tipo: string;
   habilitar: string;
@@ -45,23 +55,28 @@ export class CadpagarComponent implements OnInit {
     private fluxoCaixaService: FluxocaixaService,
     private formaPagamentoService: FormapagamentoService,
     private authService: AuthService,
+    private clienteService: ClienteService,
+    private grupoContaService: GrupoContasService,
+    private contaService: ContaService,
   ) {
     this.conta = this.contasService.getContas();
   }
 
   ngOnInit() {
+
     this.usuario = this.authService.usuario;
     this.receber = this.contasService.getReceber();
     this.instituicaoSelecionada = new Instituicao();
     this.instituicaoSelecionada.nome = '';
     this.nomeCliente = '';
+
+
     this.setFormulario();
     this.listarFormaPagamento();
-    this.listarPlanoContas();
+    this.listarGrupoPlanoContas();
+    this.listarContaBanco();
     if (this.conta != null) {
-      this.planoContaSelecionado = this.conta.planoconta;
-      this.formaPagamentoSelecionada = this.conta.formapagamento;
-      this.instituicaoSelecionada = this.conta.instituicao;
+
       this.formulario = this.formBuilder.group({
         idcontas: this.conta.idcontas,
         documento: this.conta.documento,
@@ -72,27 +87,54 @@ export class CadpagarComponent implements OnInit {
         desconto: this.conta.desconto,
         juros: this.conta.juros,
         datapagamento: this.conta.datapagamento,
-        valorpago : this.conta.valorpago,
+        valorpago: this.conta.valorpago,
         observacao: this.conta.observacao,
         codigobarras: this.conta.codigobarras,
+        tipo: this.conta.tipo,
         instituicao: this.conta.instituicao,
-        planocontas: this.conta.planoconta,
-        formapagamento: this.conta.formapagamento
+        formapagamento: this.conta.formapagamento,
+        conta: this.conta.conta,
+        planoconta: this.conta.planoconta,
+        grupoConta: this.conta.planoconta.grupoplanoconta,
       });
+      this.bancoSelecionado = this.conta.conta;
+      this.grupoContaSelecionado = this.conta.planoconta.grupoplanoconta;
+      this.planoContaSelecionado = this.conta.planoconta;
+      this.formaPagamentoSelecionada = this.conta.formapagamento;
+      this.instituicaoSelecionada = this.conta.instituicao;
     } else {
       this.conta = new Contas();
       this.conta.dataemissao = new Date();
-      this.instituicaoSelecionada = this.contasService.getInstituicao();
-      if (this.instituicaoSelecionada != null  ) {
+      if ( this.clienteService.getInstituicao() != null) {
+        this.instituicaoSelecionada = this.clienteService.getInstituicao();
         this.nomeCliente = this.instituicaoSelecionada.nome;
+        this.clienteService.setInstituicao(null);
       }
     }
-}
+  }
 
   listarPlanoContas() {
-    this.planocontaservice.listar().subscribe(
+    this.planocontaservice.pesquisarGrupo(this.grupoContaSelecionado.idgrupoplanoconta).subscribe(
       resposta => {
         this.listaPlanoContas = resposta as any;
+      }
+    );
+  }
+
+  listarContaBanco() {
+    this.contaService.listar('@').subscribe(
+      resposta => {
+        this.listaBancos = resposta as any;
+      }
+    );
+  }
+
+  listarGrupoPlanoContas() {
+    this.grupoContaService.listar().subscribe(
+      resposta => {
+        this.listaGrupoContas = resposta as any;
+        this.grupoContaSelecionado = this.listaGrupoContas[0];
+        this.listarPlanoContas();
       }
     );
   }
@@ -118,94 +160,116 @@ export class CadpagarComponent implements OnInit {
   }
 
   setPlanoConta() {
-    this.planoContaSelecionado = this.formulario.get('planocontas').value;
+    this.planoContaSelecionado = this.formulario.get('planoconta').value;
+  }
+
+  compararGrupoConta(obj1, obj2) {
+    return obj1 && obj2 ? obj1.idloja === obj2.idloja : obj1 === obj2;
+  }
+
+  setGrupoConta() {
+    console.log('grupoconta');
+    this.grupoContaSelecionado = this.formulario.get('grupoConta').value;
+    if (this.grupoContaSelecionado != null ) {
+      this.listarPlanoContas();
+    }
+  }
+
+  compararContaBanco(obj1, obj2) {
+    return obj1 && obj2 ? obj1.idloja === obj2.idloja : obj1 === obj2;
+  }
+
+  setContaBanco() {
+    this.bancoSelecionado = this.formulario.get('conta').value;
   }
 
   consultaCliente() {
-      this.router.navigate(['/consCliente' ,  'contasp']);
+    this.clienteService.setRota('contaspagar');
+    this.router.navigate(['/conscliente']);
   }
 
-  salvar(liberarSaldo: boolean) {
+  salvar() {
     if (this.receber) {
       this.baixar();
     } else {
-      this.showModalFluxoCaixaOnClick.hide();
-      this.verificarSaldoFluxoCaixa(liberarSaldo);
+      this.incluir();
     }
   }
 
-    incluir() {
-      this.conta = this.formulario.value;
-      this.conta.instituicao = this.instituicaoSelecionada;
-      this.conta.planoconta = this.planoContaSelecionado;
-      this.conta.formapagamento = this.formaPagamentoSelecionada;
-      this.conta.valorpago = 0;
-      this.conta.desconto = 0;
-      this.conta.juros = 0;
-      this.conta.tipo = 'p';
-      this.contasService.salvarCP( this.conta).subscribe(
-        resposta => {
-          this.conta = resposta as any;
-          this.contasService.setContas(null);
-          this.contasService.setInstituicao(null);
-          this.router.navigate(['/conspagar']);
-        },
-        err => {
-          console.log(err.error.erros.join(' '));
-        }
-      );
-    }
+  incluir() {
+    this.conta = this.formulario.value;
+    this.conta.instituicao = this.instituicaoSelecionada;
+    this.conta.planoconta = this.planoContaSelecionado;
+    this.conta.formapagamento = this.formaPagamentoSelecionada;
+    this.conta.conta = this.bancoSelecionado;
+    this.conta.valorpago = 0;
+    this.conta.desconto = 0;
+    this.conta.juros = 0;
+    this.conta.tipo = 'p';
+    this.contasService.salvarCP(this.conta).subscribe(
+      resposta => {
+        this.conta = resposta as any;
+        this.contasService.setContas(null);
+        this.router.navigate(['/conspagar']);
+      },
+      err => {
+        console.log(err.error.erros.join(' '));
+      }
+    );
+  }
 
-    cancelar() {
-      this.formulario.reset();
-      this.router.navigate(['/conspagar']);
-    }
+  cancelar() {
+    this.formulario.reset();
+    this.router.navigate(['/conspagar']);
+  }
 
-    setFormulario() {
-      this.formulario = this.formBuilder.group({
-        idcontas: [null],
-        documento: [null],
-        dataemissao: new Date(),
-        datavencimento: [null],
-        numeroparcela: [null],
-        valorparcela: [null],
-        desconto: [null],
-        juros: [null],
-        datapagamento: [null],
-        valorpago : 0,
-        observacao: [null],
-        codigobarras: [null],
-        instituicao: [null],
-        planocontas: [null],
-        formapagamento: [null],
-      });
-    }
+  setFormulario() {
+    this.formulario = this.formBuilder.group({
+      idcontas: [null],
+      documento: [null],
+      dataemissao: new Date(),
+      datavencimento: [null],
+      numeroparcela: [null],
+      valorparcela: [null],
+      desconto: [null],
+      juros: [null],
+      datapagamento: [null],
+      valorpago: 0,
+      observacao: [null],
+      codigobarras: [null],
+      tipo: [null],
+      instituicao: [null],
+      formapagamento: [null],
+      conta: [null],
+      planoconta: [null],
+      grupoConta: [null],
+    });
+  }
 
-    calcularValorPago() {
-      this.conta = this.formulario.value;
-      this.conta.valorpago = (this.conta.valorparcela + this.conta.desconto) - this.conta.juros;
-      this.formulario.patchValue({
-        valorpago : this.conta.valorpago
-      });
-    }
+  calcularValorPago() {
+    this.conta = this.formulario.value;
+    this.conta.valorpago = (this.conta.valorparcela + this.conta.juros) - this.conta.desconto;
+    this.formulario.patchValue({
+      valorpago: this.conta.valorpago
+    });
+  }
 
-    baixar() {
-      this.conta = this.formulario.value;
-      this.conta.instituicao = this.instituicaoSelecionada;
-      this.conta.planoconta = this.planoContaSelecionado;
-      this.conta.formapagamento = this.formaPagamentoSelecionada;
-      this.contasService.baixarCP( this.conta).subscribe(
-        resposta => {
-          this.conta = resposta as any;
-          this.contasService.setContas(null);
-          this.contasService.setInstituicao(null);
-          this.router.navigate(['/conspagar']);
-        },
-        err => {
-          console.log(err.error.erros.join(' '));
-        }
-      );
-    }
+  baixar() {
+    this.conta = this.formulario.value;
+    this.conta.instituicao = this.instituicaoSelecionada;
+    this.conta.planoconta = this.planoContaSelecionado;
+    this.conta.formapagamento = this.formaPagamentoSelecionada;
+    this.contasService.baixarCP(this.conta).subscribe(
+      resposta => {
+        this.conta = resposta as any;
+        this.contasService.setContas(null);
+        this.router.navigate(['/conspagar']);
+      },
+      err => {
+        console.log(err.error.erros.join(' '));
+      }
+    );
+  }
 
   verificarSaldoFluxoCaixa(liberarSaldo: boolean) {
     if (liberarSaldo) {
@@ -215,9 +279,7 @@ export class CadpagarComponent implements OnInit {
         resposta => {
           const fluxocaixa = resposta as Fluxocaixa;
           if (fluxocaixa.saldoatual < this.conta.valorparcela) {
-          // if (fluxocaixa.saldoatual < this.conta.valorparcela) {
-            this.openModalFluxoCaixa();
-            this.incluir();
+            this.showModalFluxoCaixaOnClick.show();
           } else {
             this.incluir();
           }
@@ -228,9 +290,4 @@ export class CadpagarComponent implements OnInit {
       );
     }
   }
-
-    openModalFluxoCaixa() {
-      this.showModalFluxoCaixaOnClick.show();
-    }
 }
-

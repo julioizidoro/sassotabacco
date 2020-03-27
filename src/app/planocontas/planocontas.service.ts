@@ -24,16 +24,9 @@ export class PlanoContasService {
     return this.httpCliente.get<Planoconta>(env.baseApiUrl + 'planocontas');
   }
 
-  pesquisarBens(): Observable<Planoconta> {
-    return this.httpCliente.get<Planoconta>(env.baseApiUrl + 'planocontas/bens');
-  }
 
   pesquisarDescricao(descricao: string): Observable<Planoconta> {
     return this.httpCliente.get<Planoconta>(env.baseApiUrl + 'planocontas/descricao/' + descricao);
-  }
-
-  pesquisarConta(conta: string): Observable<Planoconta> {
-    return this.httpCliente.get<Planoconta>(env.baseApiUrl + 'planocontas/conta/' + conta);
   }
 
   pesquisarGrupo(idgrupo: number): Observable<Planoconta> {

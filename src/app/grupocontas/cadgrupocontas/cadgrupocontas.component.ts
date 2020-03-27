@@ -33,13 +33,11 @@ export class CadGrupoContasComponent implements OnInit {
 
   ngOnInit() {
     this.formulario = this.formBuilder.group({
-      conta: [null],
       descricao: [null],
     });
     this.grupoConta = this.grupocontasservice.getGrupoPlanoContas();
     if ( this.grupoConta !=null ){
       this.formulario = this.formBuilder.group({
-        conta: this.grupoConta.conta,
         descricao: this.grupoConta.descricao,
       });
     }

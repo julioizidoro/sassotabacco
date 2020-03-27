@@ -36,14 +36,12 @@ export class CadsPlanoContasComponent implements OnInit {
     this.usuario = this.authService.usuario;
     this.listarGrupoConta();
       this.formulario = this.formBuilder.group({
-        conta: [null],
         descricao: [null],
         grupo: [null],
       });
       this.planoConta = this.planocontaservice.getPlanoConta();
       if (this.planoConta != null) {
         this.formulario = this.formBuilder.group({
-          conta: this.planoConta.conta,
           descricao: this.planoConta.descricao,
           grupo: this.planoConta.grupoplanoconta
         });

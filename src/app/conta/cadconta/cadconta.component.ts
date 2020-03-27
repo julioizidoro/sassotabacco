@@ -35,16 +35,13 @@ export class CadcontaComponent implements OnInit {
       saldoinicial: [null],
       datasaldo: [null],
       logo: [null],
-    });   
+    });
       } else {
         this.formulario = this.formBuilder.group({
           idconta: this.conta.idconta,
           descricao: this.conta.descricao,
-          banco: this.conta.banco,
-          saldoinicial: this.conta.saldoinicial,
-          datasaldo: this.conta.datasaldo,
           logo: this.conta.logo
-        });   
+        });
       }
     }
 
@@ -61,7 +58,7 @@ export class CadcontaComponent implements OnInit {
         }
       );
     }
-    
+
     cancelar() {
       this.formulario.reset();
       this.contaService.setConta(null);
@@ -69,7 +66,7 @@ export class CadcontaComponent implements OnInit {
     }
 
     carregarLogo() {
-      
+
     }
   }
 

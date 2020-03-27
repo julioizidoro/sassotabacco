@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ContasService } from 'src/app/contas/contas.service';
 
 @Component({
   selector: 'app-card-dashboard',
@@ -7,9 +8,70 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CardDashboardComponent implements OnInit {
 
-  constructor() { }
+  vencendoHojeCR: number;
+  vencendoHojeCP: number;
+  vencidasCR: number;
+  vencidasCP: number;
+  restoMesCR: number;
+  restoMesCP: number;
+
+  constructor(
+    private contasService: ContasService,
+  ) { }
 
   ngOnInit() {
+    this.consultarContas();
+  }
+
+  consultarContas() {
+    this.contasService.vencerHojeCR().subscribe(
+      resposta => {
+        this.vencendoHojeCR = resposta as number;
+      },
+        err => {
+          console.log(JSON.stringify(err));
+        }
+    );
+    this.contasService.vencerHojeCP().subscribe(
+      resposta => {
+        this.vencendoHojeCP = resposta as number;
+      },
+        err => {
+          console.log(JSON.stringify(err));
+        }
+    );
+    this.contasService.vencidasCR().subscribe(
+      resposta => {
+        this.vencidasCR = resposta as number;
+      },
+        err => {
+          console.log(JSON.stringify(err));
+        }
+    );
+    this.contasService.vencidasCP().subscribe(
+      resposta => {
+        this.vencidasCP = resposta as number;
+      },
+        err => {
+          console.log(JSON.stringify(err));
+        }
+    );
+    this.contasService.restoMesCR().subscribe(
+      resposta => {
+        this.restoMesCR = resposta as number;
+      },
+        err => {
+          console.log(JSON.stringify(err));
+        }
+    );
+    this.contasService.restoMesCP().subscribe(
+      resposta => {
+        this.restoMesCP = resposta as number;
+      },
+        err => {
+          console.log(JSON.stringify(err));
+        }
+    );
   }
 
 }

@@ -9,7 +9,7 @@
   <form [formGroup]="formulario">
     <div class="container-fluid" style="width:100%;">
         <div class="w-100">
-            <button type="button" style="float:right;" class="btn btn-color font-weight-light" (click)="adicionar()" [disabled]="!usuario.acesso.financeirocpincluir">
+            <button type="button" style="float:right;" class="btn-primary" (click)="adicionar()" >
               <i class="fa fa-plus" aria-hidden="true"></i>
               <a class="ml-2">Adicionar</a>
             </button>
@@ -54,7 +54,7 @@
                         </label>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                   <div class="col-md-12">
                         <label class="radio-inline" for="idpagas">
@@ -108,8 +108,8 @@
                         style="border: none;text-align:right">{{conta.valorparcela | currency: ' '}}</td>
                     <td *ngIf="pagas" class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
                         style="border: none;">{{conta.datapagamento | date: 'dd/mm/yyyy'}}</td>
-                        
-                   
+
+
                     <td *ngIf="!pagas" class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
 
                             <button type="button" style="float:right;"
@@ -122,18 +122,18 @@
                             title="Boletos">
                             <i class="fas fa-file-invoice-dollar" aria-hidden="true"></i>
                         </button>
-                        
+
                         <button type="button" style="float:right;" class="btn btn-light font-weight-light mr-1 p-1"
-                          (click)="editar(conta)" title="Editar" *ngIf="usuario.acesso.financeirocpeditar">
+                          (click)="editar(conta)" title="Editar" >
                           <i class="fa fa-pencil-alt" aria-hidden="true"></i>
                       </button>
                       <button type="button" style="float:right;"
-                              class="btn btn-light font-weight-light mr-1 p-1" (click)="baixar(conta)" *ngIf="usuario.acesso.financeirocppagar"
+                              class="btn btn-light font-weight-light mr-1 p-1" (click)="baixar(conta)"
                               title="Pagar">
                               <i class="fas fa-hand-holding-usd" aria-hidden="true"></i>
                       </button>
-                   
-                     
+
+
                   </td>
                   <td *ngIf="pagas" class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
 
@@ -141,16 +141,16 @@
                             class="btn btn-light font-weight-light mr-1 p-1" (click)="openModalContasArquivos(conta)"
                             title="Boletos">
                             <i class="fas fa-file-invoice-dollar" aria-hidden="true"></i>
-                        </button>                                      
+                        </button>
                   </td>
 
-                
+
                 </tr>
             </tbody>
         </table>
     </div>
-    
-      
+
+
     </div>
   </form>
 </div>
@@ -168,9 +168,9 @@
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="customFileCP" (change)="onChange($event)" />
                 <label class="custom-file-label" for="customFileCP" id="customFileLabelCP">Selecionar arquivo</label>
-                
+
             </div>
-            <div style="margin-top: 10px;"> 
+            <div style="margin-top: 10px;">
                 <button type="button" class="btn btn-primary" (click)="onUpload()" [disabled]="!file">
                     Upload
                 </button>
@@ -200,7 +200,7 @@
             <div>
                     <button type="button" class="btn btn-primary"  (click)="contasarquivos.hide()" >
                             Fechar
-                    </button>   
+                    </button>
             </div>
         </div>
     </div>

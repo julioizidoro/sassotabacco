@@ -27,14 +27,6 @@ export class ContasService {
     return this.conta;
   }
 
-  setInstituicao( instituicao: Instituicao) {
-    this.isntituicao = instituicao;
-  }
-
-  getInstituicao() {
-    return this.isntituicao;
-  }
-
   setReceber( receber: boolean ) {
     this.receber = receber;
   }
@@ -79,6 +71,18 @@ export class ContasService {
   // Recebidas com dataVencimento dvrecebidas/{datainicial}/{datafinal}/{nome}
   pesquisarReceberVencimentoCR(dataInicial: string, dataFinal: string, nome: string):  Observable<any> {
     return this.httpCliente.post<any>(env.baseApiUrl + 'cr/dvreceber/', dataInicial + '/' + dataFinal + '/' + nome );
+  }
+
+  vencerHojeCR(): Observable<number> {
+    return this.httpCliente.get<number>(env.baseApiUrl + 'cr/hoje');
+  }
+
+  vencidasCR(): Observable<number> {
+    return this.httpCliente.get<number>(env.baseApiUrl + 'cr/vencidas');
+  }
+
+  restoMesCR(): Observable<number> {
+    return this.httpCliente.get<number>(env.baseApiUrl + 'cr/restomes');
   }
 
 
@@ -138,6 +142,18 @@ uploadReceber(file: File, fileName: string): Observable<any> {
 
 salvarArquivo(contasArquivo: Contasarquivos): Observable<any> {
   return this.httpCliente.post<any>(env.baseApiUrl + 'ca/salvar', contasArquivo);
+}
+
+vencerHojeCP(): Observable<number> {
+  return this.httpCliente.get<number>(env.baseApiUrl + 'cp/hoje');
+}
+
+vencidasCP(): Observable<number> {
+  return this.httpCliente.get<number>(env.baseApiUrl + 'cp/vencidas');
+}
+
+restoMesCP(): Observable<number> {
+  return this.httpCliente.get<number>(env.baseApiUrl + 'cp/restomes');
 }
 
 

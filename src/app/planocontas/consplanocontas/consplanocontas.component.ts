@@ -80,14 +80,6 @@ export class ConsPlanoContasComponent implements OnInit {
           }
         );
     } else {
-     const conta = this.formulario.get('conta').value;
-     if (( conta != null ) && ( conta.length > 0)) {
-        this.planocontaservice.pesquisarConta(conta).subscribe(
-          resposta => {
-           this.planoContas = resposta as any;
-          }
-        );
-      } else {
           if ( this.grupoContasSelecionado != null ) {
             this.planocontaservice.pesquisarGrupo(this.grupoContasSelecionado.idgrupoplanoconta).subscribe(
               resposta => {
@@ -96,7 +88,6 @@ export class ConsPlanoContasComponent implements OnInit {
             );
           }
         }
-      }
     this.formulario.reset();
    }
 

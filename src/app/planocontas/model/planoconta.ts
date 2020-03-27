@@ -4,7 +4,5 @@ export class Planoconta {
 
     idplanoconta: number;
     descricao: string;
-    conta: string;
     grupoplanoconta: Grupoplanoconta;
-    lancamentobens: boolean;
 }

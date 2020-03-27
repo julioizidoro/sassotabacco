@@ -19,15 +19,18 @@ import { ClienteModule } from './cliente/cliente.module';
 import { ProdutoModule } from './produto/produto.module';
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import {AccordionModule} from 'primeng/accordion';
-import { registerLocaleData } from '@angular/common';
 import { ContaModule } from './conta/conta.module';
 import { AcessoModule } from './acesso/acesso.module';
 import { FormapagamentoModule } from './formapagamento/formapagamento.module';
 import { ApiReceitaModule } from './api-receita/api-receita.module';
 import { ContasModule } from './contas/contas.module';
 import { FluxocaixaModule } from './fluxocaixa/fluxocaixa.module';
+import { PlanoContasModule } from './planocontas/planocontas.module';
+import { GrupoContasModule } from './grupocontas/grupocontas.module';
+import { registerLocaleData } from '@angular/common';
+import localePtBr from '@angular/common/locales/pt';
 
-//registerLocaleData(br, 'pt-BR');
+registerLocaleData(localePtBr);
 
 @NgModule({
   declarations: [
@@ -59,9 +62,11 @@ import { FluxocaixaModule } from './fluxocaixa/fluxocaixa.module';
     AcessoModule,
     FormapagamentoModule,
     ApiReceitaModule,
+    PlanoContasModule,
+    GrupoContasModule,
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'pt-BR' }
+    { provide: LOCALE_ID, useValue: 'pt' }
   ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ]

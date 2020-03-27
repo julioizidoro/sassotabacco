@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ContaService } from 'src/app/conta/conta.service';
-import { Conta } from 'src/app/conta/model/conta';
+import { ContasaldoService } from 'src/app/contas/contasaldo.service';
+import { Contasaldo } from 'src/app/conta/model/contasaldo';
+import { Contas } from 'src/app/contas/model/contas';
+import { ContasService } from 'src/app/contas/contas.service';
 
 @Component({
   selector: 'app-dashboard1',
@@ -22,25 +25,28 @@ export class DashboardComponent implements OnInit {
     },
   ];*/
 
-  listaContas: Conta[];
+  listaContaSaldos: Contasaldo[];
+
 
   constructor(
-    private contaService: ContaService,
+    private contaSaldoService: ContasaldoService,
     ) {}
 
   ngOnInit() {
-      this.consultarContas(); 
+      this.consultarContasSaldo();
   }
 
-  consultarContas() {
-    this.contaService.listar('@').subscribe(
+  consultarContasSaldo() {
+    this.contaSaldoService.listarMesAno('@').subscribe(
       resposta => {
-        this.listaContas = resposta as any;
+        this.listaContaSaldos = resposta as any;
       },
         err => {
           console.log(JSON.stringify(err));
         }
     )
   }
+
+
 
 }

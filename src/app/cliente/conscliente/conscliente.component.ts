@@ -54,17 +54,20 @@ export class ConsclienteComponent implements OnInit {
     if (this.clienteService.getRota() === 'cadclinete') {
       this.clienteService.setInstituicao(null);
       this.router.navigate(['/cadcliente']);
-    } else if (this.clienteService.getRota() === 'contasreceber') {
-      this.clienteService.setInstituicao(instituicao);
-      this.router.navigate(['/cadreceber']);  
-    } else if (this.clienteService.getRota() === 'contaspgar') {
-      this.clienteService.setInstituicao(instituicao);
-      this.router.navigate(['/cadpagar']);
     }
  }
 
- selecionarCliente(i: Instituicao) {
-
+ selecionarCliente(instituicao: Instituicao) {
+  if (this.clienteService.getRota() === 'cadclinete') {
+    this.clienteService.setInstituicao(null);
+    this.router.navigate(['/cadcliente']);
+  } else if (this.clienteService.getRota() === 'contasreceber') {
+    this.clienteService.setInstituicao(instituicao);
+    this.router.navigate(['/cadreceber']);
+  } else if (this.clienteService.getRota() === 'contaspagar') {
+    this.clienteService.setInstituicao(instituicao);
+    this.router.navigate(['/cadpagar']);
+  }
  }
 
 
