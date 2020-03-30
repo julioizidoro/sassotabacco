@@ -9,7 +9,7 @@
                     </h3>
                     <p>Restante do mês: R$ {{restoMesCP | currency: ' '}}</p>
                 </mdb-card-body>
-                <button class="btn btn-success m-3">NOVO RECEBIMENTO</button>
+                <button class="btn btn-success m-3" (click)="novoRecebimento()">NOVO RECEBIMENTO</button>
             </mdb-card>
         </div>
         <div class="col-xl-6 col-md-12 mb-r mt-1 mb-4">
@@ -21,7 +21,7 @@
               </h3>
               <p>Restante do mês: R$ {{restoMesCR | currency: ' '}}</p>
             </mdb-card-body>
-            <button class="btn m-3" style="background: #FFD700;color: #ffffff;">NOVO PAGAMENTO</button>
+            <button class="btn m-3" style="background: #FFD700;color: #ffffff;" (click)="novoPagamento()">NOVO PAGAMENTO</button>
           </mdb-card>
         </div>
         <div class="col-xl-6 col-md-12 mb-r mt-1 mb-4">

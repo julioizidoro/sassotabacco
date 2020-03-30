@@ -15,6 +15,12 @@ import { Planoconta } from '../planocontas/model/planoconta';
 import {ModalDirective} from 'ngx-bootstrap';
 import { Usuario } from '../usuario/model/usuario';
 import { AuthService } from '../usuario/login/auth.service';
+import { Fluxomostrar } from './model/fluxomostrar';
+import { Conta } from '../conta/model/conta';
+import { ContaService } from '../conta/conta.service';
+import { ThrowStmt } from '@angular/compiler';
+import { ContasaldoService } from '../contas/contasaldo.service';
+import { Contasaldo } from '../conta/model/contasaldo';
 
 
 @Component({
@@ -44,6 +50,8 @@ export class FluxocaixaComponent implements OnInit {
   file: File;
   contaArquivo: Contasarquivos;
   pesquisaData: Date;
+  listaFluxoMostrar: Fluxomostrar[];
+  listaContaSaldo: Contasaldo[];
 
   constructor(
     private router: Router,
@@ -52,6 +60,7 @@ export class FluxocaixaComponent implements OnInit {
     private activeRrouter: ActivatedRoute,
     private authService: AuthService,
     private contasService: ContasService,
+    private contaSaldoService: ContasaldoService,
   ) {
     this.conta = new Contas;
     this.conta.instituicao = new Instituicao;
@@ -72,29 +81,19 @@ export class FluxocaixaComponent implements OnInit {
       datainicial: [null],
       datafinal: [null],
     });
-    let data: Date;
-    this.activeRrouter.params.subscribe(params => {
-      data = params.data;
-      if (data != null) {
-        this.fluxoCaixaService.getData(data).subscribe(
-          resposta => {
-            this.fluxoCaixa = resposta as any;
-            if (this.fluxoCaixa.length > 0) {
-              this.selectFluxoCaixa(this.fluxoCaixa[0]);
-            }
-          },
-            err => {
-              console.log(err.error.erros.join(' '));
-          }
-          );
-      } else {
-        this.listar();
-      }
-    },
-      err1 => {
-        console.log(err1.error.erros.join(' '));
-    }
-    );
+    this.listarConta();
+    this.listar();
+  }
+
+  listarConta() {
+    this.contaSaldoService.listarMesAno('@').subscribe(
+      resposta => {
+        this.listaContaSaldo = resposta as any;
+      },
+        err => {
+         console.log(err.error.erros.join(' '));
+        }
+      );
   }
 
   listar() {
@@ -103,6 +102,52 @@ export class FluxocaixaComponent implements OnInit {
         this.fluxoCaixa = resposta as any;
         if (this.fluxoCaixaService != null) {
           if (this.fluxoCaixa.length > 0 ) {
+            this.listaFluxoMostrar = [];
+            for(let f of this.fluxoCaixa) {
+              for( let fc of f.fluxocontasList ) {
+                let fm = new Fluxomostrar();
+                fm.fluxocaixa = f;
+                fm.documento = fc.contas.documento;
+                fm.descricao = fc.contas.instituicao.nome;
+                fm.grupoplanoconta = fc.contas.planoconta.grupoplanoconta;
+                fm.planoconta = fc.contas.planoconta;
+                if (fc.contas.tipo === 'r') {
+                  fm.tipo = 'r';
+                  fm.valorsaida = 0;
+                  if (fc.contas.valorpago >0) {
+                    fm.valorentrada = fc.contas.valorpago;
+                    fm.realizado = true
+                  } else {
+                    fm.valorentrada = fc.contas.valorparcela;
+                    fm.realizado = false;
+                  }
+                } else  if (fc.contas.tipo === 'p') {
+                  fm.tipo = 'p';
+                  fm.valorentrada = 0;
+                  if (fc.contas.valorpago >0) {
+                    fm.valorsaida = fc.contas.valorpago;
+                    fm.realizado = true
+                  } else {
+                    fm.valorsaida = fc.contas.valorparcela;
+                    fm.realizado = false;
+                  }
+                }
+                this.listaFluxoMostrar.push(fm);
+              }
+              for( let fl of f.fluxolancamentoList ) {
+                let fm = new Fluxomostrar();
+                fm.fluxocaixa = f;
+                fm.tipo = 'c';
+                fm.descricao = fl.planoconta.descricao;
+                fm.grupoplanoconta = fl.planoconta.grupoplanoconta;
+                fm.planoconta = fl.planoconta;
+                fm.valorentrada = fl.valorentrada;
+                fm.valorsaida = fl.valorsaida;
+                fm.realizado = true
+                this.listaFluxoMostrar.push(fm);
+              }
+              
+            }
             if (this.fluxoCaixa[0].fluxolancamentoList == null) {
               this.fluxoCaixa[0].fluxolancamentoList.push(new Fluxolancamento());
             }
@@ -349,4 +394,24 @@ export class FluxocaixaComponent implements OnInit {
     this.file = selectedFiles[0];
     document.getElementById('customFileLabelFluxo').innerHTML = selectedFiles[0].name;
  }
+
+
+ getTipoCash(tipo: string) {
+    if (tipo === 'c') {
+      return true;
+    }else return false;
+ }
+
+ getTipoCR(tipo: string) {
+  if (tipo === 'r') {
+    return true;
+  }else return false;
+}
+
+getTipoCP(tipo: string) {
+  if (tipo === 'p') {
+    return true;
+  }else return false;
+}
+
 }

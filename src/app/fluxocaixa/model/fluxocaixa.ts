@@ -1,5 +1,6 @@
 import { Fluxocontas } from './fluxoconta';
 import { Fluxolancamento } from './fluxolancamento';
+import { Conta } from 'src/app/conta/model/conta';
 
 
 export class Fluxocaixa {
@@ -13,4 +14,5 @@ export class Fluxocaixa {
     saidasprevistas: number;
     fluxocontasList: Fluxocontas[];
     fluxolancamentoList: Fluxolancamento[];
+    conta: Conta;
 }

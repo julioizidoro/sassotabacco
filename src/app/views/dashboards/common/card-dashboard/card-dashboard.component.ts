@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContasService } from 'src/app/contas/contas.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-dashboard',
@@ -17,6 +18,7 @@ export class CardDashboardComponent implements OnInit {
 
   constructor(
     private contasService: ContasService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -72,6 +74,14 @@ export class CardDashboardComponent implements OnInit {
           console.log(JSON.stringify(err));
         }
     );
+  }
+
+  novoRecebimento() {
+    this.router.navigate(["/cadreceber"]);
+  }
+
+  novoPagamento() {
+    this.router.navigate(["/cadpagar"]);
   }
 
 }
