@@ -10,7 +10,7 @@
         <div class="container-fluid" style="width:100%;">
             <div class="w-100">
                 <button type="button" style="float:right;" class="btn btn-primary font-weight-light" 
-                    routerLink="/cadcliente">
+                    routerLink="/cadconta">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                     <a class="ml-2">Adicionar</a>
                 </button>
@@ -46,26 +46,17 @@
                     <thead>
                         <tr
                             class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
-                            <th class="col-lg-4 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Descrição</th>
-                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Banco</th>
-                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Saldo Inical</th>
-                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Data Saldo</th>
-                            <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm"
+                            <th class="col-lg-10 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Descrição</th>
+                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm"
                                 style="text-align: center;">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let conta of contas"
                             class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
-                            <td class="col-lg-4 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                            <td class="col-lg-10 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
                                 {{conta.descricao}}</td>
                             <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
-                                {{conta.banco}}</td>
-                            <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
-                                style="border: none;">{{conta.saldoinicial | currency: ' '}}</td>
-                            <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
-                                style="border: none;">{{conta.datasaldo | date: 'dd/MM/yyyy'}}</td>
-                            <td class="col-lg-1 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
 
                                 <button type="button" style="float:right;" class="btn btn-light font-weight-light mr-1 p-1" 
                                     (click)="editar(conta)" title="Editar">
