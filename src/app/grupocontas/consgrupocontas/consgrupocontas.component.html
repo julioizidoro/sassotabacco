@@ -9,8 +9,8 @@
   <form [formGroup]="formulario">
     <div class="container-fluid" style="width:100%;">
       <div class="w-100">
-        <button type="button" style="float:right;" class="btn btn-color font-weight-light"
-          routerLink="/cadgrupocontas">
+        <button type="button" style="float:right;" class="btn btn-primary"
+        (click)="adicionar()" >
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a class="ml-2">Adicionar</a>
         </button>
@@ -20,10 +20,7 @@
         <accordion [closeOthers]="oneAtATime">
           <accordion-group heading="Pesquisar" [isOpen]="isFirstOpen">
             <div class="row">
-              <div class="form-group col-md-4">
-                <label for="conta">Conta</label>
-                <input type="text" class="form-control" id="conta" placeholder="Conta" formControlName="conta">
-              </div>
+          
               <div class="form-group col-md-8">
                 <label for="descricao">Descrição</label>
                 <input type="text" class="form-control" id="descricao" placeholder="Descrição"
@@ -52,8 +49,7 @@
             <thead>
                 <tr
                     class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
-                    <th class="col-lg-3 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Conta</th>
-                    <th class="col-lg-7 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Descrição</th>
+                    <th class="col-lg-10 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Descrição</th>
                     <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm"
                         style="text-align: center;">Ações</th>
                 </tr>
@@ -61,9 +57,7 @@
             <tbody>
                 <tr *ngFor="let grupo of grupoContas"
                     class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
-                    <td class="col-lg-3 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
-                        {{grupo.conta}}</td>
-                    <td class="col-lg-7 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                    <td class="col-lg-10 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
                         {{grupo.descricao}}</td>
                     <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
 

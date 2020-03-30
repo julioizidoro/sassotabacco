@@ -21,6 +21,10 @@ import { ConspagarComponent } from './contas/pagar/conspagar/conspagar.component
 import { ConsreceberComponent } from './contas/receber/consreceber/consreceber.component';
 import { CadpagarComponent } from './contas/pagar/cadpagar/cadpagar.component';
 import { CadreceberComponent } from './contas/receber/cadreceber/cadreceber.component';
+import { CadsPlanoContasComponent } from './planocontas/cadplanocontas/cadplanocontas.component';
+import { ConsPlanoContasComponent } from './planocontas/consplanocontas/consplanocontas.component';
+import { ConsGrupoContasComponent } from './grupocontas/consgrupocontas/consgrupocontas.component';
+import { CadGrupoContasComponent } from './grupocontas/cadgrupocontas/cadgrupocontas.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -45,6 +49,10 @@ const routes: Route[] = [
   { path: 'consreceber', component: ConsreceberComponent },
   { path: 'cadpagar', component: CadpagarComponent },
   { path: 'cadreceber', component: CadreceberComponent },
+  { path: 'cadplanocontas', component: CadsPlanoContasComponent },
+  { path: 'consplanocontas', component: ConsPlanoContasComponent },
+  { path: 'consgrupocontas', component: ConsGrupoContasComponent },
+  { path: 'cadgrupocontas', component: CadGrupoContasComponent },
   { path: '**', component: NotFoundComponent },
 
 

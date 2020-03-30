@@ -96,4 +96,8 @@ export class ConsPlanoContasComponent implements OnInit {
     this.router.navigate([ '/cadplanocontas']);
   }
 
+  adicionar() {
+    this.router.navigate(['/cadplanocontas'])
+  }
+
 }

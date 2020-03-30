@@ -70,4 +70,8 @@ export class ConsGrupoContasComponent implements OnInit {
   this.router.navigate([ '/cadgrupocontas']);
 }
 
+adicionar() {
+  this.router.navigate(['/cadgrupocontas']);
+}
+
 }
