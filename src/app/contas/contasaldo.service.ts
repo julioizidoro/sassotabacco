@@ -27,5 +27,13 @@ export class ContasaldoService {
     return this.httpCliente.get<Contasaldo>(env.baseApiUrl + 'contasaldos/' + id);
   }
 
+  fecharMesAtual(contaSaldo: Contasaldo): Observable<string> {
+    return this.httpCliente.post<string>(env.baseApiUrl + 'contasaldos/gerarsaldo', contaSaldo);
+  }
+
+  getAtivos(): Observable<Contasaldo> {
+    return this.httpCliente.get<Contasaldo>(env.baseApiUrl + 'contasaldos/ativos');  
+  }
+
 
 }

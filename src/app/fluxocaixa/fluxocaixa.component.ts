@@ -5,14 +5,14 @@ import { Fluxocontas } from './model/fluxoconta';
 import { Fluxolancamento } from './model/fluxolancamento';
 import { FluxocaixaService } from './fluxocaixa.service';
 import { Router, ActivatedRoute, Data } from '@angular/router';
-import {Component, OnInit, ViewChild} from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, SelectMultipleControlValueAccessor } from '@angular/forms';
 import { Fluxocaixa } from './model/fluxocaixa';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Contas } from '../contas/model/contas';
 import { Formapagamento } from '../formapagamento/model/formapagamento';
 import { Planoconta } from '../planocontas/model/planoconta';
-import {ModalDirective} from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap';
 import { Usuario } from '../usuario/model/usuario';
 import { AuthService } from '../usuario/login/auth.service';
 import { Fluxomostrar } from './model/fluxomostrar';
@@ -21,6 +21,9 @@ import { ContaService } from '../conta/conta.service';
 import { ThrowStmt } from '@angular/compiler';
 import { ContasaldoService } from '../contas/contasaldo.service';
 import { Contasaldo } from '../conta/model/contasaldo';
+import { Grupoplanoconta } from '../grupocontas/model/grupoplanoconta';
+import { PlanoContasService } from '../planocontas/planocontas.service';
+import { GrupoContasService } from '../grupocontas/grupocontas.service';
 
 
 @Component({
@@ -34,6 +37,7 @@ export class FluxocaixaComponent implements OnInit {
   pformulario: FormGroup;
   lformulario: FormGroup;
   formulario: FormGroup;
+  pesFormulario: FormGroup;
   isFirstOpen = false;
   oneAtATime = true;
   fluxoCaixa: Fluxocaixa[];
@@ -52,15 +56,33 @@ export class FluxocaixaComponent implements OnInit {
   pesquisaData: Date;
   listaFluxoMostrar: Fluxomostrar[];
   listaContaSaldo: Contasaldo[];
+  //Campos de filtro;
+  querydataConta: string;
+  querydocumento: string;
+  querydescricao: string;
+  queryidgrupoconta: number;
+  queryidplanoconta: number;
+  queryvalorentrada: number;
+  queryvalorsaida: number
+  queryidconta: number;
+  listaFluxoFiltro: Fluxomostrar[];
+  listaPlanoContas: Planoconta[];
+  listaBancos: Conta[];
+  bancoSelecionado: Conta;
+  planoContaSelecionado: Planoconta;
+  grupoContaSelecionado : Grupoplanoconta;
+  listaGrupoContas: Grupoplanoconta[];
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private fluxoCaixaService: FluxocaixaService,
-    private activeRrouter: ActivatedRoute,
     private authService: AuthService,
     private contasService: ContasService,
     private contaSaldoService: ContasaldoService,
+    private planocontaservice: PlanoContasService,
+    private contaService: ContaService,
+    private grupoContaService: GrupoContasService,
   ) {
     this.conta = new Contas;
     this.conta.instituicao = new Instituicao;
@@ -75,6 +97,7 @@ export class FluxocaixaComponent implements OnInit {
   ngOnInit() {
     this.usuario = this.authService.usuario;
     this.iniciarFormularioLancamentos();
+    this.iniciarFormularioPesquisar();
     this.titulo = 'Conta';
     this.fluxoCaixaSelecionado = new Fluxocaixa();
     this.pformulario = this.formBuilder.group({
@@ -83,17 +106,23 @@ export class FluxocaixaComponent implements OnInit {
     });
     this.listarConta();
     this.listar();
+    this.listarGrupoPlanoContas();
+    this.listarContaBanco();
   }
 
   listarConta() {
     this.contaSaldoService.listarMesAno('@').subscribe(
       resposta => {
         this.listaContaSaldo = resposta as any;
-      },
-        err => {
-         console.log(err.error.erros.join(' '));
+        if (this.listaContaSaldo.length>0) {
+          this.titulo = 'Fluxo de Caixa - ' + this.listaContaSaldo[0].mesano; 
+          console.log(this.titulo); 
         }
-      );
+      },
+      err => {
+        console.log(err.error.erros.join(' '));
+      }
+    );
   }
 
   listar() {
@@ -101,10 +130,10 @@ export class FluxocaixaComponent implements OnInit {
       resposta => {
         this.fluxoCaixa = resposta as any;
         if (this.fluxoCaixaService != null) {
-          if (this.fluxoCaixa.length > 0 ) {
+          if (this.fluxoCaixa.length > 0) {
             this.listaFluxoMostrar = [];
-            for(let f of this.fluxoCaixa) {
-              for( let fc of f.fluxocontasList ) {
+            for (let f of this.fluxoCaixa) {
+              for (let fc of f.fluxocontasList) {
                 let fm = new Fluxomostrar();
                 fm.fluxocaixa = f;
                 fm.documento = fc.contas.documento;
@@ -114,17 +143,17 @@ export class FluxocaixaComponent implements OnInit {
                 if (fc.contas.tipo === 'r') {
                   fm.tipo = 'r';
                   fm.valorsaida = 0;
-                  if (fc.contas.valorpago >0) {
+                  if (fc.contas.valorpago > 0) {
                     fm.valorentrada = fc.contas.valorpago;
                     fm.realizado = true
                   } else {
                     fm.valorentrada = fc.contas.valorparcela;
                     fm.realizado = false;
                   }
-                } else  if (fc.contas.tipo === 'p') {
+                } else if (fc.contas.tipo === 'p') {
                   fm.tipo = 'p';
                   fm.valorentrada = 0;
-                  if (fc.contas.valorpago >0) {
+                  if (fc.contas.valorpago > 0) {
                     fm.valorsaida = fc.contas.valorpago;
                     fm.realizado = true
                   } else {
@@ -134,7 +163,7 @@ export class FluxocaixaComponent implements OnInit {
                 }
                 this.listaFluxoMostrar.push(fm);
               }
-              for( let fl of f.fluxolancamentoList ) {
+              for (let fl of f.fluxolancamentoList) {
                 let fm = new Fluxomostrar();
                 fm.fluxocaixa = f;
                 fm.tipo = 'c';
@@ -146,7 +175,7 @@ export class FluxocaixaComponent implements OnInit {
                 fm.realizado = true
                 this.listaFluxoMostrar.push(fm);
               }
-              
+
             }
             if (this.fluxoCaixa[0].fluxolancamentoList == null) {
               this.fluxoCaixa[0].fluxolancamentoList.push(new Fluxolancamento());
@@ -176,7 +205,7 @@ export class FluxocaixaComponent implements OnInit {
       desconto: conta.desconto,
       juros: conta.juros,
       datapagamento: conta.datapagamento,
-      valorpago : conta.valorpago,
+      valorpago: conta.valorpago,
       observacao: conta.observacao,
       instituicao: conta.instituicao,
       planocontas: conta.planoconta.descricao,
@@ -198,7 +227,7 @@ export class FluxocaixaComponent implements OnInit {
       desconto: [null],
       juros: [null],
       datapagamento: [null],
-      valorpago : 0,
+      valorpago: 0,
       observacao: [null],
       instituicao: [null],
       planocontas: [null],
@@ -264,7 +293,7 @@ export class FluxocaixaComponent implements OnInit {
   pesquisar(data: Date) {
     if (data == null) {
       if (this.fluxoCaixa.length > 0) {
-        data = this.fluxoCaixa[this.fluxoCaixa.length - 1 ].data;
+        data = this.fluxoCaixa[this.fluxoCaixa.length - 1].data;
         data.setDate(data.getDate() + 1);
       } else {
         data = new Date();
@@ -274,7 +303,7 @@ export class FluxocaixaComponent implements OnInit {
       resposta => {
         this.fluxoCaixa = resposta as any;
         if (this.fluxoCaixaService != null) {
-          if (this.fluxoCaixa.length > 0 ) {
+          if (this.fluxoCaixa.length > 0) {
             if (this.fluxoCaixa[0].fluxolancamentoList == null) {
               this.fluxoCaixa[0].fluxolancamentoList.push(new Fluxolancamento());
             }
@@ -290,7 +319,7 @@ export class FluxocaixaComponent implements OnInit {
 
   contaPaga(conta: Contas) {
     if (conta.datapagamento != null) {
-        return true;
+      return true;
     } else {
       return false;
     }
@@ -298,7 +327,7 @@ export class FluxocaixaComponent implements OnInit {
 
   contaTipo(conta: Contas) {
     if (conta.tipo === 'r') {
-        return true;
+      return true;
     } else {
       return false;
     }
@@ -313,16 +342,16 @@ export class FluxocaixaComponent implements OnInit {
 
   copiarCodigoBarras(conta: Contas) {
     let cb = 'SEM CÓDIGO DE BARRAS';
-    if (conta.codigobarras != null ) {
+    if (conta.codigobarras != null) {
       cb = conta.codigobarras;
     }
     const event = (e: ClipboardEvent) => {
       e.clipboardData.setData('text/plain', cb);
       e.preventDefault();
       document.removeEventListener('copy', event);
-  };
-  document.addEventListener('copy', event);
-  document.execCommand('copy');
+    };
+    document.addEventListener('copy', event);
+    document.execCommand('copy');
   }
 
 
@@ -333,8 +362,8 @@ export class FluxocaixaComponent implements OnInit {
     let fileName = this.file.name;
     let nome = '';
     for (let i = fileName.length - 1; i > 0; i--) {
-      if (fileName[i] !== '.' ) {
-         nome = fileName[i] + nome;
+      if (fileName[i] !== '.') {
+        nome = fileName[i] + nome;
       } else {
         i = -100;
       }
@@ -347,45 +376,45 @@ export class FluxocaixaComponent implements OnInit {
     } else {
       numeroArquivos = this.conta.contasarquivosList.length + 1;
     }
-    fileName = id.toString() + '_'  + numeroArquivos.toString() + '.' + nome;
+    fileName = id.toString() + '_' + numeroArquivos.toString() + '.' + nome;
     if (this.conta.tipo === 'p') {
-     this.contasService.uploadPagar(this.file, fileName).subscribe(
+      this.contasService.uploadPagar(this.file, fileName).subscribe(
         resposta => {
           const uri = resposta as any;
           this.contaArquivo.uri = 'https://contaspagar.s3.us-east-2.amazonaws.com/' + fileName;
           this.contasService.salvarArquivo(this.contaArquivo).subscribe(
-           resposta1 => {
-             this.contaArquivo = resposta1 as any;
-             this.conta.contasarquivosList.push(this.contaArquivo);
-           },
-           err1 => {
-             console.log(err1.error.erros.join(' '));
+            resposta1 => {
+              this.contaArquivo = resposta1 as any;
+              this.conta.contasarquivosList.push(this.contaArquivo);
+            },
+            err1 => {
+              console.log(err1.error.erros.join(' '));
             }
-           );
+          );
         },
         err => {
-         console.log(err.error.erros.join(' '));
+          console.log(err.error.erros.join(' '));
         }
-     );
+      );
     } else {
       this.contasService.uploadReceber(this.file, fileName).subscribe(
         resposta => {
           const uri = resposta as any;
           this.contaArquivo.uri = 'https://contaspagar.s3.us-east-2.amazonaws.com/' + fileName;
           this.contasService.salvarArquivo(this.contaArquivo).subscribe(
-           resposta1 => {
-             this.contaArquivo = resposta1 as any;
-             this.conta.contasarquivosList.push(this.contaArquivo);
-           },
-           err1 => {
-             console.log(err1.error.erros.join(' '));
+            resposta1 => {
+              this.contaArquivo = resposta1 as any;
+              this.conta.contasarquivosList.push(this.contaArquivo);
+            },
+            err1 => {
+              console.log(err1.error.erros.join(' '));
             }
-           );
+          );
         },
         err => {
-         console.log(err.error.erros.join(' '));
+          console.log(err.error.erros.join(' '));
         }
-     );
+      );
     }
   }
 
@@ -393,25 +422,185 @@ export class FluxocaixaComponent implements OnInit {
     const selectedFiles = <FileList>event.srcElement.files;
     this.file = selectedFiles[0];
     document.getElementById('customFileLabelFluxo').innerHTML = selectedFiles[0].name;
- }
+  }
 
 
- getTipoCash(tipo: string) {
+  getTipoCash(tipo: string) {
     if (tipo === 'c') {
       return true;
-    }else return false;
- }
+    } else return false;
+  }
 
- getTipoCR(tipo: string) {
-  if (tipo === 'r') {
-    return true;
-  }else return false;
-}
+  getTipoCR(tipo: string) {
+    if (tipo === 'r') {
+      return true;
+    } else return false;
+  }
 
-getTipoCP(tipo: string) {
-  if (tipo === 'p') {
-    return true;
-  }else return false;
-}
+  getTipoCP(tipo: string) {
+    if (tipo === 'p') {
+      return true;
+    } else return false;
+  }
+
+  filtrar() {
+    this.listaFluxoFiltro = [];
+    this.listaFluxoFiltro = this.listaFluxoMostrar;
+    this.listaFluxoMostrar = [];
+    this.querydataConta = this.pesFormulario.get('dia').value;
+    this.querydescricao = this.pesFormulario.get('descricao').value;
+    this.querydocumento = this.pesFormulario.get('documento').value;
+    if (this.bancoSelecionado!=null) {
+      this.queryidconta = this.bancoSelecionado.idconta;
+    } else this.queryidconta = null;
+    if (this.grupoContaSelecionado !=null ) {
+      this.queryidgrupoconta = this.grupoContaSelecionado.idgrupoplanoconta;
+    }else this.queryidgrupoconta = null;
+    if (this.planoContaSelecionado != null) {
+      this.queryidplanoconta = this.planoContaSelecionado.idplanoconta;
+    }
+    this.queryvalorentrada = this.pesFormulario.get('entrada').value;
+    this.queryvalorsaida = this.pesFormulario.get('saida').value;
+    //Data
+    for (let i = 0; i < this.listaFluxoFiltro.length; i++) {
+      if (this.querydataConta != null) {
+        this.querydataConta =  this.querydataConta + this.listaContaSaldo[0].mesano;
+        let dia = this.listaFluxoMostrar[i].fluxocaixa.data.getDay.toString;
+        let novo = this.querydataConta;
+        if ( dia.toString() !=novo) {
+          this.listaFluxoMostrar.slice[i]
+        }
+      }
+    }
+    for (let i = 0; i < this.listaFluxoFiltro.length; i++) {
+      //Documento
+      if (this.querydocumento != null) {
+        if (this.listaFluxoMostrar[i].documento != this.querydocumento) {
+          this.listaFluxoMostrar.slice[i]
+        }
+      }
+    }
+    for (let i = 0; i < this.listaFluxoFiltro.length; i++) {
+      //Descrição
+      if (this.querydescricao != null) {
+        if (!this.listaFluxoMostrar[i].descricao.includes(this.querydescricao)) {
+          this.listaFluxoMostrar.slice[i]
+        }
+      }
+    }
+    //Grupo Plano de contas
+    for (let i = 0; i < this.listaFluxoFiltro.length; i++) {
+      if (this.queryidgrupoconta > 0) {
+        if (this.listaFluxoMostrar[i].grupoplanoconta.idgrupoplanoconta != this.queryidgrupoconta) {
+          this.listaFluxoMostrar.slice[i]
+        }
+      }
+    }
+    //Plano de contas
+    for (let i = 0; i < this.listaFluxoFiltro.length; i++) {
+      if (this.queryidplanoconta > 0) {
+        if (this.listaFluxoMostrar[i].planoconta.idplanoconta != this.queryidgrupoconta) {
+          this.listaFluxoMostrar.slice[i]
+        }
+      }
+    }
+    //Conta
+    for (let i = 0; i < this.listaFluxoFiltro.length; i++) {
+      if (this.queryidconta > 0) {
+        if (this.listaFluxoMostrar[i].fluxocaixa.conta.idconta != this.queryidconta) {
+          this.listaFluxoMostrar.slice[i]
+        }
+      }
+    }
+    //Valor de entradas
+    for (let i = 0; i < this.listaFluxoFiltro.length; i++) {
+      if (this.queryvalorentrada > 0) {
+        if (this.listaFluxoMostrar[i].valorentrada != this.queryvalorentrada) {
+          this.listaFluxoMostrar.slice[i]
+        }
+      }
+    }
+    //Valor de Saidas
+    for (let i = 0; i < this.listaFluxoFiltro.length; i++) {
+      if (this.queryvalorsaida > 0) {
+        if (this.listaFluxoMostrar[i].valorsaida != this.queryvalorsaida) {
+          this.listaFluxoMostrar.slice[i]
+        }
+      }
+    }
+  }
+
+  iniciarFormularioPesquisar() {
+    this.pesFormulario = this.formBuilder.group({
+      dia: [null],
+      documento: [null],
+      descricao: [null],
+      grupoconta: [null],
+      planoconta: [null],
+      conta: [null],
+      entrada: [null],
+      saida: [null],
+    });  
+  }
+
+  listarPlanoContas() {
+    this.planocontaservice.pesquisarGrupo(this.grupoContaSelecionado.idgrupoplanoconta).subscribe(
+      resposta => {
+        this.listaPlanoContas = resposta as any;
+      }
+    );
+  }
+
+  listarContaBanco() {
+    this.contaService.listar('@').subscribe(
+      resposta => {
+        this.listaBancos = resposta as any;
+      }
+    );
+  }
+
+  listarGrupoPlanoContas() {
+    this.grupoContaService.listar().subscribe(
+      resposta => {
+        this.listaGrupoContas = resposta as any;
+        this.grupoContaSelecionado = this.listaGrupoContas[0];
+        this.listarPlanoContas();
+      }
+    );
+  }
+
+  compararPalnoConta(obj1, obj2) {
+    return obj1 && obj2 ? obj1.idloja === obj2.idloja : obj1 === obj2;
+  }
+
+  setPlanoConta() {
+    this.planoContaSelecionado = this.pesFormulario.get('planoconta').value;
+  }
+
+  compararGrupoConta(obj1, obj2) {
+    return obj1 && obj2 ? obj1.idloja === obj2.idloja : obj1 === obj2;
+  }
+
+  setGrupoConta() {
+    console.log('grupoconta');
+    this.grupoContaSelecionado = this.pesFormulario.get('grupoconta').value;
+    if (this.grupoContaSelecionado != null ) {
+      this.listarPlanoContas();
+    }
+  }
+
+  compararContaBanco(obj1, obj2) {
+    return obj1 && obj2 ? obj1.idloja === obj2.idloja : obj1 === obj2;
+  }
+
+  setContaBanco() {
+    this.bancoSelecionado = this.pesFormulario.get('conta').value;
+  }
+
+  limparPesquisa() {
+    this.pesFormulario.reset();
+    this.listaFluxoMostrar = this.listaFluxoFiltro;
+  }
+
 
 }

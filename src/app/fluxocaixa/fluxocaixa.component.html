@@ -2,11 +2,11 @@
 <div class="page-header">
     <div class="container-fluid">
         <h3>
-            Fluxo de Caixa
+           {{ titulo }}
         </h3>
         <hr />
     </div>
-    <form [formGroup]="pformulario">
+    <form [formGroup]="pesFormulario">
         <div class="container-fluid" style="width:100%;">
 
             <br><br>
@@ -14,16 +14,81 @@
                 <accordion [closeOthers]="oneAtATime">
                     <accordion-group heading="Pesquisar" [isOpen]="isFirstOpen">
                         <div class="row">
-                            <div class="form-group col-md-3">
-                                <label for="datavencimentoinicial">Data inicial</label>
-                                <input type="date" class="form-control" id="datavencimentoinicial"
-                                    placeholder="Data vencimento" formControlName="datainicial">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="datavencimentofinal">Data final</label>
-                                <input type="date" class="form-control" id="datavencimentofinal"
-                                    placeholder="Data vencimento" formControlName="datafinal">
-                            </div>
+                                <div class="form-group col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    <label for="exampleInputResidencialEstado">Dia</label>
+                                    <select class="form-control" formControlName="dia">
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">02</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">19</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                        <option value="29">29</option>
+                                        <option value="30">30</option>
+                                        <option value="31">31</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <label for="documento">Ref.</label>
+                                    <input type="text" class="form-control" id="documento" formControlName="documento">
+                                </div>
+                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <label for="descricao">Descrição</label>
+                                    <input type="text" class="form-control" id="descricao" formControlName="descricao">
+                                </div>
+
+                                <div class="form-group col-xs-12 col-sm-12 col-md-5 col-lg-5" >
+                                    <label>Grupo de Contas</label>
+                                    <select class="form-control" formControlName="grupoconta" [compareWith]="compararGrupoConta" (change)="setGrupoConta()" >
+                                      <option *ngFor="let grupoconta of listaGrupoContas" [ngValue]="grupoconta">{{ grupoconta.descricao }}</option >
+                                   </select  >
+                                  </div>
+
+                                  <div class="form-group col-xs-12 col-sm-12 col-md-5 col-lg-5" >
+                                    <label>Plano de Contas</label>
+                                    <select class="form-control" formControlName="planoconta"  [compareWith]="compararPalnoConta" (change)="setPlanoConta()" >
+                                      <option *ngFor="let planoConta of listaPlanoContas" [ngValue]="planoConta"> {{ planoConta.descricao }}</option >
+                                   </select  >
+                                  </div>
+
+                                  <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                                    <label >Conta</label>
+                                    <select class="form-control" formControlName="conta"  [compareWith]="compararContaBanco" (change)="setContaBanco()" >
+                                      <option *ngFor="let banco of listaBancos" [ngValue]="banco"> {{ banco.descricao }}</option >
+                                   </select  >
+                                  </div>
+                                  <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <label for="entrada">R$ Entrada</label>
+                                    <input type="text" style="text-align: right;" class="form-control" id="entrada" formControlName="entrada">
+                                </div>
+                                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <label for="saida">R$ Saída</label>
+                                    <input type="text" style="text-align: right;" class="form-control" id="saida" formControlName="saida">
+                                </div>
+                                
+                          
 
                             <div class="form-group col-md-12 text-right">
                                 <button type="button" class="btn btn-primary" (click)="pesquisar(pesquisaData)">

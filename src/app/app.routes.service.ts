@@ -25,6 +25,7 @@ import { CadsPlanoContasComponent } from './planocontas/cadplanocontas/cadplanoc
 import { ConsPlanoContasComponent } from './planocontas/consplanocontas/consplanocontas.component';
 import { ConsGrupoContasComponent } from './grupocontas/consgrupocontas/consgrupocontas.component';
 import { CadGrupoContasComponent } from './grupocontas/cadgrupocontas/cadgrupocontas.component';
+import { GerarsaldoComponent } from './fluxocaixa/gerarsaldo/gerarsaldo.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -53,6 +54,7 @@ const routes: Route[] = [
   { path: 'consplanocontas', component: ConsPlanoContasComponent },
   { path: 'consgrupocontas', component: ConsGrupoContasComponent },
   { path: 'cadgrupocontas', component: CadGrupoContasComponent },
+  { path: 'gerarsaldo', component: GerarsaldoComponent },
   { path: '**', component: NotFoundComponent },
 
 

@@ -29,6 +29,8 @@ import { PlanoContasModule } from './planocontas/planocontas.module';
 import { GrupoContasModule } from './grupocontas/grupocontas.module';
 import { registerLocaleData } from '@angular/common';
 import localePtBr from '@angular/common/locales/pt';
+import { AuthService } from './usuario/login/auth.service';
+import { ModalModule } from 'ngx-bootstrap';
 
 registerLocaleData(localePtBr);
 
@@ -40,6 +42,7 @@ registerLocaleData(localePtBr);
     AgmCoreModule.forRoot({
       apiKey: ''
     }),
+    ModalModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     NavigationModule,
@@ -66,7 +69,8 @@ registerLocaleData(localePtBr);
     GrupoContasModule,
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'pt' }
+    { provide: LOCALE_ID, useValue: 'pt' },
+    AuthService,
   ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ]

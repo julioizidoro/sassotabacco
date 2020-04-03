@@ -58,6 +58,7 @@ export class CadpagarComponent implements OnInit {
     private clienteService: ClienteService,
     private grupoContaService: GrupoContasService,
     private contaService: ContaService,
+  
   ) {
     this.conta = this.contasService.getContas();
   }

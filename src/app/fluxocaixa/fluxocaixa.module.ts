@@ -9,11 +9,14 @@ import { ModalcontasComponent } from './modalcontas/modalcontas.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgmCoreModule } from '@agm/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { GerarsaldoComponent } from './gerarsaldo/gerarsaldo.component';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [
     FluxocaixaComponent,
     ModalcontasComponent,
+    GerarsaldoComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +24,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     HttpClientModule,
     ReactiveFormsModule,
     AccordionModule.forRoot(),
+    TextMaskModule,
     AgmCoreModule.forRoot({
       // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en#key
       apiKey: ''
@@ -31,6 +35,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
   exports: [
     FluxocaixaComponent,
     ModalcontasComponent,
+    GerarsaldoComponent,
     MDBBootstrapModule,
   ],
   providers: [

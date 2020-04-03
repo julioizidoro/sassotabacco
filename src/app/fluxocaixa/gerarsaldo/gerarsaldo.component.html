@@ -1,0 +1,59 @@
+<br /><br />
+<div class="page-header">
+    <div class="container-fluid">
+        <h3>
+            Abertura de mÊs
+        </h3>
+        <hr />
+    </div>
+    <form [formGroup]="formulario">
+        <div class="container-fluid" style="width:100%;">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" >
+                    <thead>
+                        <tr>
+                            <th>Conta</th>
+                            <th>Mês/Ano</th>
+                            <th style="text-align: center;">Saldo Inicial</th>
+                            <th style="text-align: center;">Entradas</th>
+                            <th style="text-align: center;">Saídas</th>
+                            <th style="text-align: center;">Saldo liquido</th>
+                            <th style="text-align: center;">Saldo contas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let saldo of listaContaSaldo">
+                            <td style="border: n;">{{saldo.conta.descricao}}</td>
+                            <td style="border: n;">{{saldo.mesano}}</td>
+                            <td style="text-align: right;border: none;">{{saldo.saldoinicial | currency: ' ' }}</td>
+                            <td style="text-align: right;border: none; ">{{saldo.entradas | currency: ' ' }}</td>
+                            <td style="text-align: right;border: none;">{{saldo.saidas | currency: ' ' }}</td>
+                            <td style="text-align: right;border: none; ">{{saldo.saldoliquido | currency: ' ' }}</td>
+                            <td style="text-align: right;border: none; ">{{saldo.saldo | currency: ' ' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Fim da tabela de contasaldo-->
+        </div>
+        <div  style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
+             <div >
+            <label for="mesano">Abrir Mês/Ano</label>
+            <input type="text" class="form-control" id="mesano" [textMask]="{mask: maskMesAno}" 
+                formControlName="mesano">
+            </div>
+            <div></div>
+            <div>
+                <div>
+                <label for="botao"></label>
+            </div>
+                <button id="botao" type="button" class="btn btn-primary"  (click)="fecharMesAtual()">
+                    <i class="far fa-folder-open" aria-hidden="true"></i>
+                    Pesquisar
+                </button>
+                
+            </div>
+    </div>
+    </form>
+</div>
+
