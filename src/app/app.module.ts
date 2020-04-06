@@ -31,6 +31,7 @@ import { registerLocaleData } from '@angular/common';
 import localePtBr from '@angular/common/locales/pt';
 import { AuthService } from './usuario/login/auth.service';
 import { ModalModule } from 'ngx-bootstrap';
+import { ComprasModule } from './compras/compras.module';
 
 registerLocaleData(localePtBr);
 
@@ -67,6 +68,7 @@ registerLocaleData(localePtBr);
     ApiReceitaModule,
     PlanoContasModule,
     GrupoContasModule,
+    ComprasModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt' },
