@@ -33,6 +33,8 @@ import { AuthService } from './usuario/login/auth.service';
 import { ModalModule } from 'ngx-bootstrap';
 import { ComprasModule } from './compras/compras.module';
 import { MomentModule } from 'angular2-moment';
+import { ProducaoModule } from './producao/producao.module';
+import { ReceitaService } from './receita/receita.service';
 
 registerLocaleData(localePtBr);
 
@@ -71,6 +73,8 @@ registerLocaleData(localePtBr);
     GrupoContasModule,
     ComprasModule,
     MomentModule,
+    ProducaoModule,
+    ReceitaService,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt' },

@@ -28,6 +28,10 @@ import { CadGrupoContasComponent } from './grupocontas/cadgrupocontas/cadgrupoco
 import { GerarsaldoComponent } from './fluxocaixa/gerarsaldo/gerarsaldo.component';
 import { ConscomprasComponent } from './compras/conscompras/conscompras.component';
 import { CadcomprasComponent } from './compras/cadcompras/cadcompras.component';
+import { ConsreceitaComponent } from './receita/consreceita/consreceita.component';
+import { CadreceitaComponent } from './receita/cadreceita/cadreceita.component';
+import { ConsproducaoComponent } from './producao/consproducao/consproducao.component';
+import { CadproducaoComponent } from './producao/cadproducao/cadproducao.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -58,6 +62,11 @@ const routes: Route[] = [
   { path: 'consplanocontas', component: ConsPlanoContasComponent },
   { path: 'consgrupocontas', component: ConsGrupoContasComponent },
   { path: 'cadgrupocontas', component: CadGrupoContasComponent },
+
+  { path: 'consreceita', component: ConsreceitaComponent },
+  { path: 'cadreceita', component: CadreceitaComponent },
+  { path: 'consproducao', component: ConsproducaoComponent },
+  { path: 'cadproducao', component: CadproducaoComponent },
   { path: 'gerarsaldo', component: GerarsaldoComponent },
   { path: '**', component: NotFoundComponent },
 
