@@ -12,6 +12,7 @@ import { AccordionModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from '../shared/shared.module';
 import { FornecedorModule } from '../fornecedor/fornecedor.module';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FornecedorModule } from '../fornecedor/fornecedor.module';
     BrowserModule,
     SharedModule,
     FornecedorModule,
+    DropdownModule,
   ],
   exports: [
     CadcomprasComponent, ConscomprasComponent

@@ -43,7 +43,6 @@ export class CadfornecedorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private clienteService: ClienteService,
     private router: Router,
-    private activeRrouter: ActivatedRoute,
     private authService: AuthService,
     private apireceitaService: ApiReceitaService,
   ) { }

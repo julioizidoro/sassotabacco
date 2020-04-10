@@ -1,1 +1,249 @@
-<p>cadcompras works!</p>
+<br /><br />
+<div class="page-header">
+  <div class="container-fluid">
+    <h3>
+      Compras de Mercadorias
+    </h3>
+    <hr />
+  </div>
+
+  <div style="width:100%;">
+    <form [formGroup]="formulario">
+      <div class="row">
+        <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="fornecedor">Fornecedor</label>
+          <p-dropdown id="fornecedor" [style]="{'width':'100%'}" [options]="listaFornecedor"
+            [(ngModel)]="fornecedorSelecionado" optionLabel="nome" [filter]="true" filterBy="label,value.nome"
+            [ngModelOptions]="{standalone: true}">
+          </p-dropdown>
+        </div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+          <label for="numerodocumento">No. Documento</label>
+          <input type="text" class="form-control" id="numerodocumento" placeholder="No. Documento"
+            formControlName="documento">
+        </div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+          <label>Grupo de contas</label>
+          <select class="form-control" formControlName="grupoconta" [compareWith]="compararGrupoConta"
+            (change)="setGrupoConta()">
+            <option *ngFor="let grupoConta of listaGrupoContas" [ngValue]="grupoConta"> {{ grupoConta.descricao }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+          <label>Plano de Contas</label>
+          <select class="form-control" formControlName="planoconta" [compareWith]="compararPalnoConta"
+            (change)="setPlanoConta()">
+            <option *ngFor="let planoConta of listaPlanoContas" [ngValue]="planoConta"> {{ planoConta.descricao }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-10 col-lg-10">
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <label for="produto">Produtos</label>
+              <p-dropdown id="produto" [style]="{'width':'100%'}" [options]="listaEstoque"
+                [(ngModel)]="estoqueSelecionado" optionLabel="descricao" [filter]="true"
+                filterBy="label,value.produto.descricao" [ngModelOptions]="{standalone: true}">
+              </p-dropdown>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+              <label for="quantidade">Quantidade</label>
+              <input type="number" style="text-align:right" class="form-control" id="quantidade"
+                formControlName="produtoquantidade">
+            </div>
+            <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+              <label for="valorparcela">Valor custo</label>
+              <input type="number" style="text-align:right" class="form-control" id="valorcusto"
+                formControlName="produtocusto">
+            </div>
+            <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+              <button type="button" class="btn btn-success" (click)="addProduto()">
+                <i class="fas fa-plus" aria-hidden="true"></i>
+                Adicionar
+              </button>
+            </div>
+          </div>
+          <div class="form-group col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
+        </div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2"></div>
+
+        <div class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
+          <div class="table-responsive-lg">
+            <table class="table table-striped">
+              <thead>
+                <tr
+                  class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
+                  <th class="col-lg-5 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Produto</th>
+                  <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Quantidade</th>
+                  <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Custo</th>
+                  <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">SubTotal</th>
+                  <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm"
+                    style="text-align: center;">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let produto of compra.comprasprodutoList; let posicao = index"
+                  class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                  <td class="col-lg-5 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                    {{produto.estoque.produto.descricao}}</td>
+                  <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                    {{produto.quantidade | currency: ' '}}</td>
+                  <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                    style="border: none;">{{produto.custo | currency: ' '}}</td>
+                  <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                    style="border: none;">{{produto.subtotal | currency: ' '}}</td>
+                  <td class="col-lg-1 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+
+                    <button type="button" style="float:right;" class="btn btn-light font-weight-light mr-1 p-1"
+                      (click)="remover(posicao)" title="Remover">
+                      <i class="fas fa-times" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+          
+        </div>
+    
+        
+      </div>
+
+      
+
+         
+      <div class="row">
+        <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-3">
+        
+        </div>
+          <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <label for="valortotal">Valor total</label>
+            <input type="number" style="text-align:right" class="form-control" id="valortotal"
+              formControlName="valortotal" readonly>
+          </div>
+            <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+              <label for="desconto">Desconto R$</label>
+              <input type="number" style="text-align:right" class="form-control" id="desconto"
+                formControlName="desconto">
+            </div>
+            <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+              <label for="totalliquido">Total líquido</label>
+              <input type="number" style="text-align:right; background-color: lightgrey; font-weight: bold; color:black;" class="form-control" id="totalliquido"
+                formControlName="totalliquido" readonly>
+            </div>
+        
+        <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+          
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">      
+        </div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+          <label for="datacompra">Data da compra</label>
+          <input type="date"  class="form-control" id="datacompra" (input)="setDataCompra()"
+            formControlName="datacompra" >
+          </div>
+          <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <label for="formapagamento">Forma de pagamento</label>
+            <select class="form-control" formControlName="formapagamento" (change)="calcularparcelas()" >
+              <option value="a vista">Á vista</option>
+              <option value="1">1X</option>
+              <option value="2">2X</option>
+              <option value="3">3X</option>
+              <option value="4">4X</option>
+              <option value="5">5X</option>
+              <option value="6">6X</option>
+              <option value="7">7X</option>
+              <option value="8">8X</option>
+              <option value="9">9X</option>
+              <option value="10">10X</option>
+          </select>
+          </div>
+          <div *ngIf="avista" class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+              <label for="datacompra">Data da Vencimento</label>
+              <input type="date"  class="form-control" id="datacompra"
+                formControlName="datavencimento" >
+              </div>
+      </div>
+      <div class="row">
+        
+
+      <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+       
+      </div>
+      <div  *ngIf="aprazo" class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="table-responsive-lg">
+          <table class="table table-striped">
+            <thead>
+              <tr
+                class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
+                <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Parcela</th>
+                <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Vencimento</th>
+                <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Valor</th>
+                <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Observação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let conta of listaContas; let posicao = index"
+                class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                  {{conta.numeroparcela}}</td>
+                <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                  {{conta.datavencimento | date: 'dd/MM/yyyy' }}</td>
+                <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                  style="border: none; text-align: right;">{{conta.valorparcela | currency: ' '}}</td>
+                <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                  style="border: none;">{{conta.observacao}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+          
+              
+      <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+        
+      </div>
+    </div>
+
+    <div class="row">
+        
+
+      <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+       
+      </div>
+      <div class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <label for="observacao">Observação</label>
+          <textarea  class="form-control" id="observacao" rows="3" cols="1"
+            formControlName="observacao" >
+          </textarea>
+      </div>
+      <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+       
+      </div>
+
+    </div>
+    </div>
+
+   
+      <div class="w-100 text-right">
+        <button type="button" class="btn btn-primary" (click)="salvar()">
+          <i class="fa fa-floppy-o" aria-hidden="true"></i>
+          Salvar
+        </button>
+        <button type="submit" class="btn btn-danger" style="margin-left:1%;" (click)="cancelar()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>

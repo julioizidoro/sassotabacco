@@ -1,1 +1,86 @@
-<p>conscompras works!</p>
+<br /><br />
+<div class="page-header">
+    <div class="container-fluid">
+        <h3>
+            Consulta de Compras
+        </h3>
+        <hr />
+    </div>
+    <form [formGroup]="formulario">
+        <div class="container-fluid" style="width:100%;">
+            <div class="w-100">
+                <button type="button" style="float:right;" class="btn btn-primary font-weight-light" 
+                    routerLink="/cadcompras">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <a class="ml-2">Nova</a>
+                </button>
+            </div>
+            <br><br>
+            <div class="w-100">
+                <accordion [closeOthers]="oneAtATime">
+                    <accordion-group heading="Pesquisar" [isOpen]="isFirstOpen" class="primary">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="fornecedor">Fornecedor</label>
+                                <input type="text" class="form-control" id="fornecedor" 
+                                    formControlName="nome">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="documento">No. Documento</label>
+                                <input type="text" class="form-control" id="documento" 
+                                    formControlName="documento">
+                            </div>
+                            <div class="form-group col-md-12 text-right">
+                                <button type="button" class="btn btn-primary" (click)="pesquisar()">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                    Pesquisar
+                                </button>
+                                <button type="submit" class="btn btn-danger" style="margin-left:1%;"
+                                    (click)="consultar()">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    Limpar
+                                </button>
+                            </div>
+                        </div>
+                    </accordion-group>
+                </accordion>
+            </div>
+
+            <div class="table-responsive-lg">
+                <table class="table table-striped">
+                    <thead>
+                        <tr
+                            class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
+                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Data Compra</th>
+                            <th class="col-lg-4 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Fornecedor</th>
+                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Documento</th>
+                            <th class="col-lg-3 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Total Liquido</th>
+                            <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm"
+                                style="text-align: center;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let compra of listaCompras"
+                            class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                            <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                                {{compra.datacompra}}</td>
+                            <td class="col-lg-4 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                                {{compra.instituicao.nome}}</td>
+                            <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                                style="border: none;">{{compra.documento}}</td>
+                            <td class="col-lg-3 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                                style="border: none;">{{compra.totalliquido}}</td>
+                            <td class="col-lg-1 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+
+                                <button type="button" style="float:right;" class="btn btn-light font-weight-light mr-1 p-1" 
+                                    (click)="editar(compra)" title="Editar">
+                                    <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>

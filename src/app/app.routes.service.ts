@@ -26,6 +26,8 @@ import { ConsPlanoContasComponent } from './planocontas/consplanocontas/consplan
 import { ConsGrupoContasComponent } from './grupocontas/consgrupocontas/consgrupocontas.component';
 import { CadGrupoContasComponent } from './grupocontas/cadgrupocontas/cadgrupocontas.component';
 import { GerarsaldoComponent } from './fluxocaixa/gerarsaldo/gerarsaldo.component';
+import { ConscomprasComponent } from './compras/conscompras/conscompras.component';
+import { CadcomprasComponent } from './compras/cadcompras/cadcompras.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -35,6 +37,8 @@ const routes: Route[] = [
   { path: 'conscliente', component: ConsclienteComponent },
   { path: 'consfornecedor', component: ConsfornecedorComponent },
   { path: 'cadfornecedor', component: CadfornecedorComponent },
+  { path: 'conscompras', component: ConscomprasComponent },
+  { path: 'cadcompras', component: CadcomprasComponent },
   { path: 'cadcliente', component: CadclienteComponent },
   { path: 'consproduto', component: ConsprodutoComponent },
   { path: 'cadproduto', component: CadprodutoComponent },

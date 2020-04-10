@@ -18,5 +18,5 @@ export class Compras {
     comprascontaList: Comprasconta[];
     planoconta: Planoconta;
     usuario: Usuario;
-    comprasprodutoList: Comprasproduto;
+    comprasprodutoList: Comprasproduto[];
 }

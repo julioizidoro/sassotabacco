@@ -138,7 +138,6 @@ setTipoJuridico() {
 
 
 salvar() {
-  this.instituicao = this.formulario.value;
   this.formulario.patchValue({
     tipo: 'c',
   });
