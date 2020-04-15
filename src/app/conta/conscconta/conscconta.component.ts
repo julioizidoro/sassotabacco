@@ -16,6 +16,8 @@ export class ConsccontaComponent implements OnInit {
   formulario: FormGroup;
   contas: Conta[];
   usuario: Usuario;
+  isFirstOpen = false;
+  oneAtATime: true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,6 +54,10 @@ export class ConsccontaComponent implements OnInit {
 
   verSaldo( conta: Conta ) {
     
+  }
+
+  pesquisar() {
+
   }
   
   

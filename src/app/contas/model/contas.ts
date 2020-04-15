@@ -1,4 +1,3 @@
-import { Formapagamento } from './../../formapagamento/model/formapagamento';
 import { Instituicao } from 'src/app/cliente/model/instituicao';
 import { Planoconta } from 'src/app/planocontas/model/planoconta';
 import { Contasarquivos } from './contasarquivos';
@@ -20,7 +19,6 @@ export class Contas {
     codigobarras: string;
     tipo: string;
     instituicao: Instituicao;
-    formapagamento: Formapagamento;
     conta: Conta;
     planoconta: Planoconta;
     contasarquivosList: Contasarquivos[];

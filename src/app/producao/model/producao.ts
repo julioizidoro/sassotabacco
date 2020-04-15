@@ -11,7 +11,6 @@ export class Producao {
     custo: number;
     data: Date;
     situacao: string;
-    producaoprodutoList: Producaoproduto[];
     planoconta: Planoconta;
     receita: Receita;
     usuario: Usuario;

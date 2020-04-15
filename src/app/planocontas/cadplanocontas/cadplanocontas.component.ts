@@ -56,16 +56,12 @@ export class CadsPlanoContasComponent implements OnInit {
     );
   }
 
-  compararGrupo(obj1, obj2) {
-    return obj1 && obj2 ? obj1.idloja === obj2.idloja : obj1 === obj2;
-  }
-
-  setGrupo() {
-    this.grupoSeleconado = this.formulario.get('grupocontas').value;
-  }
+  
 
   salvar() {
+    console.log('plano contas');
     this.planoConta = this.formulario.value;
+    this.planoConta.grupoplanoconta = this.grupoSeleconado;
     this.planocontaservice.salvar( this.planoConta).subscribe(
       resposta => {
         this.planoConta = resposta as any;

@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routes.service';
 
 import { ViewsModule } from './views/views.module';
-import { SharedModule } from './shared/shared.module';
+;
 import { ErrorModule } from './views/errors/error.module';
 
 // main layout
@@ -21,7 +21,6 @@ import { FornecedorModule } from './fornecedor/fornecedor.module';
 import {AccordionModule} from 'primeng/accordion';
 import { ContaModule } from './conta/conta.module';
 import { AcessoModule } from './acesso/acesso.module';
-import { FormapagamentoModule } from './formapagamento/formapagamento.module';
 import { ApiReceitaModule } from './api-receita/api-receita.module';
 import { ContasModule } from './contas/contas.module';
 import { FluxocaixaModule } from './fluxocaixa/fluxocaixa.module';
@@ -34,7 +33,9 @@ import { ModalModule } from 'ngx-bootstrap';
 import { ComprasModule } from './compras/compras.module';
 import { MomentModule } from 'angular2-moment';
 import { ProducaoModule } from './producao/producao.module';
-import { ReceitaService } from './receita/receita.service';
+import { ReceitaModule } from './receita/receita.module';
+import { DropdownModule } from 'primeng/dropdown';
+import { ShareModule } from './share/share.module';
 
 registerLocaleData(localePtBr);
 
@@ -48,13 +49,14 @@ registerLocaleData(localePtBr);
     }),
     ModalModule.forRoot(),
     BrowserModule,
+    DropdownModule,
     BrowserAnimationsModule,
     NavigationModule,
     AppRoutes,
     RouterModule,
     HttpClientModule,
     FormsModule,
-    SharedModule,
+    ShareModule,
     ViewsModule,
     ClienteModule,
     ProdutoModule,
@@ -67,14 +69,13 @@ registerLocaleData(localePtBr);
     FluxocaixaModule,
     ContasModule,
     AcessoModule,
-    FormapagamentoModule,
     ApiReceitaModule,
     PlanoContasModule,
     GrupoContasModule,
     ComprasModule,
     MomentModule,
     ProducaoModule,
-    ReceitaService,
+    ReceitaModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt' },

@@ -15,6 +15,10 @@ import { EstoqueService } from 'src/app/estoque/estoque.service';
 import { Contas } from 'src/app/contas/model/contas';
 import * as moment from 'moment';
 import { Comprasconta } from '../model/comprasconta';
+import { Producao } from 'src/app/producao/model/producao';
+import { Produto } from 'src/app/produto/model/produto';
+import { AuthService } from 'src/app/usuario/login/auth.service';
+
 
 
 
@@ -34,12 +38,18 @@ export class CadcomprasComponent implements OnInit {
   fornecedorSelecionado: Instituicao;
   listaFornecedor: Instituicao[];
   listaEstoque: Estoque[];
-  estoqueSelecionado: Estoque;
+  listaProdutos: Produto[];
+  produtoSelecionado: Produto;
   avista: boolean;
   aprazo: boolean;
   listaContas: Contas[];
   dataVencimento: Date;
   inputDataCompra: boolean;
+  totalLiquido: number;
+  valorTotal: number;
+  listaCompraProduto: Comprasproduto[];
+  listaCompraConta: Comprasconta[];
+  
 
   constructor(
     private planoContasService: PlanoContasService,
@@ -49,11 +59,10 @@ export class CadcomprasComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private estoqueService: EstoqueService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
-    this.avista = false;
-    this.aprazo = false;
     this.inputDataCompra = false;
     this.listarFornecedor();
     this.listarGrupoConta();
@@ -64,11 +73,29 @@ export class CadcomprasComponent implements OnInit {
       this.fornecedorSelecionado = this.compra.instituicao;
       this.planoContaSelecionado = this.compra.planoconta;
       this.grupoContaSelecionado = this.compra.planoconta.grupoplanoconta;
+      this.listaCompraProduto = this.comprasService.getListaCompraProduto();
+      this.listaCompraConta = this.comprasService.getListaCompraConta();
       this.inicarFormularioEditar();
+      this.valorTotal= this.compra.valortotal;
+      this.totalLiquido = this.compra.totalliquido;
+      if (this.compra.formapagamento === 'a vista') {
+        this.avista = true;
+        this.aprazo = false;
+      } else {
+        this.avista = false;
+        this.aprazo = true;
+      }
     } else {
+      this.avista = false;
+      this.aprazo = false;
       this.compra = new Compras();
-      this.compra.comprascontaList = [];
-      this.compra.comprasprodutoList = [];
+      this.compra.valortotal=0;
+      this.compra.totalliquido = 0;
+      this.compra.desconto=0;
+      this.valorTotal = 0;
+      this.totalLiquido = 0;
+      this.listaCompraProduto = [];
+      this.listaCompraConta = [];
       this.fornecedorSelecionado = new Instituicao();
       this.fornecedorSelecionado.nome = '';
       this.grupoContaSelecionado = new Grupoplanoconta();
@@ -95,7 +122,7 @@ export class CadcomprasComponent implements OnInit {
       grupoconta: this.compra.planoconta.grupoplanoconta,
       produtoquantidade: [null],
       produtocusto: [null],
-      datavencimento: [null],
+      datavencimento: this.listaCompraConta[0].contas.datavencimento,
     });
   }
 
@@ -124,6 +151,13 @@ export class CadcomprasComponent implements OnInit {
     this.estoqueService.listarProdutoDescricao('@').subscribe(
       resposta => {
         this.listaEstoque = resposta as any;
+        if (this.listaEstoque.length>0){
+          this.listaProdutos = [];
+          for (let i=0;i<this.listaEstoque.length;i++){
+            this.listaProdutos.push(this.listaEstoque[i].produto);
+          }
+          this.produtoSelecionado = this.listaProdutos[0];
+        }
       },
       err => {
         console.log(JSON.stringify(err));
@@ -131,10 +165,15 @@ export class CadcomprasComponent implements OnInit {
     );
   }
 
+  
+
   listarFornecedor() {
     this.clienteService.listar('f').subscribe(
       resposta => {
         this.listaFornecedor = resposta as any;
+        if (this.listaFornecedor.length>0){
+          this.fornecedorSelecionado = this.listaFornecedor[0];
+        }
       },
       err => {
         console.log(JSON.stringify(err));
@@ -188,25 +227,29 @@ export class CadcomprasComponent implements OnInit {
     let quantidade = this.formulario.get('produtoquantidade').value;
     let custo = this.formulario.get('produtocusto').value;
     let compraProduto = new Comprasproduto();
-    compraProduto.estoque = this.estoqueSelecionado;
+    compraProduto.estoque = this.getEstoque(this.produtoSelecionado);
     compraProduto.custo = custo;
     compraProduto.quantidade = quantidade;
     compraProduto.subtotal = compraProduto.quantidade * compraProduto.custo;
-    this.compra.comprasprodutoList.push(compraProduto);
+    this.listaCompraProduto.push(compraProduto);
     this.compra.valortotal = this.compra.valortotal + compraProduto.subtotal;
     this.compra.totalliquido = this.compra.valortotal - this.compra.desconto;
+    console.log(this.compra.valortotal);
+      this.valorTotal = this.compra.valortotal;
+      this.totalLiquido = this.compra.totalliquido;  
   }
 
   removerProuto(posicao: number) {
     let produto = new Comprasproduto();
-    produto = this.compra.comprasprodutoList[posicao];
+    produto = this.listaCompraProduto[posicao];
     this.compra.valortotal = this.compra.valortotal - produto.subtotal;
     this.compra.totalliquido = this.compra.valortotal - this.compra.desconto;
-    this.compra.comprasprodutoList.splice[posicao];
+    this.listaCompraProduto.splice[posicao];
   }
 
   calcularparcelas() {
     let formapgamento = this.formulario.get('formapagamento').value;
+    let documetno = this.formulario.get('documento').value;
     if (formapgamento != null) {
       if (formapgamento === 'a vista') {
         this.avista = true;
@@ -220,6 +263,7 @@ export class CadcomprasComponent implements OnInit {
         for (let i=0;i<numeroParcelas;i++){
           let conta = new Contas(); 
           conta.dataemissao = new Date();
+          conta.documento = documetno;
           conta.datavencimento  = this.gerarDataVencimento(i+1, this.formulario.get('datacompra').value);
           conta.desconto = 0;
           conta.instituicao = this.fornecedorSelecionado;
@@ -228,7 +272,7 @@ export class CadcomprasComponent implements OnInit {
           conta.planoconta = this.planoContaSelecionado;
           conta.tipo = 'p';
           conta.valorpago= 0;
-          let valorparcela = 100;//this.formulario.get('valorliquido').value;
+          let valorparcela = this.totalLiquido;
           conta.valorparcela = valorparcela/numeroParcelas;
           this.listaContas.push(conta);
         }
@@ -255,20 +299,65 @@ export class CadcomprasComponent implements OnInit {
 
 
   salvar() {
+    console.log('salvar');
     this.compra = this.formulario.value;
+    this.compra.instituicao = this.fornecedorSelecionado;
+    this.compra.usuario = this.authService.usuario;
+    this.compra.valortotal = this.valorTotal;
+    this.compra.totalliquido = this.totalLiquido;
+    this.listaCompraConta = [];
     if (this.listaContas.length > 0) {
       for (let i=0;i<this.listaContas.length;i++) {
         let compraConta = new Comprasconta();
         compraConta.compras = this.compra;
         compraConta.contas = this.listaContas[i];
+        this.listaCompraConta.push(compraConta);
       }
+    
+    }else {
+      let compraConta = new Comprasconta();
+      compraConta.compras = this.compra;
+      let conta = new Contas(); 
+          conta.dataemissao = this.formulario.get('datacompra').value;
+          conta.documento = this.compra.documento;
+          conta.datavencimento  = this.formulario.get('datavencimento').value;
+          conta.desconto = 0;
+          conta.instituicao = this.fornecedorSelecionado;
+          conta.juros = 0;
+          conta.numeroparcela = 1;
+          conta.planoconta = this.planoContaSelecionado;
+          conta.tipo = 'p';
+          conta.valorpago= 0;
+          conta.valorparcela = this.totalLiquido;
+          this.listaContas.push(conta);
+      compraConta.contas = conta;
+      this.listaCompraConta.push(compraConta);
     }
     this.comprasService.salvar(this.compra).subscribe(
       resposta => {
         this.compra = resposta as any;
-        if (this.compra.idcompras!=null) {
+        for(let i=0;i<this.listaCompraProduto.length;i++){
+          this.listaCompraProduto[i].compras = this.compra;
+        }
+        for(let i=0;i<this.listaCompraConta.length;i++){
+          this.listaCompraConta[i].compras = this.compra;
+        }
+        this.comprasService.salvarProduto(this.listaCompraProduto).subscribe(
+          resposta => {
 
-        } 
+          },
+          err => {
+            console.log(JSON.stringify(err));
+          }
+        );
+        this.comprasService.salvarConta(this.listaCompraConta).subscribe(
+          resposta => {
+
+          },
+          err => {
+            console.log(JSON.stringify(err));
+          }
+        );
       }
     )
 
@@ -279,6 +368,16 @@ export class CadcomprasComponent implements OnInit {
       this.router.navigate(['/conscompras']);
   }
 
+  getEstoque(produto: Produto) {
+    for (let i=0; i<this.listaEstoque.length;i++){
+      if (this.listaEstoque[i].produto.idproduto === produto.idproduto) {
+        return this.listaEstoque[i];
+        i = this.listaEstoque.length + 100;
+      }
+    }
+  }
 
+  remover(posicao: number){
 
+  }
 }

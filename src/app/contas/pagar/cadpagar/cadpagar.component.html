@@ -41,18 +41,6 @@
                     formControlName="numeroparcela"  >
                 </div>
 
-                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
-                  <label >Forma de Pagamento</label>
-                  <select class="form-control" formControlName="formapagamento"  [compareWith]="compararFormaPagamento" (change)="setFormaPagamento()" >
-                    <option *ngFor="let forma of listaFormaPagamento" [ngValue]="forma"> {{ forma.descricao }}</option >
-                 </select  >
-                </div>
-
-                  <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
-                      <label for="valorparcela">Valor da Parcela</label>
-                      <input type="number" style="text-align:right" class="form-control" id="valorparcela" placeholder="Valor da Parcela"
-                      formControlName="valorparcela"  >
-                    </div>
 
                     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" >
                       <label>Grupo de Contas</label>
@@ -68,9 +56,15 @@
                      </select  >
                     </div>
 
+                    <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                      <label for="valorparcela">Valor da Parcela</label>
+                      <input type="number" style="text-align:right" class="form-control" id="valorparcela" placeholder="Valor da Parcela"
+                      formControlName="valorparcela"  >
+                    </div>
 
 
-                    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" >
+
+                    <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9" >
                         <label for="valorsaida">Observação</label>
                         <input type="text"  class="form-control" id="observacao" placeholder="Observação"
                         formControlName="observacao"  >

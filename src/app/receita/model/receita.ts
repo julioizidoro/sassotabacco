@@ -4,9 +4,7 @@ import { Receitaproduto } from './receitaproduto';
 export class Receita {
 
     idreceita: number;
+    descricao: string;
     quantidade: number;
-    unidade: number;
     estoque: Estoque;
-    receitaprodutoList: Receitaproduto[];
-
 }

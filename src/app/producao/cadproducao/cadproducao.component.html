@@ -1,1 +1,148 @@
-<p>cadproducao works!</p>
+<br /><br />
+<div class="page-header">
+    <div class="container-fluid">
+        <h3>
+            Produção
+        </h3>
+        <hr />
+    </div>
+    <div style="width:100%;">
+
+        <form [formGroup]="formulario">
+            <div class="row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <label for="receita">Receita</label>
+                    <p-dropdown id="receita" [style]="{'width':'100%'}" [options]="listaReceitas"
+                        [(ngModel)]="receitaSelecionada" optionLabel="descricao" [filter]="true"
+                        filterBy="label,value.descricao" [ngModelOptions]="{standalone: true}"
+                        (onChange)="setReceita()">
+                    </p-dropdown>
+
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                    <label for="quantidade">Quantidade Receita</label>
+                    <input type="number" class="form-control" id="quantidade" style="text-align: right;"
+                    [value]="quantidadeReceita" readonly>
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                    <label for="quantidade">Quantidade Produção</label>
+                    <input type="number" class="form-control" id="quantidade" style="text-align: right;"
+                        formControlName="quantidade">
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    <label>Grupo de contas</label>
+                    <select class="form-control" formControlName="grupoconta" [compareWith]="compararGrupoConta"
+                        (change)="setGrupoConta()">
+                        <option *ngFor="let grupoConta of listaGrupoContas" [ngValue]="grupoConta">
+                            {{ grupoConta.descricao }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    <label>Plano de Contas</label>
+                    <select class="form-control" formControlName="planoconta" [compareWith]="compararPalnoConta"
+                        (change)="setPlanoConta()">
+                        <option *ngFor="let planoConta of listaPlanoContas" [ngValue]="planoConta">
+                            {{ planoConta.descricao }}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                    <button type="button" class="btn btn-success" (click)="calcularCusto()"
+                        title="Calcular custo de produção">
+                        <i class="fas fa-calculator" aria-hidden="true"></i>
+                        Calcular custo
+                    </button>
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+
+                </div>
+                <div class="container-fluid">
+                    <h5>
+                        Produtos da receita
+                    </h5>
+                    <hr />
+                </div>
+
+                <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    <div class="table-responsive-lg">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr
+                                    class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
+                                    <th class="col-lg-5 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">
+                                        Produto</th>
+                                    <th class="col-lg-3 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm" style="text-align: center;">
+                                        Quantidade</th>
+                                    <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">
+                                        Unidade</th>
+                                    <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">
+                                           Custo</th>
+                                    <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm"
+                                        style="text-align: center;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let pp of listaProduto; let posicao = index"
+                                    class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                                    <td class="col-lg-5 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0"
+                                        style="border: none;">
+                                        {{pp.estoque.produto.descricao}}</td>
+                                    <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0"
+                                        style="border: none; text-align: right;">
+                                        {{pp.quantidade | currency: ' '}}</td>
+                                    <td class="col-lg-3 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                                        style="border: none; text-align: center;">{{pp.estoque.produto.unidade}}</td>
+                                    <td class="col-lg-1 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0"
+                                        style="border: none; text-align: right;">
+                                        {{pp.custo | currency: ' '}}</td>
+                                    <td class="col-lg-1 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0"
+                                        style="border: none;">
+
+                                        <button type="button" style="float:right;"
+                                            class="btn btn-light font-weight-light mr-1 p-1" (click)="remover(posicao)"
+                                            title="Remover">
+                                            <i class="fas fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+
+                </div>
+                <div class="container-fluid">
+                    <hr />
+                </div>
+
+                <div class="mt-3 w-100 text-right">
+                    <button type="button" class="btn btn-primary" (click)="salvar()">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                        Salvar
+                    </button>
+                    <button type="submit" class="btn btn-danger" style="margin-left:1%;" (click)="cancelar()">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                        Cancelar
+                    </button>
+                </div>
+                <br />
+            </div>
+        </form>
+
+    </div>
+</div>

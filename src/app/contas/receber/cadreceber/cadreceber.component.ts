@@ -6,9 +6,7 @@ import { PlanoContasService } from 'src/app/planocontas/planocontas.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Contas } from '../../model/contas';
-import { Formapagamento } from 'src/app/formapagamento/model/formapagamento';
 import { ContasService } from '../../contas.service';
-import { FormapagamentoService } from 'src/app/formapagamento/formapagamento.service';
 import { Fluxocaixa } from 'src/app/fluxocaixa/model/fluxocaixa';
 import { FluxocaixaService } from 'src/app/fluxocaixa/fluxocaixa.service';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -33,9 +31,7 @@ export class CadreceberComponent implements OnInit {
   planoContaSelecionado: Planoconta;
   instituicaoSelecionada: Instituicao;
   nomeCliente: string;
-  formaPagamentoSelecionada: Formapagamento;
   listaPlanoContas: Planoconta[];
-  listaFormaPagamento: Formapagamento[];
   listaBancos: Conta[];
   bancoSelecionado: Conta;
   listaGrupoContas: Grupoplanoconta[];
@@ -53,7 +49,6 @@ export class CadreceberComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private fluxoCaixaService: FluxocaixaService,
-    private formaPagamentoService: FormapagamentoService,
     private authService: AuthService,
     private clienteService: ClienteService,
     private grupoContaService: GrupoContasService,
@@ -72,7 +67,6 @@ export class CadreceberComponent implements OnInit {
 
 
     this.setFormulario();
-    this.listarFormaPagamento();
     this.listarGrupoPlanoContas();
     this.listarContaBanco();
     if (this.conta != null) {
@@ -92,7 +86,6 @@ export class CadreceberComponent implements OnInit {
         codigobarras: this.conta.codigobarras,
         tipo: this.conta.tipo,
         instituicao: this.conta.instituicao,
-        formapagamento: this.conta.formapagamento,
         conta: this.conta.conta,
         planoconta: this.conta.planoconta,
         grupoConta: this.conta.planoconta.grupoplanoconta,
@@ -100,7 +93,6 @@ export class CadreceberComponent implements OnInit {
       this.bancoSelecionado = this.conta.conta;
       this.grupoContaSelecionado = this.conta.planoconta.grupoplanoconta;
       this.planoContaSelecionado = this.conta.planoconta;
-      this.formaPagamentoSelecionada = this.conta.formapagamento;
       this.instituicaoSelecionada = this.conta.instituicao;
     } else {
       this.conta = new Contas();
@@ -137,22 +129,6 @@ export class CadreceberComponent implements OnInit {
         this.listarPlanoContas();
       }
     );
-  }
-
-  listarFormaPagamento() {
-    this.formaPagamentoService.listar().subscribe(
-      resposta => {
-        this.listaFormaPagamento = resposta as any;
-      }
-    );
-  }
-
-  compararFormaPagamento(obj1, obj2) {
-    return obj1 && obj2 ? obj1.idloja === obj2.idloja : obj1 === obj2;
-  }
-
-  setFormaPagamento() {
-    this.formaPagamentoSelecionada = this.formulario.get('formapagamento').value;
   }
 
   compararPalnoConta(obj1, obj2) {
@@ -200,7 +176,6 @@ export class CadreceberComponent implements OnInit {
     this.conta = this.formulario.value;
     this.conta.instituicao = this.instituicaoSelecionada;
     this.conta.planoconta = this.planoContaSelecionado;
-    this.conta.formapagamento = this.formaPagamentoSelecionada;
     this.conta.conta = this.bancoSelecionado;
     this.conta.valorpago = 0;
     this.conta.desconto = 0;
@@ -239,7 +214,6 @@ export class CadreceberComponent implements OnInit {
       codigobarras: [null],
       tipo: [null],
       instituicao: [null],
-      formapagamento: [null],
       conta: [null],
       planoconta: [null],
       grupoConta: [null],
@@ -258,7 +232,6 @@ export class CadreceberComponent implements OnInit {
     this.conta = this.formulario.value;
     this.conta.instituicao = this.instituicaoSelecionada;
     this.conta.planoconta = this.planoContaSelecionado;
-    this.conta.formapagamento = this.formaPagamentoSelecionada;
     this.contasService.baixarCR(this.conta).subscribe(
       resposta => {
         this.conta = resposta as any;

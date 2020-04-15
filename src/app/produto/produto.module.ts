@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccordionModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations:  [
@@ -20,6 +21,7 @@ import { BrowserModule } from '@angular/platform-browser';
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
     TextMaskModule,
+    DropdownModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,

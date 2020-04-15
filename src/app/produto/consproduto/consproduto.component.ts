@@ -30,10 +30,10 @@ ngOnInit() {
     descricao: [null],
     codigobarras: [null],
   });
-  this.consulta();
+  this.consultar();
 }
 
-consulta() {
+consultar() {
   console.log('inicio');
   this.estoqueService.listarProdutoDescricao('@').subscribe(
     resposta => {

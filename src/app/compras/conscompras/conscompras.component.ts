@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ComprasService } from '../compras.service';
 import { Router } from '@angular/router';
 import { ClienteService } from 'src/app/cliente/cliente.service';
+import { Comprasproduto } from '../model/comprasproduto';
+import { Comprasconta } from '../model/comprasconta';
 
 
 @Component({
@@ -17,6 +19,8 @@ export class ConscomprasComponent implements OnInit {
   formulario: FormGroup;
   isFirstOpen = false;
   oneAtATime: true;
+  listaCompraProduto: Comprasproduto[];
+  listaCompraConta: Comprasconta[];
 
 
   constructor(
@@ -75,7 +79,25 @@ export class ConscomprasComponent implements OnInit {
   }
 
   editar(compra: Compras) {
-    this.comprasService.setCompra(compra);
-    this.router.navigate(['/cadcompras']);
+    this.comprasService.listarProduto(compra.idcompras).subscribe(
+      resposta => {
+        this.listaCompraProduto = resposta as any;
+        this.comprasService.listarConta(compra.idcompras).subscribe(
+        resposta => {
+          this.listaCompraConta = resposta as any;
+          this.comprasService.setListaCompraConta(this.listaCompraConta);
+          this.comprasService.setListaCompraProduto(this.listaCompraProduto);
+          this.comprasService.setCompra(compra);
+          this.router.navigate(['/cadcompras']);
+        },
+        err => {
+          console.log(JSON.stringify(err));
+        }
+      );
+      },
+      err => {
+        console.log(JSON.stringify(err));
+      }
+    );
   }
 }

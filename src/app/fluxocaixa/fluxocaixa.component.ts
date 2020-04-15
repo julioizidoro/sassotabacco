@@ -10,7 +10,6 @@ import { FormGroup, FormBuilder, SelectMultipleControlValueAccessor } from '@ang
 import { Fluxocaixa } from './model/fluxocaixa';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Contas } from '../contas/model/contas';
-import { Formapagamento } from '../formapagamento/model/formapagamento';
 import { Planoconta } from '../planocontas/model/planoconta';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Usuario } from '../usuario/model/usuario';
@@ -89,8 +88,6 @@ export class FluxocaixaComponent implements OnInit {
     this.conta.instituicao.nome = '';
     this.conta.planoconta = new Planoconta();
     this.conta.planoconta.descricao = '';
-    this.conta.formapagamento = new Formapagamento();
-    this.conta.formapagamento.descricao = '';
     this.setFormulario(this.conta);
   }
 
@@ -209,7 +206,6 @@ export class FluxocaixaComponent implements OnInit {
       observacao: conta.observacao,
       instituicao: conta.instituicao,
       planocontas: conta.planoconta.descricao,
-      formapagamento: conta.formapagamento.descricao,
     });
   }
 
@@ -231,7 +227,6 @@ export class FluxocaixaComponent implements OnInit {
       observacao: [null],
       instituicao: [null],
       planocontas: [null],
-      formapagamento: new Formapagamento(),
     });
   }
 
@@ -242,7 +237,6 @@ export class FluxocaixaComponent implements OnInit {
       valorentrada: [null],
       valorsaida: [null],
       planoconta: [null],
-      formapagamento: [null],
       fluxocaixa: [null],
       usuario: [null],
     });
@@ -255,7 +249,6 @@ export class FluxocaixaComponent implements OnInit {
       valorentrada: fluxolancamento.valorentrada,
       valrosaida: fluxolancamento.valorsaida,
       planoconta: fluxolancamento.planoconta.descricao,
-      formapagamento: fluxolancamento.formapgamento.descricao,
       fluxocaixa: fluxolancamento.fluxocaixa,
       usuario: fluxolancamento.usuario,
     });

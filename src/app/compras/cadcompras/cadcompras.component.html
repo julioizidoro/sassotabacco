@@ -39,14 +39,20 @@
             </option>
           </select>
         </div>
+        <div class="container-fluid">
+          <h5>
+              Produtos
+          </h5>
+          <hr />
+      </div>
         <div class="form-group col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
         <div class="form-group col-xs-12 col-sm-12 col-md-10 col-lg-10">
           <div class="row">
             <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
               <label for="produto">Produtos</label>
-              <p-dropdown id="produto" [style]="{'width':'100%'}" [options]="listaEstoque"
-                [(ngModel)]="estoqueSelecionado" optionLabel="descricao" [filter]="true"
-                filterBy="label,value.produto.descricao" [ngModelOptions]="{standalone: true}">
+              <p-dropdown id="produto" [style]="{'width':'100%'}" [options]="listaProdutos"
+                [(ngModel)]="produtoSelecionado" optionLabel="descricao" [filter]="true"
+                filterBy="label,value.descricao" [ngModelOptions]="{standalone: true}">
               </p-dropdown>
             </div>
             <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
@@ -68,6 +74,12 @@
           </div>
           <div class="form-group col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
         </div>
+        <div class="container-fluid">
+          <h5>
+              Forma de pagamento
+          </h5>
+          <hr />
+      </div>
         <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2"></div>
 
         <div class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -76,25 +88,25 @@
               <thead>
                 <tr
                   class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
-                  <th class="col-lg-5 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Produto</th>
+                  <th class="col-lg-6 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Produto</th>
                   <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Quantidade</th>
                   <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Custo</th>
-                  <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">SubTotal</th>
+                  <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">SubTotal</th>
                   <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm"
                     style="text-align: center;">Ações</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let produto of compra.comprasprodutoList; let posicao = index"
+                <tr *ngFor="let produto of listaCompraProduto; let posicao = index"
                   class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
                   <td class="col-lg-5 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
                     {{produto.estoque.produto.descricao}}</td>
-                  <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                  <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;text-align: right;">
                     {{produto.quantidade | currency: ' '}}</td>
                   <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
-                    style="border: none;">{{produto.custo | currency: ' '}}</td>
+                    style="border: none;text-align: right;">{{produto.custo | currency: ' '}}</td>
                   <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
-                    style="border: none;">{{produto.subtotal | currency: ' '}}</td>
+                    style="border: none;text-align: right;">{{produto.subtotal | currency: ' '}}</td>
                   <td class="col-lg-1 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
 
                     <button type="button" style="float:right;" class="btn btn-light font-weight-light mr-1 p-1"
@@ -124,7 +136,7 @@
           <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
             <label for="valortotal">Valor total</label>
             <input type="number" style="text-align:right" class="form-control" id="valortotal"
-              formControlName="valortotal" readonly>
+              [value]="valorTotal" readonly>
           </div>
             <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
               <label for="desconto">Desconto R$</label>
@@ -134,7 +146,7 @@
             <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
               <label for="totalliquido">Total líquido</label>
               <input type="number" style="text-align:right; background-color: lightgrey; font-weight: bold; color:black;" class="form-control" id="totalliquido"
-                formControlName="totalliquido" readonly>
+                [value]="totalLiquido"  step="0.01" readonly>
             </div>
         
         <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">

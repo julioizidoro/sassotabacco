@@ -5,7 +5,7 @@ export class Receitaproduto {
 
     idreceitaproduto: number;
     quantidade: number;
-    unidade: number;
     receita: Receita;
+    estoque: Estoque;
 
 }

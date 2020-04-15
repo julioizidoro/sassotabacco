@@ -14,23 +14,23 @@ export class ProdutoService {
   ) { }
 
   salvar(produto: Produto): Observable<any> {
-    return this.httpCliente.post<any>(env.baseApiUrl + 'produto/salvar', produto);
+    return this.httpCliente.post<any>(env.baseApiUrl + 'produtos/salvar', produto);
   }
 
   listar(): Observable<Produto> {
-    return this.httpCliente.get<Produto>(env.baseApiUrl + 'produto');
+    return this.httpCliente.get<Produto>(env.baseApiUrl + 'produtos');
   }
 
   pesquisarDescricao(descricao: string): Observable<Produto> {
-    return this.httpCliente.get<Produto>(env.baseApiUrl + 'produto/listar/descricao/' + descricao);
+    return this.httpCliente.get<Produto>(env.baseApiUrl + 'produtos/listar/descricao/' + descricao);
 
   }
 
   pesquisarCodigoBarras(codgioBarras: string): Observable<Produto> {
-    return this.httpCliente.get<Produto>(env.baseApiUrl + 'produto/listar/cb' + codgioBarras);
+    return this.httpCliente.get<Produto>(env.baseApiUrl + 'produtos/listar/cb' + codgioBarras);
   }
 
   pesquisarId(id: number): Observable<Produto> {
-    return this.httpCliente.get<Produto>(env.baseApiUrl + 'produto/id/' + id);
+    return this.httpCliente.get<Produto>(env.baseApiUrl + 'produtos/id/' + id);
   }
 }

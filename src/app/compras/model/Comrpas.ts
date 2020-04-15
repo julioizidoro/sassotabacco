@@ -15,8 +15,7 @@ export class Compras {
     formapagamento: string;
     observacao: string;
     instituicao: Instituicao;
-    comprascontaList: Comprasconta[];
     planoconta: Planoconta;
     usuario: Usuario;
-    comprasprodutoList: Comprasproduto[];
+
 }
