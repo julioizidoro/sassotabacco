@@ -60,7 +60,7 @@ export class ComprasService {
   }
 
   pesquisarId(id: number): Observable<Compras> {
-    return this.httpCliente.get<Compras>(env.baseApiUrl + 'instituicao/' + id);
+    return this.httpCliente.get<Compras>(env.baseApiUrl + 'compras/' + id);
   }
 
   //Compras produto

@@ -36,6 +36,8 @@ import { ProducaoModule } from './producao/producao.module';
 import { ReceitaModule } from './receita/receita.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { ShareModule } from './share/share.module';
+import { AcertoModule } from './acerto/acerto.module';
+import { DevolucaoModule } from './devolucao/devolucao.module';
 
 registerLocaleData(localePtBr);
 
@@ -76,6 +78,8 @@ registerLocaleData(localePtBr);
     MomentModule,
     ProducaoModule,
     ReceitaModule,
+    AcertoModule,
+    DevolucaoModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt' },

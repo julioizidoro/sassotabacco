@@ -63,7 +63,7 @@
                         <tr *ngFor="let compra of listaCompras"
                             class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
                             <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
-                                {{compra.datacompra}}</td>
+                                {{compra.datacompra | date: 'dd/MM/yyyy'}}</td>
                             <td class="col-lg-4 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
                                 {{compra.instituicao.nome}}</td>
                             <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"

@@ -32,6 +32,10 @@ import { ConsreceitaComponent } from './receita/consreceita/consreceita.componen
 import { CadreceitaComponent } from './receita/cadreceita/cadreceita.component';
 import { ConsproducaoComponent } from './producao/consproducao/consproducao.component';
 import { CadproducaoComponent } from './producao/cadproducao/cadproducao.component';
+import { ConsacertoComponent } from './acerto/consacerto/consacerto.component';
+import { CadacertoComponent } from './acerto/cadacerto/cadacerto.component';
+import { ConsdevolucaoComponent } from './devolucao/consdevolucao/consdevolucao.component';
+import { CaddevolucaoComponent } from './devolucao/caddevolucao/caddevolucao.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -68,6 +72,10 @@ const routes: Route[] = [
   { path: 'consproducao', component: ConsproducaoComponent },
   { path: 'cadproducao', component: CadproducaoComponent },
   { path: 'gerarsaldo', component: GerarsaldoComponent },
+  { path: 'consacerto', component: ConsacertoComponent },
+  { path: 'cadacerto', component: CadacertoComponent },
+  { path: 'consdevolucao', component: ConsdevolucaoComponent },
+  { path: 'caddevolucao', component: CaddevolucaoComponent },
   { path: '**', component: NotFoundComponent },
 
 
