@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ProdutoService } from '../produto.service';
 import { Estoque } from 'src/app/estoque/model/estoque';
 import { EstoqueService } from 'src/app/estoque/estoque.service';
+import { AuthService } from 'src/app/usuario/login/auth.service';
 
 @Component({
   selector: 'app-cadproduto',
@@ -22,6 +23,7 @@ export class CadprodutoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private estoqueService: EstoqueService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -94,6 +96,7 @@ export class CadprodutoComponent implements OnInit {
     if (this.estoque.valorvenda == null ) {
       this.estoque.valorvenda = 0;
     }
+    this.estoque.empresa = this.authService.getEmpresa();
     this.estoqueService.salvar( this.estoque).subscribe(
       resposta => {
         this.estoque = resposta as any;

@@ -184,6 +184,7 @@ export class CadacertoComponent implements OnInit {
     if (this.acerto.usuario === null){
       this.acerto.usuario = this.authService.getUsuario();
     }
+    this.acerto.empresa = this.authService.getEmpresa();
     this.acertoService.salvarAcerto(this.acerto).subscribe(
       resposta => {
         this.acerto = resposta as any;

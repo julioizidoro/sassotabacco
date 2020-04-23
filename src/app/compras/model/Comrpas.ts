@@ -3,6 +3,7 @@ import { Comprasconta } from './comprasconta';
 import { Planoconta } from 'src/app/planocontas/model/planoconta';
 import { Usuario } from 'src/app/usuario/model/usuario';
 import { Comprasproduto } from './comprasproduto';
+import { Empresa } from 'src/app/empresa/model/empresa';
 
 export class Compras {
     idcompras: number;
@@ -17,5 +18,6 @@ export class Compras {
     instituicao: Instituicao;
     planoconta: Planoconta;
     usuario: Usuario;
+    empresa: Empresa;
 
 }

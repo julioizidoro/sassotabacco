@@ -199,6 +199,7 @@ export class CaddevolucaoComponent implements OnInit {
   salvar() {
     this.devolucao = this.formulario.value;
     this.devolucao.planoconta = this.planoContaSelecionado;
+    this.devolucao.empresa = this.authService.getEmpresa();
     if (this.devolucao.usuario === null){
       this.devolucao.usuario = this.authService.getUsuario();
     }

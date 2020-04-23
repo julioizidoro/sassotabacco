@@ -190,6 +190,7 @@ export class CadproducaoComponent implements OnInit {
       this.producao.situacao = "Aguardando";
       this.producao.usuario = this.authService.getUsuario();
       this.producao.custo = this.calcularCustoTotal();
+      this.producao.empresa = this.authService.getEmpresa();
       this.producaoService.salvar(this.producao).subscribe(
         resposta => {
           this.producao = resposta as any;

@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Usuario } from '../model/usuario';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../usuario.service';
+import { Empresa } from 'src/app/empresa/model/empresa';
 
 
 
@@ -15,6 +16,7 @@ export class AuthService {
   private usuairoAutenticado = false;
   mostrarMenuEmitter = new EventEmitter<boolean>();
   usuario: Usuario;
+  private empresa: Empresa;
 
 
   constructor(
@@ -28,6 +30,14 @@ export class AuthService {
 
   setUsuario(usuario: Usuario) {
     this.usuario = usuario;
+  }
+
+  getEmpresa() {
+    return this.empresa;
+  }
+
+  setEmpresa(empresa: Empresa){
+    this.empresa = empresa;
   }
 
  /* fazerLogin(usuario: Usuario) {

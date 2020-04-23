@@ -1,4 +1,5 @@
 import { Acesso } from 'src/app/acesso/model/acesso';
+import { Empresa } from 'src/app/empresa/model/empresa';
 
 export class Usuario {
   idusuario: number;
@@ -11,4 +12,5 @@ export class Usuario {
     situacao: boolean;
     urlfoto: string;
     acesso: Acesso;
+    empresaList: Empresa[];
 }

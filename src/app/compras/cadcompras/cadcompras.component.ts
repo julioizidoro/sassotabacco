@@ -305,6 +305,7 @@ export class CadcomprasComponent implements OnInit {
     this.compra.usuario = this.authService.usuario;
     this.compra.valortotal = this.valorTotal;
     this.compra.totalliquido = this.totalLiquido;
+    this.compra.empresa = this.authService.getEmpresa();
     this.listaCompraConta = [];
     if (this.listaContas.length > 0) {
       for (let i=0;i<this.listaContas.length;i++) {

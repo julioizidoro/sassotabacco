@@ -38,6 +38,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ShareModule } from './share/share.module';
 import { AcertoModule } from './acerto/acerto.module';
 import { DevolucaoModule } from './devolucao/devolucao.module';
+import { EmpresaModule } from './empresa/empresa.module';
 
 registerLocaleData(localePtBr);
 
@@ -80,6 +81,7 @@ registerLocaleData(localePtBr);
     ReceitaModule,
     AcertoModule,
     DevolucaoModule,
+    EmpresaModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt' },

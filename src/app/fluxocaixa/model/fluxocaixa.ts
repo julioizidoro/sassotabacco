@@ -1,6 +1,7 @@
 import { Fluxocontas } from './fluxoconta';
 import { Fluxolancamento } from './fluxolancamento';
 import { Conta } from 'src/app/conta/model/conta';
+import { Empresa } from 'src/app/empresa/model/empresa';
 
 
 export class Fluxocaixa {
@@ -15,4 +16,5 @@ export class Fluxocaixa {
     fluxocontasList: Fluxocontas[];
     fluxolancamentoList: Fluxolancamento[];
     conta: Conta;
+    empresa: Empresa;
 }

@@ -1,4 +1,5 @@
 import { Conta } from 'src/app/conta/model/conta';
+import { Empresa } from 'src/app/empresa/model/empresa';
 
 export class Contasaldo {
 
@@ -10,4 +11,5 @@ export class Contasaldo {
     saldoliquido: number;
     saldo: number;
     conta: Conta;
+    empresa: Empresa;
 }

@@ -1,4 +1,5 @@
 import { Produto } from 'src/app/produto/model/produto';
+import { Empresa } from 'src/app/empresa/model/empresa';
 
 export class Estoque {
 
@@ -7,5 +8,6 @@ export class Estoque {
     customedio: number;
     valorvenda: number;
     produto: Produto;
+    empresa: Empresa;
 
 }
