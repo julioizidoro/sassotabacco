@@ -5,6 +5,7 @@ import { environment as env } from '../../environments/environment.prod';
 import { DevolucaoModule } from './devolucao.module';
 import { Devolucao } from './model/devolucao';
 import { Devolucaoproduto } from './model/devolucaoproduto';
+import { AuthService } from '../usuario/login/auth.service';
 
 
 
@@ -17,6 +18,7 @@ export class DevolucaoService {
 
   constructor(
     private httpCliente: HttpClient,
+    private authService: AuthService,
   ) { }
 
   getDevolucao() {
@@ -34,7 +36,7 @@ export class DevolucaoService {
   }
 
   listarDevolucao(): Observable<Devolucao> {
-    return this.httpCliente.get<Devolucao>(env.baseApiUrl + 'devolucoes/listar/devolucao');
+    return this.httpCliente.get<Devolucao>(env.baseApiUrl + 'devolucoes/listar/devolucao' + '/' + this.authService.getEmpresa().idempresa);
   }
 
   devolucaoId(id: number): Observable<Devolucao> {

@@ -12,5 +12,5 @@ export class Usuario {
     situacao: boolean;
     urlfoto: string;
     acesso: Acesso;
-    empresaList: Empresa[];
+    listaempresa: Empresa[];
 }

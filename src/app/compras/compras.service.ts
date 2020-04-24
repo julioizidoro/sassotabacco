@@ -5,6 +5,7 @@ import { environment as env } from '../../environments/environment.prod';
 import { Compras } from './model/Comrpas';
 import { Comprasproduto } from './model/comprasproduto';
 import { Comprasconta } from './model/comprasconta';
+import { AuthService } from '../usuario/login/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class ComprasService {
 
   constructor(
     private httpCliente: HttpClient,
+    private authService: AuthService,
   ) { }
 
   setCompra(compra: Compras) {
@@ -48,15 +50,15 @@ export class ComprasService {
   }
 
     listar(nome: string): Observable<Compras> {
-    return this.httpCliente.get<Compras>(env.baseApiUrl + 'compras/listar/' + nome);
+    return this.httpCliente.get<Compras>(env.baseApiUrl + 'compras/listar/' + nome + "/" + this.authService.getEmpresa().idempresa);
   }
 
   pesquisarDocumento(documento: string): Observable<Compras> {
-    return this.httpCliente.get<Compras>(env.baseApiUrl + 'compras/listar/doc/' + documento);
+    return this.httpCliente.get<Compras>(env.baseApiUrl + 'compras/listar/doc/' + documento + "/" + this.authService.getEmpresa().idempresa);
   }
 
   pesquisarNome(nome: string): Observable<Compras> {
-    return this.httpCliente.get<Compras>(env.baseApiUrl + 'compras/listar/' + nome);
+    return this.httpCliente.get<Compras>(env.baseApiUrl + 'compras/listar/' + nome + "/" + this.authService.getEmpresa().idempresa);
   }
 
   pesquisarId(id: number): Observable<Compras> {

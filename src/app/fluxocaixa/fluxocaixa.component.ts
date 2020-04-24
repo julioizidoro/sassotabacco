@@ -112,8 +112,8 @@ export class FluxocaixaComponent implements OnInit {
       resposta => {
         this.listaContaSaldo = resposta as any;
         if (this.listaContaSaldo.length>0) {
-          this.titulo = 'Fluxo de Caixa - ' + this.listaContaSaldo[0].mesano; 
-          console.log(this.titulo); 
+          this.titulo = 'Fluxo de Caixa - ' + this.listaContaSaldo[0].mesano;
+          console.log(this.titulo);
         }
       },
       err => {
@@ -533,7 +533,7 @@ export class FluxocaixaComponent implements OnInit {
       conta: [null],
       entrada: [null],
       saida: [null],
-    });  
+    });
   }
 
   listarPlanoContas() {

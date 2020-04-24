@@ -68,11 +68,11 @@
                     <label>Relatórios</label>
                   </a>
                   <div class="dropdown-menu dropdown-primary dropdown-menu-right" role="menu">
-                    
+
                   </div>
                 </li>
               </ul>
-          
+
 
 
       </ul>
@@ -82,10 +82,11 @@
       <ul class="navbar-nav nav-flex-icons">
         <li class="nav-item dropdown btn-group" dropdown>
           <a dropdownToggle type="button" class="nav-link dropdown-toggle waves-light " mdbWavesEffect>
-            <label>{{ usuario.nome}}</label>
+            <label>{{ empresaUsuario }}  </label>
             <i class="fas fa-user"></i>
           </a>
           <div class="dropdown-menu dropdown-primary dropdown-menu-right" role="menu">
+            <a class="dropdown-item" (click)="trocarEmpresa()">Trocar empresa</a>
             <a class="dropdown-item" href="#">Alterar senha</a>
             <a class="dropdown-item" href="#">Trocar foto</a>
             <a class="dropdown-item" href="#">

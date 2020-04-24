@@ -22,6 +22,7 @@ export class AuthService {
   constructor(
     private router: Router,
     private usuarioService: UsuarioService,
+
   ) { }
 
   getUsuario() {
@@ -59,8 +60,9 @@ export class AuthService {
         resposta => {
           this.usuario = resposta as Usuario;
           if ( this.usuario != null ) {
-            this.router.navigate([ '/' ]);
-            this.mostrarMenuEmitter.emit(true);
+            if (this.usuario.listaempresa.length===1){
+                this.selecionarEmpresa(usuario.listaempresa[0]);
+            } else this.router.navigate(['/consempresa']);
           } else {
             this.usuairoAutenticado = false;
             this.mostrarMenuEmitter.emit(false);
@@ -76,5 +78,16 @@ export class AuthService {
       this.usuario = null;
       this.usuairoAutenticado = false;
       this.mostrarMenuEmitter.emit(false);
+    }
+
+    selecionarEmpresa(empresa: Empresa) {
+      console.log(empresa);
+      this.empresa = empresa;
+      if (this.usuario != null) {
+        if (this.empresa != null) {
+          this.mostrarMenuEmitter.emit(true);
+            this.router.navigate([ '/' ]);
+        }
+      }
     }
 }
