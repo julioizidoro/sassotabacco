@@ -4,6 +4,7 @@ import { ContasaldoService } from 'src/app/contas/contasaldo.service';
 import { Contasaldo } from 'src/app/conta/model/contasaldo';
 import { Contas } from 'src/app/contas/model/contas';
 import { ContasService } from 'src/app/contas/contas.service';
+import { AuthService } from 'src/app/usuario/login/auth.service';
 
 @Component({
   selector: 'app-dashboard1',
@@ -30,6 +31,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private contaSaldoService: ContasaldoService,
+    private authService: AuthService,
     ) {}
 
   ngOnInit() {
@@ -37,7 +39,7 @@ export class DashboardComponent implements OnInit {
   }
 
   consultarContasSaldo() {
-    this.contaSaldoService.listarMesAno('@').subscribe(
+    this.contaSaldoService.listarMesAno('@', this.authService.getEmpresa()).subscribe(
       resposta => {
         this.listaContaSaldos = resposta as any;
       },

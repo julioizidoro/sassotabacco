@@ -108,7 +108,7 @@ export class FluxocaixaComponent implements OnInit {
   }
 
   listarConta() {
-    this.contaSaldoService.listarMesAno('@').subscribe(
+    this.contaSaldoService.listarMesAno('@', this.authService.getEmpresa()).subscribe(
       resposta => {
         this.listaContaSaldo = resposta as any;
         if (this.listaContaSaldo.length>0) {

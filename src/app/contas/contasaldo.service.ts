@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../environments/environment.prod';
 import { Contasaldo } from '../conta/model/contasaldo';
+import { Empresa } from '../empresa/model/empresa';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,13 @@ export class ContasaldoService {
     return this.httpCliente.post<any>(env.baseApiUrl + 'contasaldos/salvar', contaSaldo);
   }
 
-  listarMesAno(mesano: string): Observable<Contasaldo> {
-    return this.httpCliente.get<Contasaldo>(env.baseApiUrl + 'contasaldos/listar/' + mesano);
+  listarMesAno(mesano: string, empresa: Empresa): Observable<Contasaldo> {
+    
+    return this.httpCliente.get<Contasaldo>(env.baseApiUrl + 'contasaldos/listar/' + mesano + '/' + empresa.idempresa);
   }
 
-  getConta(idconta: number, mesano: string): Observable<Contasaldo> {
-    return this.httpCliente.get<Contasaldo>(env.baseApiUrl + 'contasaldos/conta/' + idconta + "/" + mesano);
+  getConta(idconta: number, mesano: string, empresa: Empresa): Observable<Contasaldo> {
+    return this.httpCliente.get<Contasaldo>(env.baseApiUrl + 'contasaldos/conta/' + idconta + "/" + mesano + "/" + empresa.idempresa);
   }
 
   getId(id: number): Observable<Contasaldo> {
@@ -31,8 +33,8 @@ export class ContasaldoService {
     return this.httpCliente.post<string>(env.baseApiUrl + 'contasaldos/gerarsaldo', contaSaldo);
   }
 
-  getAtivos(): Observable<Contasaldo> {
-    return this.httpCliente.get<Contasaldo>(env.baseApiUrl + 'contasaldos/ativos');  
+  getAtivos(empresa: Empresa): Observable<Contasaldo> {
+    return this.httpCliente.get<Contasaldo>(env.baseApiUrl + 'contasaldos/ativos/' + empresa.idempresa);  
   }
 
 
