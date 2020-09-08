@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/usuario/login/auth.service';
 import { Usuario } from 'src/app/usuario/model/usuario';
+import { Empresa } from 'src/app/empresa/model/empresa';
 
 
 @Component({
@@ -14,6 +15,8 @@ export class NavigationComponent implements OnInit {
 
   clicked: boolean;
   usuario: Usuario;
+  empresa: Empresa;
+  empresaUsuario: string;
 
   constructor(
     private authService: AuthService,
@@ -23,7 +26,14 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.empresa = this.authService.getEmpresa();
+    console.log(this.empresa.nomefantasia);
+    if (this.empresa == null) {
+      this.empresa = new Empresa();
+      this.empresa.nomefantasia = '';
+    }
     this.usuario = this.authService.usuario;
+    this.empresaUsuario = this.empresa.nomefantasia + ' - ' + this.usuario.nome;
   }
 
   setClicked(val: boolean): void {
@@ -33,6 +43,13 @@ export class NavigationComponent implements OnInit {
   logof() {
     this.authService.mostrarMenuEmitter.unsubscribe();
     this.router.navigate(['/login']);
+  }
+
+  trocarEmpresa() {
+    if (this.authService.usuario.listaempresa.length>1) {
+      this.authService.mostrarMenuEmitter.emit(false);
+      this.router.navigate(['/consempresa']);
+    }
   }
 
 

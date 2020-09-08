@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
       fonecelular: [null],
       situacao: [null],
       acesso: [null],
+      listaempresa: [],
     });
 
   }

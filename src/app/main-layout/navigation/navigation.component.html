@@ -6,7 +6,7 @@
     <logo>
       <a class="navbar-brand">
         <strong class="text-white">
-          <img src="../../../assets/img/logo-stb-branco.png" style="width: 90px;">
+        <!--  <img src="../../../assets/img/logo-stb-branco.png" style="width: 90px;"> -->
         </strong>
       </a>
     </logo>
@@ -40,12 +40,9 @@
               </a>
               <div class="dropdown-menu dropdown-primary dropdown-menu-right" role="menu">
                 <a class="dropdown-item" routerLink="/conscompras">Compras</a>
-                <a class="dropdown-item" href="#">Pedidos</a>
                 <a class="dropdown-item" routerLink="/consacerto">Acertos</a>
-                <a class="dropdown-item" routerLink="/consreceita">Receitas</a>
-                <a class="dropdown-item" routerLink="/consproducao">Produção</a>
+                <a class="dropdown-item" routerLink="/consvenda">Vendas</a>
                 <a class="dropdown-item" routerLink="/consdevolucao">Devolução</a>
-                <a class="dropdown-item" href="#">Faturamento</a>
               </div>
             </li>
           </ul>
@@ -68,11 +65,11 @@
                     <label>Relatórios</label>
                   </a>
                   <div class="dropdown-menu dropdown-primary dropdown-menu-right" role="menu">
-                    
+
                   </div>
                 </li>
               </ul>
-          
+
 
 
       </ul>
@@ -82,10 +79,11 @@
       <ul class="navbar-nav nav-flex-icons">
         <li class="nav-item dropdown btn-group" dropdown>
           <a dropdownToggle type="button" class="nav-link dropdown-toggle waves-light " mdbWavesEffect>
-            <label>{{ usuario.nome}}</label>
+            <label>{{ empresaUsuario }}  </label>
             <i class="fas fa-user"></i>
           </a>
           <div class="dropdown-menu dropdown-primary dropdown-menu-right" role="menu">
+            <a class="dropdown-item" (click)="trocarEmpresa()">Trocar empresa</a>
             <a class="dropdown-item" href="#">Alterar senha</a>
             <a class="dropdown-item" href="#">Trocar foto</a>
             <a class="dropdown-item" href="#">

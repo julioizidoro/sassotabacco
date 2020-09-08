@@ -40,15 +40,9 @@ export class CadcomprasComponent implements OnInit {
   listaEstoque: Estoque[];
   listaProdutos: Produto[];
   produtoSelecionado: Produto;
-  avista: boolean;
-  aprazo: boolean;
-  listaContas: Contas[];
-  dataVencimento: Date;
-  inputDataCompra: boolean;
   totalLiquido: number;
   valorTotal: number;
   listaCompraProduto: Comprasproduto[];
-  listaCompraConta: Comprasconta[];
   
 
   constructor(
@@ -63,7 +57,7 @@ export class CadcomprasComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.inputDataCompra = false;
+    console.log("inicio");
     this.listarFornecedor();
     this.listarGrupoConta();
     this.listarEstoque();
@@ -71,31 +65,22 @@ export class CadcomprasComponent implements OnInit {
     this.compra = this.comprasService.getCompra();
     if (this.compra != null) {
       this.fornecedorSelecionado = this.compra.instituicao;
-      this.planoContaSelecionado = this.compra.planoconta;
       this.grupoContaSelecionado = this.compra.planoconta.grupoplanoconta;
+      this.listarPlanoContas(this.grupoContaSelecionado.idgrupoplanoconta);
+      this.planoContaSelecionado = this.compra.planoconta;
       this.listaCompraProduto = this.comprasService.getListaCompraProduto();
-      this.listaCompraConta = this.comprasService.getListaCompraConta();
       this.inicarFormularioEditar();
       this.valorTotal= this.compra.valortotal;
       this.totalLiquido = this.compra.totalliquido;
-      if (this.compra.formapagamento === 'a vista') {
-        this.avista = true;
-        this.aprazo = false;
-      } else {
-        this.avista = false;
-        this.aprazo = true;
-      }
     } else {
-      this.avista = false;
-      this.aprazo = false;
       this.compra = new Compras();
+      this.listaCompraProduto = [];
       this.compra.valortotal=0;
       this.compra.totalliquido = 0;
       this.compra.desconto=0;
       this.valorTotal = 0;
       this.totalLiquido = 0;
       this.listaCompraProduto = [];
-      this.listaCompraConta = [];
       this.fornecedorSelecionado = new Instituicao();
       this.fornecedorSelecionado.nome = '';
       this.grupoContaSelecionado = new Grupoplanoconta();
@@ -122,7 +107,6 @@ export class CadcomprasComponent implements OnInit {
       grupoconta: this.compra.planoconta.grupoplanoconta,
       produtoquantidade: [null],
       produtocusto: [null],
-      datavencimento: this.listaCompraConta[0].contas.datavencimento,
     });
   }
 
@@ -244,58 +228,12 @@ export class CadcomprasComponent implements OnInit {
     produto = this.listaCompraProduto[posicao];
     this.compra.valortotal = this.compra.valortotal - produto.subtotal;
     this.compra.totalliquido = this.compra.valortotal - this.compra.desconto;
-    this.listaCompraProduto.splice[posicao];
+    this.listaCompraProduto.splice(posicao, 1);
   }
 
-  calcularparcelas() {
-    let formapgamento = this.formulario.get('formapagamento').value;
-    let documetno = this.formulario.get('documento').value;
-    if (formapgamento != null) {
-      if (formapgamento === 'a vista') {
-        this.avista = true;
-        this.aprazo = false;
-        this.listaContas= [];
-      } else {
-        this.avista = false;
-        this.aprazo = true;
-        let numeroParcelas = formapgamento;
-        this.listaContas = [];
-        for (let i=0;i<numeroParcelas;i++){
-          let conta = new Contas(); 
-          conta.dataemissao = new Date();
-          conta.documento = documetno;
-          conta.datavencimento  = this.gerarDataVencimento(i+1, this.formulario.get('datacompra').value);
-          conta.desconto = 0;
-          conta.instituicao = this.fornecedorSelecionado;
-          conta.juros = 0;
-          conta.numeroparcela = i+1;
-          conta.planoconta = this.planoContaSelecionado;
-          conta.tipo = 'p';
-          conta.valorpago= 0;
-          let valorparcela = this.totalLiquido;
-          conta.valorparcela = valorparcela/numeroParcelas;
-          this.listaContas.push(conta);
-        }
-      }
-    }
-  }
+  
 
-  gerarDataVencimento(parcela: number, dataCompra: Date)  {
-    let dataVencimento;
-    dataVencimento = (moment(dataCompra).add(parcela, 'month')); 
-    dataVencimento = moment(dataVencimento, "DD/MM/YYYY");
-     return dataVencimento;
-  }
-
-  setDataCompra() {
-    console.log('Entrou');
-    let data = this.formulario.get('datacompra').value;
-    if (data !=null ) {
-      if (moment(data).isValid) {
-        this.inputDataCompra = true;
-      } else this.inputDataCompra = false; 
-    } else this.inputDataCompra = false;
-  }
+  
 
 
   salvar() {
@@ -306,54 +244,15 @@ export class CadcomprasComponent implements OnInit {
     this.compra.valortotal = this.valorTotal;
     this.compra.totalliquido = this.totalLiquido;
     this.compra.empresa = this.authService.getEmpresa();
-    this.listaCompraConta = [];
-    if (this.listaContas.length > 0) {
-      for (let i=0;i<this.listaContas.length;i++) {
-        let compraConta = new Comprasconta();
-        compraConta.compras = this.compra;
-        compraConta.contas = this.listaContas[i];
-        this.listaCompraConta.push(compraConta);
-      }
-    
-    }else {
-      let compraConta = new Comprasconta();
-      compraConta.compras = this.compra;
-      let conta = new Contas(); 
-          conta.dataemissao = this.formulario.get('datacompra').value;
-          conta.documento = this.compra.documento;
-          conta.datavencimento  = this.formulario.get('datavencimento').value;
-          conta.desconto = 0;
-          conta.instituicao = this.fornecedorSelecionado;
-          conta.juros = 0;
-          conta.numeroparcela = 1;
-          conta.planoconta = this.planoContaSelecionado;
-          conta.tipo = 'p';
-          conta.valorpago= 0;
-          conta.valorparcela = this.totalLiquido;
-          this.listaContas.push(conta);
-      compraConta.contas = conta;
-      this.listaCompraConta.push(compraConta);
-    }
     this.comprasService.salvar(this.compra).subscribe(
       resposta => {
         this.compra = resposta as any;
         for(let i=0;i<this.listaCompraProduto.length;i++){
           this.listaCompraProduto[i].compras = this.compra;
         }
-        for(let i=0;i<this.listaCompraConta.length;i++){
-          this.listaCompraConta[i].compras = this.compra;
-        }
         this.comprasService.salvarProduto(this.listaCompraProduto).subscribe(
           resposta => {
-
-          },
-          err => {
-            console.log(JSON.stringify(err));
-          }
-        );
-        this.comprasService.salvarConta(this.listaCompraConta).subscribe(
-          resposta => {
-
+            this.router.navigate(['/conscompras']);
           },
           err => {
             console.log(JSON.stringify(err));
@@ -378,7 +277,13 @@ export class CadcomprasComponent implements OnInit {
     }
   }
 
-  remover(posicao: number){
-
+  calcularDesconto() {
+    let desconto = this.formulario.get('desconto').value;
+    if (desconto!=null) {
+      this.totalLiquido = this.valorTotal - desconto;
+      this.formulario.patchValue({
+        totalliquido: this.totalLiquido,
+      }); 
+    } 
   }
 }

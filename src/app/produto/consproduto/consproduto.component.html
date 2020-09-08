@@ -72,9 +72,9 @@
                             <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
                                 {{estoque.produto.unidade}}</td>
                             <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
-                                style="border: none;">{{estoque.produto.valor}}</td>
+                                style="border: none; text-align: right;">{{estoque.valorvenda | currency: ' ' }}</td>
                             <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
-                                style="border: none;">{{estoque.quantidadeestoque}}</td>
+                                style="border: none; text-align: right;">{{estoque.quantidadeestoque | currency: ' '}}</td>
                             <td class="col-lg-1 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
 
                                 <button type="button" style="float:right;" class="btn btn-light font-weight-light mr-1 p-1" 

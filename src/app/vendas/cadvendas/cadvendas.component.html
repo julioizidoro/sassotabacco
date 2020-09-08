@@ -2,7 +2,7 @@
 <div class="page-header">
   <div class="container-fluid">
     <h3>
-      Compras de Mercadorias
+      Vendas
     </h3>
     <hr />
   </div>
@@ -10,35 +10,9 @@
   <div style="width:100%;">
     <form [formGroup]="formulario">
       <div class="row">
-        <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
-          <label for="fornecedor">Fornecedor</label>
-          <p-dropdown id="fornecedor" [style]="{'width':'100%'}" [options]="listaFornecedor"
-            [(ngModel)]="fornecedorSelecionado" optionLabel="nome" [filter]="true" filterBy="label,value.nome"
-            [ngModelOptions]="{standalone: true}">
-          </p-dropdown>
-        </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
-          <label for="numerodocumento">No. Documento</label>
-          <input type="text" class="form-control" id="numerodocumento" placeholder="No. Documento"
-            formControlName="documento">
-        </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-          <label>Grupo de contas</label>
-          <select class="form-control" formControlName="grupoconta" [compareWith]="compararGrupoConta"
-            (change)="setGrupoConta()">
-            <option *ngFor="let grupoConta of listaGrupoContas" [ngValue]="grupoConta"> {{ grupoConta.descricao }}
-            </option>
-          </select>
-        </div>
-
-        <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-          <label>Plano de Contas</label>
-          <select class="form-control" formControlName="planoconta" [compareWith]="compararPalnoConta"
-            (change)="setPlanoConta()">
-            <option *ngFor="let planoConta of listaPlanoContas" [ngValue]="planoConta"> {{ planoConta.descricao }}
-            </option>
-          </select>
-        </div>
+        
+        
+     
         <div class="container-fluid">
           <h5>
               Produtos
@@ -49,22 +23,28 @@
         <div class="form-group col-xs-12 col-sm-12 col-md-10 col-lg-10">
           <div class="row">
             <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
-              <label for="produto">Produtos</label>
+              <label for="produto">Produto</label>
               <p-dropdown id="produto" [style]="{'width':'100%'}" [options]="listaProdutos"
                 [(ngModel)]="produtoSelecionado" optionLabel="descricao" [filter]="true"
-                filterBy="label,value.descricao" [ngModelOptions]="{standalone: true}">
+                filterBy="label,value.descricao" [ngModelOptions]="{standalone: true}" 
+                (onChange)="onChangeProduto()">
               </p-dropdown>
             </div>
             <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
               <label for="quantidade">Quantidade</label>
               <input type="number" style="text-align:right" class="form-control" id="quantidade"
-                formControlName="produtoquantidade">
+                formControlName="produtoquantidade" (blur)="calcularValorTotalProduto()" >
             </div>
             <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
-              <label for="valorparcela">Valor custo</label>
-              <input type="number" style="text-align:right" class="form-control" id="valorcusto"
-                formControlName="produtocusto">
+              <label for="valorunitario">Valor Unitário </label>
+              <input type="number" style="text-align:right" class="form-control" id="valorunitario"
+                formControlName="produtounitario" readonly > 
             </div>
+            <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                <label for="valortotal">Valor </label>
+                <input type="number" style="text-align:right" class="form-control" id="valortotal"
+                  formControlName="produtototal"  readonly >
+              </div>
             <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
               <button type="button" class="btn btn-success" (click)="addProduto()">
                 <i class="fas fa-plus" aria-hidden="true"></i>
@@ -74,12 +54,7 @@
           </div>
           <div class="form-group col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
         </div>
-        <div class="container-fluid">
-          <h5>
-              Forma de pagamento
-          </h5>
-          <hr />
-      </div>
+     
         <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2"></div>
 
         <div class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -90,21 +65,21 @@
                   class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
                   <th class="col-lg-6 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Produto</th>
                   <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Quantidade</th>
-                  <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Custo</th>
+                  <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Valor Unitário</th>
                   <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">SubTotal</th>
                   <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm"
                     style="text-align: center;">Ações</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let produto of listaCompraProduto; let posicao = index"
+                <tr *ngFor="let produto of listaVendaProduto; let posicao = index"
                   class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
                   <td class="col-lg-5 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
                     {{produto.estoque.produto.descricao}}</td>
                   <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;text-align: right;">
                     {{produto.quantidade | currency: ' '}}</td>
                   <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
-                    style="border: none;text-align: right;">{{produto.custo | currency: ' '}}</td>
+                    style="border: none;text-align: right;">{{produto.estoque.valorvenda | currency: ' '}}</td>
                   <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
                     style="border: none;text-align: right;">{{produto.subtotal | currency: ' '}}</td>
                   <td class="col-lg-1 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
@@ -140,8 +115,8 @@
           </div>
             <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
               <label for="desconto">Desconto R$</label>
-              <input type="number" style="text-align:right" class="form-control" id="desconto" (keypress)="calcularDesconto()"
-                formControlName="desconto">
+              <input type="number" style="text-align:right" class="form-control" id="desconto"
+                formControlName="desconto" (keypress)="calcularDesconto()">
             </div>
             <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
               <label for="totalliquido">Total líquido</label>
@@ -154,22 +129,30 @@
         </div>
 
       </div>
+      <div class="container-fluid">
+        <h5>
+            Forma de pagamento
+        </h5>
+        <hr />
+    </div>
       <div class="row">
         <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">      
         </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
-          <label for="datacompra">Data da compra</label>
-          <input type="date"  class="form-control" id="datacompra" 
-            formControlName="datacompra" >
-          </div>
+      
           <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
             <label for="formapagamento">Forma de pagamento</label>
-            <select class="form-control" formControlName="formapagamento" >
-              <option value="a vista">Á vista</option>
-              <option value="a prazo">Á prazo</option>
+            <select class="form-control" formControlName="formapagamento" (change)="calcularparcelas()" >
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Cartão débito">Cartão débito</option>
+              <option value="Cartão crédito">Cartão crédito</option>
+              <option value="Á prazo">Á prazo</option>
           </select>
           </div>
-       
+          <div *ngIf="aprazo" class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+              <label for="datavencimento">Data da Vencimento</label>
+              <input type="date"  class="form-control" id="datacompra"
+                formControlName="datavencimento" >
+              </div>
       </div>
       <div class="row">
         
@@ -178,6 +161,7 @@
        
       </div>
       
+
           
               
       <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">

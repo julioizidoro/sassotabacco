@@ -4,7 +4,6 @@ import { Contasaldo } from 'src/app/conta/model/contasaldo';
 import { convertActionBinding } from '@angular/compiler/src/compiler_util/expression_converter';
 import { AlertModelService } from 'src/app/shared/alert/alert-model.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AuthService } from 'src/app/usuario/login/auth.service';
 
 @Component({
   selector: 'app-gerarsaldo',
@@ -22,7 +21,6 @@ export class GerarsaldoComponent implements OnInit {
     private contaSaldoService: ContasaldoService,
     private alertService: AlertModelService,
     private formBuilder: FormBuilder,
-    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -33,7 +31,7 @@ export class GerarsaldoComponent implements OnInit {
   }
 
   async  listarConta() {
-    await this.contaSaldoService.getAtivos(this.authService.getEmpresa()).subscribe(
+    await this.contaSaldoService.getAtivos().subscribe(
       resposta => {
         this.listaContaSaldo = resposta as any;
       },

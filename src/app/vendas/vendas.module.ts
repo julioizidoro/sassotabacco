@@ -1,41 +1,47 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CadempresaComponent } from './cadempresa/cadempresa.component';
-import { ConsempresaComponent } from './consempresa/consempresa.component';
-import { EmpresaService } from './empresa.service';
+import { ConsvendasComponent } from './consvendas/consvendas.component';
+import { CadvendasComponent } from './cadvendas/cadvendas.component';
+import { VendasService } from './vendas.service';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { HttpClientModule } from '@angular/common/http';
 import { TextMaskModule } from 'angular2-text-mask';
-import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { AccordionModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from '../shared/shared.module';
+import { FornecedorModule } from '../fornecedor/fornecedor.module';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 @NgModule({
   declarations: [
-    CadempresaComponent,
-    ConsempresaComponent
-  ],
+    ConsvendasComponent,
+    CadvendasComponent],
   imports: [
     CommonModule,
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
     TextMaskModule,
     ReactiveFormsModule,
+    CommonModule,
     RouterModule,
     FormsModule,
     AccordionModule.forRoot(),
     BsDatepickerModule.forRoot(),
     BrowserModule,
     SharedModule,
+    FornecedorModule,
+    DropdownModule,
+    
   ],
   exports: [
-    CadempresaComponent,
-    ConsempresaComponent
+    ConsvendasComponent,
+    CadvendasComponent
   ],
-  providers: [
-    EmpresaService,
+  providers:[
+    VendasService,
   ]
 })
-export class EmpresaModule { }
+export class VendasModule { }

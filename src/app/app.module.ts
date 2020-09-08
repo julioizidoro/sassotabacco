@@ -6,9 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routes.service';
-
 import { ViewsModule } from './views/views.module';
-;
+
 import { ErrorModule } from './views/errors/error.module';
 
 // main layout
@@ -39,6 +38,7 @@ import { ShareModule } from './share/share.module';
 import { AcertoModule } from './acerto/acerto.module';
 import { DevolucaoModule } from './devolucao/devolucao.module';
 import { EmpresaModule } from './empresa/empresa.module';
+import { VendasModule } from './vendas/vendas.module';
 
 registerLocaleData(localePtBr);
 
@@ -82,6 +82,8 @@ registerLocaleData(localePtBr);
     AcertoModule,
     DevolucaoModule,
     EmpresaModule,
+    VendasModule,
+    
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt' },

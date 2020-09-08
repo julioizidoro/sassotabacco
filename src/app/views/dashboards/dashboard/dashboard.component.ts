@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContaService } from 'src/app/conta/conta.service';
 import { ContasaldoService } from 'src/app/contas/contasaldo.service';
 import { Contasaldo } from 'src/app/conta/model/contasaldo';
 import { Contas } from 'src/app/contas/model/contas';
 import { ContasService } from 'src/app/contas/contas.service';
 import { AuthService } from 'src/app/usuario/login/auth.service';
+import { Empresa } from 'src/app/empresa/model/empresa';
+import { Router } from '@angular/router';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-dashboard1',
@@ -26,20 +29,29 @@ export class DashboardComponent implements OnInit {
     },
   ];*/
 
+  @ViewChild('selecionarEmpresa', null) public showModalSelecionarEmpresaOnClick: ModalDirective;
+
   listaContaSaldos: Contasaldo[];
+  listaEmpresa: Empresa[];
 
 
   constructor(
     private contaSaldoService: ContasaldoService,
     private authService: AuthService,
+    private router: Router,
     ) {}
 
   ngOnInit() {
-      this.consultarContasSaldo();
+      console.log(this.authService.getEmpresa());
+      if (this.authService.getEmpresa()==null) {
+          this.router.navigate(['/consempresa']);
+      } else {
+        this.consultarContasSaldo();
+      }
   }
 
   consultarContasSaldo() {
-    this.contaSaldoService.listarMesAno('@', this.authService.getEmpresa()).subscribe(
+    this.contaSaldoService.listarMesAno('@').subscribe(
       resposta => {
         this.listaContaSaldos = resposta as any;
       },
@@ -47,6 +59,11 @@ export class DashboardComponent implements OnInit {
           console.log(JSON.stringify(err));
         }
     )
+  }
+
+  selecionarEmpresa(empresa: Empresa) {
+    this.authService.setEmpresa(empresa);
+    this.showModalSelecionarEmpresaOnClick.hide();
   }
 
 

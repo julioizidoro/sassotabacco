@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment as env } from '../../environments/environment.prod';
 import { Acerto } from './model/acerto';
 import { Acertoproduto } from './model/acertoproduto';
+import { AuthService } from '../usuario/login/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class AcertoService {
 
   constructor(
     private httpCliente: HttpClient,
+    private authService: AuthService,
   ) { }
 
     setAcerto(acerto: Acerto) {
@@ -31,7 +33,7 @@ export class AcertoService {
     }
 
     listarAcerto(): Observable<Acerto> {
-      return this.httpCliente.get<Acerto>(env.baseApiUrl + 'acertos/listar/acerto');
+      return this.httpCliente.get<Acerto>(env.baseApiUrl + 'acertos/listar/acerto/' + this.authService.getEmpresa().idempresa);
     }
 
     acertoId(id: number): Observable<Acerto> {

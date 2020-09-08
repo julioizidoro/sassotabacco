@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../environments/environment.prod';
 import { Producaoproduto } from './model/producaoproduto';
+import { AuthService } from '../usuario/login/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class ProducaoService {
 
   constructor(
     private httpCliente: HttpClient,
+    private authService: AuthService,
   ) { }
 
   setProducao(producao: Producao) {
@@ -30,7 +32,7 @@ export class ProducaoService {
   }
 
   listar(descricao: string): Observable<Producao> {
-    return this.httpCliente.get<Producao>(env.baseApiUrl + 'producoes/producao/listar/' + descricao);
+    return this.httpCliente.get<Producao>(env.baseApiUrl + 'producoes/producao/listar/' + descricao + '/' + this.authService.getEmpresa().idempresa);
   }
 
   pesquisarId(id: number): Observable<Producao> {

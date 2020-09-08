@@ -8,7 +8,7 @@
     </div>
     <div style="width:100%;">
         <form [formGroup]="formulario">
-            <div formGroupName="produto" class="row">
+            <div  class="row">
                 <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9">
                     <label for="descricao">Descrição</label>
                     <input type="text" class="form-control" id="descricao" placeholder="Descrição"
@@ -32,6 +32,33 @@
                 </div>
 
                 <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    <label for="estoqueminimo">Estoque minimo</label>
+                    <input type="text" class="form-control" id="estoqueminimo" placeholder="0,000"
+                        formControlName="estoqueminimo" style="text-align: right;">
+                </div>
+    
+                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    <label for="estoquemaximo">Estoque máximo</label>
+                    <input type="text" class="form-control" id="estoquemaximo" placeholder="0,000"
+                        formControlName="estoquemaximo" style="text-align: right;">
+                </div>
+
+                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    <label for="quantidadeestoque">Quantidade Estoque</label>
+                    <input type="number" class="form-control" id="quantidadeestoque" formControlName="quantidadeestoque" style="text-align: right;" placeholder="0,000">
+                </div>
+
+                <div class="form-group col-xs-12 col-sm-12 col-md- col-lg-3">
+                    <label for="customedio">Custo médio</label>
+                    <input type="number" class="form-control" id="customedio"  formControlName="customedio" placeholder="0,00" style="text-align: right;">
+                </div>
+
+                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    <label for="valorvenda">Valor Venda</label>
+                    <input type="number" class="form-control" id="valorvenda"  formControlName="valorvenda" placeholder="0,00" style="text-align: right;">
+                </div>
+
+                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
                     <label for="ncm">NCM</label>
                     <input type="text" class="form-control" id="ncm" placeholder="NCM" formControlName="ncm">
                 </div>
@@ -40,37 +67,11 @@
                     <label for="cest">CEST</label>
                     <input type="text" class="form-control" id="cest" placeholder="CEST" formControlName="cest">
                 </div>
+            
 
-                <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <label for="materiaprima">Matéria prima</label>
-                <select class="form-control" formControlName="materiaprima" (change)="setMateriaPrima()">
-                    <option value="true">Sim</option>
-                    <option value="false">Não</option>
-                </select>
-            </div>
+            
 
-            <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <label for="estoqueminimo">Estoque minimo</label>
-                <input type="text" class="form-control" id="estoqueminimo" placeholder="0,000"
-                    formControlName="estoqueminimo">
-            </div>
-
-            <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <label for="estoquemaximo">Estoque máximo</label>
-                <input type="text" class="form-control" id="estoquemaximo" placeholder="0,000"
-                    formControlName="estoquemaximo">
-            </div>
-
-            <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <label for="pesobruto">Peso Bruto</label>
-                <input type="text" class="form-control" id="pesobruto" placeholder="0,000" formControlName="pesobruto">
-            </div>
-
-            <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <label for="pesoliquido">Peso liquido</label>
-                <input type="text" class="form-control" id="pesoliquido" placeholder="0,000"
-                    formControlName="pesoliquido">
-            </div>
+            
     </div>
     <div class="mt-3 w-100 text-right">
         <button type="button" class="btn btn-primary" (click)="salvar()">

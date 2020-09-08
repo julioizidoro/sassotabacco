@@ -1,0 +1,80 @@
+<br /><br />
+<div class="page-header">
+    <div class="container-fluid">
+        <h3>
+            Consulta de Vendas
+        </h3>
+        <hr />
+    </div>
+    <form [formGroup]="formulario">
+        <div class="container-fluid" style="width:100%;">
+            <div class="w-100">
+                <button type="button" style="float:right;" class="btn btn-primary font-weight-light" 
+                    routerLink="/cadvenda">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <a class="ml-2">Nova</a>
+                </button>
+            </div>
+            <br><br>
+            <div class="w-100">
+                <accordion [closeOthers]="oneAtATime">
+                    <accordion-group heading="Pesquisar" [isOpen]="isFirstOpen" class="primary">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="fornecedor">Fornecedor</label>
+                                <input type="text" class="form-control" id="fornecedor" 
+                                    formControlName="nome">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="documento">No. Documento</label>
+                                <input type="text" class="form-control" id="documento" 
+                                    formControlName="documento">
+                            </div>
+                            <div class="form-group col-md-12 text-right">
+                                <button type="button" class="btn btn-primary" (click)="pesquisar()">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                    Pesquisar
+                                </button>
+                                <button type="submit" class="btn btn-danger" style="margin-left:1%;"
+                                    (click)="consultar()">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    Limpar
+                                </button>
+                            </div>
+                        </div>
+                    </accordion-group>
+                </accordion>
+            </div>
+
+            <div class="table-responsive-lg">
+                <table class="table table-striped">
+                    <thead>
+                        <tr
+                            class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
+                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Data Venda</th>
+                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Hora Venda</th>
+                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Numero itens</th>
+                            <th class="col-lg-4 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">forma pagamento</th>
+                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Valor </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let venda of listaVendas"
+                            class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                            <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                                {{venda.datatipo | date: 'dd/MM/yyyy'}}</td>
+                            <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                                {{venda.hora}}</td>
+                            <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                                style="border: none;">{{venda.numeroitens}}</td>
+                            <td class="col-lg-4 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                                style="border: none; text-emphasis: right;">{{venda.formapagamento}}</td>
+                            <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                                style="border: none; text-align: right;">{{venda.totalliquido | currency: ' '}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>

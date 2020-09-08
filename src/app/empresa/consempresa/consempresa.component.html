@@ -1,1 +1,62 @@
-<p>consempresa works!</p>
+<br /><br />
+<div class="page-header">
+    <div class="container-fluid">
+        <h3>
+            Consulta de Empresa
+        </h3>
+        <hr />
+    </div>
+    <form [formGroup]="formulario">
+        <div class="container-fluid" style="width:100%;">
+            <div class="w-100">
+                <button type="button" style="float:right;" class="btn btn-primary font-weight-light"
+                    routerLink="/cadcliente">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <a class="ml-2">Adicionar</a>
+                </button>
+            </div>
+            <div class="row">
+            <div class="form-group col-md-2">
+
+            </div>
+            <div class="form-group col-md-8">
+            <div class="table-responsive-lg">
+                <table class="table table-striped">
+                    <thead>
+                        <tr
+                            class="pb-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center row">
+                            <th class="col-lg-6 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">Nome</th>
+                            <th class="col-lg-3 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">CNPJ</th>
+                            <th class="col-lg-2 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm">IE</th>
+                            <th class="col-lg-1 mb-1 text-muted text-small w-sm-100 hidden-xs hidden-sm"
+                                style="text-align: center;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let empresa of listaEmpresa"
+                            class="pb-0 pt-0 card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                            <td class="col-lg-6 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                                {{empresa.nomefantasia}}</td>
+                            <td class="col-lg-3 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+                                {{empresa.cnpj}}</td>
+                            <td class="col-lg-2 col-xs mb-1 mt-1 text-muted text-small w-sm-100 hidden-xs p-0"
+                                style="border: none;">{{empresa.ie}}</td>
+                            <td class="col-lg-1 col-xs mb-1 mt-1 text-muted text-small w-sm-100 p-0" style="border: none;">
+
+                                <button type="button" style="float:right;" class="btn btn-light font-weight-light mr-1 p-1"
+                                    (click)="selecionarEmpresa(empresa)" title="Selecionar">
+                                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div class="form-group col-md-2">
+
+            </div>
+            </div>
+        </div>
+    </form>
+</div>

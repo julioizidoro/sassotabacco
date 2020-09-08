@@ -36,6 +36,9 @@ import { ConsacertoComponent } from './acerto/consacerto/consacerto.component';
 import { CadacertoComponent } from './acerto/cadacerto/cadacerto.component';
 import { ConsdevolucaoComponent } from './devolucao/consdevolucao/consdevolucao.component';
 import { CaddevolucaoComponent } from './devolucao/caddevolucao/caddevolucao.component';
+import { ConsempresaComponent } from './empresa/consempresa/consempresa.component';
+import { CadvendasComponent } from './vendas/cadvendas/cadvendas.component';
+import { ConsvendasComponent } from './vendas/consvendas/consvendas.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -76,6 +79,9 @@ const routes: Route[] = [
   { path: 'cadacerto', component: CadacertoComponent },
   { path: 'consdevolucao', component: ConsdevolucaoComponent },
   { path: 'caddevolucao', component: CaddevolucaoComponent },
+  { path: 'consvenda', component: ConsvendasComponent },
+  { path: 'cadvenda', component: CadvendasComponent },
+  { path: 'consempresa', component: ConsempresaComponent },
   { path: '**', component: NotFoundComponent },
 
 
